@@ -1,6 +1,6 @@
 --- 
-title: "A Minimal Book Example"
-author: "Yihui Xie"
+title: "Statistical tests as linear models"
+author: "Steve Doogue"
 date: "`r Sys.Date()`"
 bibliography:
 - book.bib
