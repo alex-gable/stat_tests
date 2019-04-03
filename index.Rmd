@@ -17,6 +17,10 @@ biblio-style: apalike
 
 This is a work through of the book [Common statistical tests are linear models (or: how to teach stats)](https://lindeloev.github.io/tests-as-linear/) by Jonas Kristoffer Lindelov. The book demonstrates how most common statistical models (t-test, correlation, ANOVA; chi-square, etc.) are special cases of linear models or a very close approximations.
 
+> This beautiful simplicity means that there is less to learn. In particular, it all comes down to $y = a \cdot x + b$ which most students know from highschool. Unfortunately, stats intro courses are usually taught as if each test is an independent tool, needlessly making life more complicated for students and teachers alike.
+
+By simple linear model, we mean models of the form $y = a \cdot x + b$. 
+
 This aims to solidy my understanding of the original book by replicating the examples providing, and by adding additional background information to fill gaps in my knowledge.
 
 This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports, e.g., a math equation $a^2 + b^2 = c^2$.
