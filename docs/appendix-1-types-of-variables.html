@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Statistical tests as linear models</title>
+  <title>Chapter 4 Appendix 1 - Types of variables | Statistical tests as linear models</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Statistical tests as linear models" />
+  <meta property="og:title" content="Chapter 4 Appendix 1 - Types of variables | Statistical tests as linear models" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Statistical tests as linear models" />
+  <meta name="twitter:title" content="Chapter 4 Appendix 1 - Types of variables | Statistical tests as linear models" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="the-data.html">
+<link rel="prev" href="the-simple-linear-model.html">
+<link rel="next" href="intro.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -146,26 +146,42 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Statistical tests as linear models</h1>
-<p class="author"><em>Steve Doogue</em></p>
-<p class="date"><em>2019-04-04</em></p>
+<div id="appendix-1---types-of-variables" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Appendix 1 - Types of variables</h1>
+<p>Variables (or measurements) fall into two categories: <strong>discrete</strong> or <strong>continuous</strong>.</p>
+<div id="discrete-variables" class="section level2">
+<h2><span class="header-section-number">4.1</span> Discrete variables</h2>
+<p>Discrete variables are also known as categorical variables. They are descriptions of categories into which observations can fall. Discrete variables can be further categorized as either <em>nominal</em> or <em>ordinal</em>.</p>
+<p><strong>Nominals</strong> variables have two or more categories which do not have an intrinsic order. In other words, there is no basis for ranking the categories. Examples of nominal variables include:</p>
+<ul>
+<li>Whether a person has a landline telephone could be categorized as “yes” or “no” (two categories)</li>
+<li>The US state in which a person lives (50 categories)</li>
+</ul>
+<p><strong>Ordinal</strong> variables have two or more catogories which do have an intrinsic order - that is, they <em>can</em> be ordered or ranked. Examples include:</p>
+<ul>
+<li>Levels of agreement, e.g. asking a survey respondent if they (i) strongly agree, (ii) agree, (iii) neither agree nor disagree, (iv) disagree or (v) strongly disagree with a question.</li>
+<li>Educational attainment could be recorded in a survey using four categories: (i) no high school degree, (ii) high school degree, (iii) college degree, or (iv) postgraduate degree. Here the categories can be ranked based on the level of educational attainment.</li>
+</ul>
+<p>For ordinal variables, the interval or distance between the categories does not have a meaningful interpretation. For example, we cannot say that the distance between (i) no highschool degree and (ii) high school degree is the same as the distance bewteen (iii) college degree and (iv) postgraduate degree.</p>
 </div>
-<div id="introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
-<p>This is a work through of the book <a href="https://lindeloev.github.io/tests-as-linear/">Common statistical tests are linear models (or: how to teach stats)</a> by Jonas Kristoffer Lindelov. The book demonstrates how most common statistical models (t-test, correlation, ANOVA; chi-square, etc.) are special cases of linear models or a very close approximations.</p>
-<blockquote>
-<p>This beautiful simplicity means that there is less to learn. In particular, it all comes down to <span class="math inline">\(y = a \cdot x + b\)</span> which most students know from highschool. Unfortunately, stats intro courses are usually taught as if each test is an independent tool, needlessly making life more complicated for students and teachers alike.</p>
-</blockquote>
-<p>This aims to solidy my understanding of the original book by replicating the examples providing, and by adding additional background information to fill gaps in my knowledge.</p>
+<div id="continuous-variables" class="section level2">
+<h2><span class="header-section-number">4.2</span> Continuous variables</h2>
+<p>Continuous variables are numbers rather than categories. Continuous variables can be further categorized as either <em>interval</em> or <em>ratio</em> variables.</p>
+<p><strong>Interval</strong> variables have a numeric value and can be measured along a continuum. The difference between values is interpretable. An example is temperature measure in Fahrenheit: the difference between 20F and 30F is the same as the difference bewtween 30F to 40F. However Fahrenheit is not a ratio variables. For example, 40 degrees is not “twice as hot” as 20 degrees.</p>
+<p><strong>Ratio</strong> variables are interval variables for which you can construct a meaningful fraction. Examples include height, weight, distance and income. For example, you could say that an income of $40,000 was twice as much as an income of $20,000. “Count” variables are also ratio variables; for example, the number of survey respondents who would vote for a presidential candidate. A condition of ratio variables is that 0 (zero) of the measurement indicates that there is none of that variable (e.g. $0 indicates zero income). This was not the case of temperature measured in Farenheit, as 0F does not mean there is “no temperature”.</p>
+<p>The four types of variables above form a hierarchy, where ratio variables are the highest:</p>
+<p>Nominal &lt; Ordinal &lt; Interval &lt; Ratio</p>
+<p>At each level up the hierarchy, the current level includes all of the qualities of the one below it and adds something new.</p>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="the-data.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="the-simple-linear-model.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="intro.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

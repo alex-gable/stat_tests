@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Statistical tests as linear models</title>
+  <title>Chapter 2 The data | Statistical tests as linear models</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Statistical tests as linear models" />
+  <meta property="og:title" content="Chapter 2 The data | Statistical tests as linear models" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Statistical tests as linear models" />
+  <meta name="twitter:title" content="Chapter 2 The data | Statistical tests as linear models" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="the-data.html">
+<link rel="prev" href="index.html">
+<link rel="next" href="the-simple-linear-model.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -146,26 +146,71 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Statistical tests as linear models</h1>
-<p class="author"><em>Steve Doogue</em></p>
-<p class="date"><em>2019-04-04</em></p>
+<div id="the-data" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> The data</h1>
+<div id="sample-values" class="section level2">
+<h2><span class="header-section-number">2.1</span> Sample values</h2>
+<p>Most of the examples in the book are based on three imaginary samples (<code>x</code>, <code>y</code> and <code>y2</code>). Each is normally distributed and is made up of 50 observations:</p>
+<ul>
+<li><code>x</code> has a mean of 0 and a standard deviation of 1</li>
+<li><code>y</code> has a mean of 0.3 and a standard deviation of 2</li>
+<li><code>y2</code>has a mean of 0.5 and a standard deviation of 1.5</li>
+</ul>
+<p><code>x</code> and <code>y</code> can be thought of as samples from different populations (e.g. 50 women and 50 men), while <code>y</code> and <code>y2</code> are samples of the same individuals at different points in time (the same 50 men before and after participating in a new drug trial).</p>
+<p>We begin by creating a function that will allow us to produce samples of a given size (<code>N</code>) with a specified mean (<code>mu</code>) and standard deviation (<code>sd</code>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+rnorm_fixed =<span class="st"> </span><span class="cf">function</span>(N, <span class="dt">mu =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>){<span class="kw">scale</span>(<span class="kw">rnorm</span>(N))<span class="op">*</span>sd <span class="op">+</span><span class="st"> </span>mu}</code></pre></div>
+<p>Now we can create our three samples:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set the seed so our &#39;random&#39; results match those in the original book</span>
+<span class="kw">set.seed</span>(<span class="dv">40</span>)
+
+<span class="co"># Create the samples:</span>
+x =<span class="st"> </span><span class="kw">rnorm_fixed</span>(<span class="dt">N =</span> <span class="dv">50</span>, <span class="dt">mu=</span><span class="dv">0</span>, <span class="dt">sd=</span><span class="dv">1</span>)
+y =<span class="st"> </span><span class="kw">rnorm_fixed</span>(<span class="dt">N =</span> <span class="dv">50</span>, <span class="dt">mu=</span><span class="fl">0.3</span>, <span class="dt">sd=</span><span class="dv">2</span>)
+y2 =<span class="st"> </span><span class="kw">rnorm_fixed</span>(<span class="dt">N =</span> <span class="dv">50</span>, <span class="dt">mu=</span><span class="fl">0.5</span>, <span class="dt">sd=</span><span class="fl">1.5</span>)</code></pre></div>
+<p>Lets also combine these samples into ‘wide’ and ‘long’ data frames. This doesn’t change any of the values, it just rearranges to data into different layouts which can sometimes be easier to work with (e.g. when producing plots):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The wide layout is a dataframe with three columns, one for each of x, y and y2</span>
+mydata_wide &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">y2 =</span> y2)
+
+<span class="co"># the long layout has two columns: one listing the group to which each observation </span>
+<span class="co"># belongs (x, y or y2), and another column with the corresponding value</span>
+mydata_long &lt;-<span class="st"> </span>mydata_wide <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">gather</span>(group,value,x<span class="op">:</span>y2)</code></pre></div>
+<p>Here’s what our three samples look like when plotted. Note the different mean (0.0, 0.3 and 0.5) and the different ‘spread’ of values for each group (reflecting their different standard deviations).</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-4"></span>
+<img src="stat_tests_files/figure-html/unnamed-chunk-4-1.png" alt="Our sample data" width="480" />
+<p class="caption">
+Figure 2.1: Our sample data
+</p>
 </div>
-<div id="introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
-<p>This is a work through of the book <a href="https://lindeloev.github.io/tests-as-linear/">Common statistical tests are linear models (or: how to teach stats)</a> by Jonas Kristoffer Lindelov. The book demonstrates how most common statistical models (t-test, correlation, ANOVA; chi-square, etc.) are special cases of linear models or a very close approximations.</p>
-<blockquote>
-<p>This beautiful simplicity means that there is less to learn. In particular, it all comes down to <span class="math inline">\(y = a \cdot x + b\)</span> which most students know from highschool. Unfortunately, stats intro courses are usually taught as if each test is an independent tool, needlessly making life more complicated for students and teachers alike.</p>
-</blockquote>
-<p>This aims to solidy my understanding of the original book by replicating the examples providing, and by adding additional background information to fill gaps in my knowledge.</p>
+</div>
+<div id="rank_trans" class="section level2">
+<h2><span class="header-section-number">2.2</span> Rank-transformed values</h2>
+<p>Most common tests demonstrated in the book use the <em>actual</em> values from the samples above. However, some tests also use their <em>rank-transformed</em> values. Specifically, the <em>signed rank</em> of the values is used.</p>
+<p>What is meant by signed ranks? The signed rank is found by:<br />
+1. taking the <em>absolute</em> value of each observation in the original sample; that is, expressing all the values as a positive number;<br />
+2. finding the rank of each of these absolute values, where the smallest absolute value has a rank of 1; and<br />
+3. giving each of these ranks the same sign (+ or -) as the original value.</p>
+<p>For example, the numbers -2, 3, 7, -25, -30, 31 would have the signed ranks of -1, 2, 3, -4, -5, 6.</p>
+<p>We create a function, <code>signed_rank()</code>, that we can use later to convert our actual values into signed ranks:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Takes any list of values, x, and calculates their signed rank</span>
+signed_rank =<span class="st"> </span><span class="cf">function</span>(x) {<span class="kw">sign</span>(x) <span class="op">*</span><span class="st"> </span><span class="kw">rank</span>(<span class="kw">abs</span>(x))}</code></pre></div>
+<p>Here is what our sample data would look like if we used signed ranks instead of actual values (I have remove the horizonal ‘jitter’ from this chart). Because each sample has 50 observations, each signed rank is somewhere between -50 and +50:</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
+<img src="stat_tests_files/figure-html/unnamed-chunk-6-1.png" alt="Our sample data, with signed ranks" width="480" />
+<p class="caption">
+Figure 2.2: Our sample data, with signed ranks
+</p>
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="the-data.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="the-simple-linear-model.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

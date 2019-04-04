@@ -19,27 +19,177 @@ This is a work through of the book [Common statistical tests are linear models (
 
 > This beautiful simplicity means that there is less to learn. In particular, it all comes down to $y = a \cdot x + b$ which most students know from highschool. Unfortunately, stats intro courses are usually taught as if each test is an independent tool, needlessly making life more complicated for students and teachers alike.
 
-By simple linear model, we mean models of the form $y = a \cdot x + b$. 
 
 This aims to solidy my understanding of the original book by replicating the examples providing, and by adding additional background information to fill gaps in my knowledge.
 
-This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports, e.g., a math equation $a^2 + b^2 = c^2$.
+# The data
 
-The **bookdown** package can be installed from CRAN or Github:
+## Sample values
+Most of the examples in the book are based on three imaginary samples (`x`, `y` and `y2`). Each is normally distributed and is made up of 50 observations:
 
-```{r eval=FALSE}
-install.packages("bookdown")
-# or the development version
-# devtools::install_github("rstudio/bookdown")
+* `x` has a mean of 0 and a standard deviation of 1
+* `y` has a mean of 0.3 and a standard deviation of 2
+* `y2`has a mean of 0.5 and a standard deviation of 1.5
+
+`x` and `y` can be thought of as samples from different populations (e.g. 50 women and 50 men), while `y` and `y2` are samples of the same individuals at different points in time (the same 50 men before and after participating in a new drug trial).
+
+We begin by creating a function that will allow us to produce samples of a given size (`N`) with a specified mean (`mu`) and standard deviation (`sd`):
+
+```{r, message = FALSE}
+library(tidyverse)
+rnorm_fixed = function(N, mu = 0, sd = 1){scale(rnorm(N))*sd + mu}
 ```
 
-Remember each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading `#`.
+Now we can create our three samples:
 
-To compile this example to PDF, you need XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <https://yihui.name/tinytex/>.
+```{r}
+# Set the seed so our 'random' results match those in the original book
+set.seed(40)
 
-```{r include=FALSE}
-# automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'packages.bib')
+# Create the samples:
+x = rnorm_fixed(N = 50, mu=0, sd=1)
+y = rnorm_fixed(N = 50, mu=0.3, sd=2)
+y2 = rnorm_fixed(N = 50, mu=0.5, sd=1.5)
 ```
+
+Lets also combine these samples into 'wide' and 'long' data frames. This doesn't change any of the values, it just rearranges to data into different layouts which can sometimes be easier to work with (e.g. when producing plots):
+```{r, warning = FALSE}
+# The wide layout is a dataframe with three columns, one for each of x, y and y2
+mydata_wide <- tibble(x = x, y = y, y2 = y2)
+
+# the long layout has two columns: one listing the group to which each observation 
+# belongs (x, y or y2), and another column with the corresponding value
+mydata_long <- mydata_wide %>% 
+  gather(group,value,x:y2)
+  
+```
+
+Here's what our three samples look like when plotted. Note the different mean (0.0, 0.3 and 0.5) and the different 'spread' of values for each group (reflecting their different standard deviations).
+
+```{r, echo = FALSE, warning = FALSE, fig.cap = 'Our sample data',fig.align = 'center',fig.width= 5,fig.height=4}
+ggplot(mydata_long, aes(x=group, y = value, color = group)) +
+  geom_jitter(width = 0.1, alpha = .75, size =2) + 
+  stat_summary(fun.y= mean, 
+                  fun.ymin=mean, 
+                  fun.ymax=mean, 
+                  geom="crossbar", 
+                  width=0.5, 
+                  size=0.2,
+                  color="black") +
+  stat_summary(fun.y=mean, 
+                  colour="black", 
+                  geom="text",
+                  show_guide = FALSE, 
+                  vjust=-0.7, 
+                  aes(label=round(..y..,2))) 
+```
+
+## Rank-transformed values {#rank_trans}
+
+Most common tests demonstrated in the book use the _actual_ values from the samples above. However, some tests also use their _rank-transformed_ values. Specifically, the _signed rank_ of the values is used. 
+
+What is meant by signed ranks? The signed rank is found by:  
+1. taking the _absolute_ value of each observation in the original sample; that is, expressing all the values as a positive number;  
+2. finding the rank of each of these absolute values, where the smallest absolute value has a rank of 1; and  
+3. giving each of these ranks the same sign (+ or -) as the original value.
+
+For example, the numbers -2, 3, 7, -25, -30, 31 would have the signed ranks of -1, 2, 3, -4, -5, 6.
+
+We create a function, `signed_rank()`, that we can use later to convert our actual values into signed ranks:
+
+```{r}
+# Takes any list of values, x, and calculates their signed rank
+signed_rank = function(x) {sign(x) * rank(abs(x))}
+```
+
+Here is what our sample data would look like if we used signed ranks instead of actual values (I have remove the horizonal 'jitter' from this chart). Because each sample has 50 observations, each signed rank is somewhere between -50 and +50:
+
+```{r, echo = FALSE, warning = FALSE, fig.cap = 'Our sample data, with signed ranks',fig.align = 'center',fig.width= 5,fig.height=4}
+mydata_long_signed <- mydata_wide %>% 
+  mutate_all(signed_rank) %>% 
+  gather(group,signed_rank,x:y2)
+
+ggplot(mydata_long_signed, aes(x=group, y = signed_rank, color = group)) +
+  geom_jitter(width = 0, alpha = .75, size = 2) + 
+  stat_summary(fun.y= mean, 
+                  fun.ymin=mean, 
+                  fun.ymax=mean, 
+                  geom="crossbar", 
+                  width=0.5, 
+                  size=0.2,
+                  color="black") +
+  stat_summary(fun.y=mean, 
+                  colour="black", 
+                  geom="text",
+                  show_guide = FALSE, 
+                  vjust=-0.7, 
+                  aes(label=round(..y..,1))) 
+```
+
+# The simple linear model 
+
+Many common statistical tests are really just special cases of the linear model, or at least a close approximation. 
+
+What is meant by linear model?
+
+The linear model, or linear regression model, estimates the relationship between one variable and one or more other variables. It is assumed that the relationship can be described as a straight line.  
+
+For example, assume we are looking at a variable $y$ and we want to know its relationship with a variable $x$. We assume that the relationship can be expressed as a mathematical relationship between $y$ (the dependent variable) and $x$ (the explanatory variable):
+
+$y = \beta_0 + \beta_1 x$
+
+To illustrate what this equation is showing, imagine we have the following relationship between variables $x$ and $y$, with six observations:
+
+```{r, echo = FALSE, fig.size = "100%",fig.align = 'center'}
+knitr::include_graphics("images/image01.png")
+```
+
+Second figure:
+
+```{r, echo = FALSE, fig.height = 5,fig.align = 'center'}
+knitr::include_graphics("images/image02.png")
+```
+
+Third figure
+
+```{r, echo = FALSE, fig.size = "100%",fig.align = 'center'}
+knitr::include_graphics("images/image03.png")
+```
+
+
+## Pearson correlation
+## Spearman correlation
+
+# Appendix 1 - Types of variables
+
+Variables (or measurements) fall into two categories: __discrete__ or __continuous__.
+
+## Discrete variables
+
+Discrete variables are also known as categorical variables. They are descriptions of categories into which observations can fall. Discrete variables can be further categorized as either _nominal_ or _ordinal_.
+
+__Nominals__ variables have two or more categories which do not have an intrinsic order. In other words, there is no basis for ranking the categories. Examples of nominal variables include:
+
+* Whether a person has a landline telephone could be categorized as "yes" or "no" (two categories)
+* The US state in which a person lives (50 categories)
+
+__Ordinal__ variables have two or more catogories which do have an intrinsic order - that is, they _can_ be ordered or ranked. Examples include:  
+
+* Levels of agreement, e.g. asking a survey respondent if they (i) strongly agree, (ii) agree, (iii) neither agree nor disagree, (iv) disagree or (v) strongly disagree with a question.
+* Educational attainment could be recorded in a survey using four categories: (i) no high school degree, (ii) high school degree, (iii) college degree, or (iv) postgraduate degree. Here the categories can be ranked based on the level of educational attainment. 
+
+For ordinal variables, the interval or distance between the categories does not have a meaningful interpretation. For example, we cannot say that the distance between (i) no highschool degree and (ii) high school degree is the same as the distance bewteen (iii) college degree and (iv) postgraduate degree. 
+
+## Continuous variables
+
+Continuous variables are numbers rather than categories. Continuous variables can be further categorized as either _interval_ or _ratio_ variables.
+
+__Interval__ variables have a numeric value and can be measured along a continuum. The difference between values is interpretable. An example is temperature measure in Fahrenheit: the difference between 20F and 30F is the same as the difference bewtween 30F to 40F. However Fahrenheit is not a ratio variables. For example, 40 degrees is not "twice as hot" as 20 degrees. 
+
+__Ratio__ variables are interval variables for which you can construct a meaningful fraction. Examples include height, weight, distance and income. For example, you could say that an income of \$40,000 was twice as much as an income of \$20,000. "Count" variables are also ratio variables; for example, the number of survey respondents who would vote for a presidential candidate. A condition of ratio variables is that 0 (zero) of the measurement indicates that there is none of that variable (e.g. $0 indicates zero income). This was not the case of temperature measured in Farenheit, as 0F does not mean there is "no temperature". 
+
+The four types of variables above form a hierarchy, where ratio variables are the highest:  
+
+Nominal < Ordinal < Interval < Ratio
+
+At each level up the hierarchy, the current level includes all of the qualities of the one below it and adds something new.
