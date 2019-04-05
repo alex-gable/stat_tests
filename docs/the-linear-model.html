@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Statistical tests as linear models</title>
+  <title>Chapter 3 The linear model | Statistical tests as linear models</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Statistical tests as linear models" />
+  <meta property="og:title" content="Chapter 3 The linear model | Statistical tests as linear models" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Statistical tests as linear models" />
+  <meta name="twitter:title" content="Chapter 3 The linear model | Statistical tests as linear models" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="the-data.html">
+<link rel="prev" href="the-data.html">
+<link rel="next" href="correlations.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -142,26 +142,86 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Statistical tests as linear models</h1>
-<p class="author"><em>Steve Doogue</em></p>
-<p class="date"><em>2019-04-04</em></p>
+<div id="the-linear-model" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> The linear model</h1>
+<div id="overview-of-the-linear-model" class="section level2">
+<h2><span class="header-section-number">3.1</span> Overview of the linear model</h2>
+<p>Many common statistical tests are really just special cases of the linear model, or at least a close approximation.</p>
+<p>What is meant by linear model? This section provides an overview of the linear model. The description may be somewhat fast and loose, as it aims to provide an intuitive explanation rather than a rigorous technical description.</p>
+<p>The linear model, or linear regression model, estimates the relationship between one variable and one or more other variables. It is assumed that the relationship can be described as a straight line.</p>
+<p>For example, assume we are looking at a variable <span class="math inline">\(y\)</span> and we want to know its relationship with a variable <span class="math inline">\(x\)</span>. We assume that the relationship can be expressed as a mathematical relationship between <span class="math inline">\(y\)</span> (the dependent variable) and <span class="math inline">\(x\)</span> (the explanatory variable):</p>
+<p><span class="math inline">\(y = \beta_0 + \beta_1 x\)</span></p>
+<p>To illustrate what this equation is showing, imagine we have six observations of variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, which can be plotted as follows:</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-7"></span>
+<img src="images/image01.png" alt="Six observations of x and y" width="60%" />
+<p class="caption">
+Figure 3.1: Six observations of x and y
+</p>
 </div>
-<div id="introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
-<p>This is a work through of the book <a href="https://lindeloev.github.io/tests-as-linear/">Common statistical tests are linear models (or: how to teach stats)</a> by Jonas Kristoffer Lindelov. The book demonstrates how most common statistical models (t-test, correlation, ANOVA; chi-square, etc.) are special cases of linear models or a very close approximations.</p>
-<blockquote>
-<p>This beautiful simplicity means that there is less to learn. In particular, it all comes down to <span class="math inline">\(y = a \cdot x + b\)</span> which most students know from highschool. Unfortunately, stats intro courses are usually taught as if each test is an independent tool, needlessly making life more complicated for students and teachers alike.</p>
-</blockquote>
-<p>This aims to solidy my understanding of the original book by replicating the examples providing, and by adding additional background information to fill gaps in my knowledge.</p>
+<p>We assume that this relationship can be represented by a straight line. The line is composed of an intercept (<span class="math inline">\(\beta_0\)</span>) and a slope (<span class="math inline">\(\beta_1\)</span>). Each point on this line represents our <em>predicted</em> value of <span class="math inline">\(y\)</span> for a given value of <span class="math inline">\(x\)</span>.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-8"></span>
+<img src="images/image02.png" alt="Intercept and slope of model" width="60%" />
+<p class="caption">
+Figure 3.2: Intercept and slope of model
+</p>
+</div>
+<p>So how do we estimate the intercept and slope? In other words, how do we estimate what the values of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> should be?</p>
+<p>Linear regression estimates the line (i.e., slope and intercept) that minimizes the difference between our <em>predicted</em> values of <span class="math inline">\(y\)</span> and the <em>actual</em> values of <span class="math inline">\(y\)</span> that were observed in the original sample. These difference are referred to as “residuals”.</p>
+<p>More specifically, linear regression minimizes the sum of the <em>squared</em> value of these residuals. So in the figure below, linear regression is used to estimate the line that would minimise the combined area of the purple squares. For this reason, the method is sometimes referred to as an “ordinary least squares” (OLS) regression.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-9"></span>
+<img src="images/image03.png" alt="Line of best fit minimizes the sum of squared residuals" width="60%" />
+<p class="caption">
+Figure 3.3: Line of best fit minimizes the sum of squared residuals
+</p>
+</div>
+<p>In the example above, we considered a dependent variable (<span class="math inline">\(y\)</span>) that was being “explained” by one other variable, or predictor (<span class="math inline">\(x\)</span>). But this can be expanded to include multiple predictors, for example with the model:</p>
+<p><span class="math inline">\(y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 ... + \beta_i x_i\)</span></p>
+<p>This is referred to as <em>multiple regression</em>. In this case we still have only one intercept (<span class="math inline">\(\beta_0\)</span>) but many slopes that need to be estimated (<span class="math inline">\(\beta_1\)</span>, <span class="math inline">\(\beta_2\)</span> and so on). The same method can be used to estimate these parameters, i.e. an OLS regression which minimizes the sum of squared residuals. This cannot be illustrated in a two-dimensional diagram, as was the case when a single predictor was used, but the exact same concept applies.</p>
+</div>
+<div id="estimating-linear-models-in-r" class="section level2">
+<h2><span class="header-section-number">3.2</span> Estimating linear models in R</h2>
+<p>To estimate linear models in R we use the <code>lm()</code> function.</p>
+<p>For example, say we want to estimate the relationship (if any) between our sampled data for <code>x</code> and <code>y</code>. We will apply the following model: <span class="math inline">\(y = \beta_0 + \beta_1 x\)</span></p>
+<p>In R, this can be written as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>x)  <span class="co"># Represents y = beta0 + beta1 * x</span></code></pre></div>
+<p>In the original book, the specified model is accompanied by the null hypothesis, <span class="math inline">\(H_0: \beta_1=0\)</span>. This is equivalent to saying that there is no relationship between <code>x</code> and <code>y</code>. The output from our linear model tells us whether there could be grounds for rejecting this null hypothesis of “no relationship”, in favor of the alternative hypothesis that there <em>is</em> a relationship.</p>
+<p>A key output of interest, or test statistic, is the p-value.</p>
+<ul>
+<li>A small p-value (conventionally ≤ 0.05) indicates strong evidence against the null hypothesis, so you reject the null hypothesis of no relationship.</li>
+<li>A larger p-value (&gt; 0.05) indicates weak evidence against the null hypothesis, so you fail to reject the null hypothesis of no relationship.</li>
+</ul>
+<p>Lets see the output of the lineary model for our sample data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>x) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">print</span>(<span class="dt">digits =</span> <span class="dv">5</span>) </code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ 1 + x)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -3.93980 -1.09967  0.12548  1.27904  3.88372 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)  0.30000    0.27799  1.0792   0.2859
+## x           -0.46355    0.28081 -1.6507   0.1053
+## 
+## Residual standard error: 1.9657 on 48 degrees of freedom
+## Multiple R-squared:  0.05372,    Adjusted R-squared:  0.034006 
+## F-statistic:  2.725 on 1 and 48 DF,  p-value: 0.10532</code></pre>
+<p>As seen in the output above, <span class="math inline">\(\beta_1\)</span> (the coefficient on <code>x</code>) has a p-value of 0.1053. This means we would fail to reject the null hypothesis that there was no relationship between <code>x</code> and <code>y</code>.</p>
+</div>
+<div id="assumptions" class="section level2">
+<h2><span class="header-section-number">3.3</span> Assumptions</h2>
+<p>The linear model described above is only valid if a number of assumption hold.</p>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="the-data.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="the-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="correlations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

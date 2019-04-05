@@ -126,11 +126,14 @@ ggplot(mydata_long_signed, aes(x=group, y = signed_rank, color = group)) +
                   aes(label=round(..y..,1))) 
 ```
 
-# The simple linear model 
+
+# The linear model 
+
+## Overview of the linear model
 
 Many common statistical tests are really just special cases of the linear model, or at least a close approximation. 
 
-What is meant by linear model?
+What is meant by linear model? This section provides an overview of the linear model. The description may be somewhat fast and loose, as it aims to provide an intuitive explanation rather than a rigorous technical description. 
 
 The linear model, or linear regression model, estimates the relationship between one variable and one or more other variables. It is assumed that the relationship can be described as a straight line.  
 
@@ -138,24 +141,66 @@ For example, assume we are looking at a variable $y$ and we want to know its rel
 
 $y = \beta_0 + \beta_1 x$
 
-To illustrate what this equation is showing, imagine we have the following relationship between variables $x$ and $y$, with six observations:
+To illustrate what this equation is showing, imagine we have six observations of variables $x$ and $y$, which can be plotted as follows:
 
-```{r, echo = FALSE, fig.size = "100%",fig.align = 'center'}
+```{r, echo = FALSE, fig.cap = 'Six observations of x and y', out.width = '60%',fig.align = 'center'}
 knitr::include_graphics("images/image01.png")
 ```
 
-Second figure:
+We assume that this relationship can be represented by a straight line. The line is composed of an intercept ($\beta_0$) and a slope ($\beta_1$). Each point on this line represents our _predicted_ value of $y$ for a given value of $x$.
 
-```{r, echo = FALSE, fig.height = 5,fig.align = 'center'}
+```{r, echo = FALSE, fig.cap = 'Intercept and slope of model', out.width = '60%',fig.align = 'center'}
 knitr::include_graphics("images/image02.png")
 ```
 
-Third figure
+So how do we estimate the intercept and slope? In other words, how do we estimate what the values of $\beta_0$ and $\beta_1$ should be?  
 
-```{r, echo = FALSE, fig.size = "100%",fig.align = 'center'}
+Linear regression estimates the line (i.e., slope and intercept) that minimizes the difference between our _predicted_ values of $y$ and the _actual_ values of $y$ that were observed in the original sample. These difference are referred to as "residuals". 
+
+More specifically, linear regression minimizes the sum of the _squared_ value of these residuals. So in the figure below, linear regression is used to estimate the line that would minimise the combined area of the purple squares. For this reason, the method is sometimes referred to as an "ordinary least squares" (OLS) regression.
+
+```{r, echo = FALSE, fig.cap = 'Line of best fit minimizes the sum of squared residuals', out.width = '60%',fig.align = 'center'}
 knitr::include_graphics("images/image03.png")
 ```
 
+In the example above, we considered a dependent variable ($y$) that was being "explained" by one other variable, or predictor ($x$). But this can be expanded to include multiple predictors, for example with the model:
+
+$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 ... + \beta_i x_i$
+
+This is referred to as _multiple regression_. In this case we still have only one intercept ($\beta_0$) but many slopes that need to be estimated ($\beta_1$, $\beta_2$ and so on). The same method can be used to estimate these parameters, i.e. an OLS regression which minimizes the sum of squared residuals. This cannot be illustrated in a two-dimensional diagram, as was the case when a single predictor was used, but the exact same concept applies. 
+
+## Estimating linear models in R
+
+To estimate linear models in R we use the `lm()` function.
+
+For example, say we want to estimate the relationship (if any) between our sampled data for `x` and `y`. We will apply the following model: $y = \beta_0 + \beta_1 x$
+
+In R, this can be written as follows:
+```{r, eval = FALSE}
+lm(y ~ 1 + x)  # Represents y = beta0 + beta1 * x
+```
+
+In the original book, the specified model is accompanied by the null hypothesis, $H_0: \beta_1=0$. This is equivalent to saying that there is no relationship between `x` and `y`. The output from our linear model tells us whether there could be grounds for rejecting this null hypothesis of "no relationship", in favor of the alternative hypothesis that there _is_ a relationship. 
+
+A key output of interest, or test statistic, is the p-value. 
+
+* A small p-value (conventionally ≤ 0.05) indicates strong evidence against the null hypothesis, so you reject the null hypothesis of no relationship.
+* A larger p-value (> 0.05) indicates weak evidence against the null hypothesis, so you fail to reject the null hypothesis of no relationship.
+
+Lets see the output of the lineary model for our sample data:
+```{r}
+lm(y ~ 1 + x) %>% summary() %>% print(digits = 5) 
+```
+
+As seen in the output above, $\beta_1$ (the coefficient on `x`) has a p-value of 0.1053. This means we would fail to reject the null hypothesis that there was no relationship between `x` and `y`. 
+
+## Assumptions
+
+The linear model described above is only valid if a number of assumption hold. 
+
+
+
+# Correlations
 
 ## Pearson correlation
 ## Spearman correlation
