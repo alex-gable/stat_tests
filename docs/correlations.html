@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="the-linear-model.html">
-<link rel="next" href="appendixtypes.html">
+<link rel="next" href="one-mean.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -118,9 +118,19 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4.1" data-path="correlations.html"><a href="correlations.html#pearson-correlation"><i class="fa fa-check"></i><b>4.1</b> Pearson correlation</a></li>
 <li class="chapter" data-level="4.2" data-path="correlations.html"><a href="correlations.html#spearman-correlation"><i class="fa fa-check"></i><b>4.2</b> Spearman correlation</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="appendixtypes.html"><a href="appendixtypes.html"><i class="fa fa-check"></i><b>5</b> Appendix - Types of variables</a><ul>
-<li class="chapter" data-level="5.1" data-path="appendixtypes.html"><a href="appendixtypes.html#discrete-variables"><i class="fa fa-check"></i><b>5.1</b> Discrete variables</a></li>
-<li class="chapter" data-level="5.2" data-path="appendixtypes.html"><a href="appendixtypes.html#continuous-variables"><i class="fa fa-check"></i><b>5.2</b> Continuous variables</a></li>
+<li class="chapter" data-level="5" data-path="one-mean.html"><a href="one-mean.html"><i class="fa fa-check"></i><b>5</b> One mean</a><ul>
+<li class="chapter" data-level="5.1" data-path="one-mean.html"><a href="one-mean.html#one-sample-t-test"><i class="fa fa-check"></i><b>5.1</b> One sample t-test</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="one-mean.html"><a href="one-mean.html#as-a-linear-model"><i class="fa fa-check"></i><b>5.1.1</b> As a linear model</a></li>
+<li class="chapter" data-level="5.1.2" data-path="one-mean.html"><a href="one-mean.html#wilcoxen-signed-rank"><i class="fa fa-check"></i><b>5.1.2</b> Wilcoxen signed rank</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="one-mean.html"><a href="one-mean.html#paired-sample-t-test"><i class="fa fa-check"></i><b>5.2</b> Paired sample t-test</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="one-mean.html"><a href="one-mean.html#as-a-linear-model-1"><i class="fa fa-check"></i><b>5.2.1</b> As a linear model</a></li>
+<li class="chapter" data-level="5.2.2" data-path="one-mean.html"><a href="one-mean.html#wilcoxen-matched-pairs"><i class="fa fa-check"></i><b>5.2.2</b> Wilcoxen matched pairs</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="appendixtypes.html"><a href="appendixtypes.html"><i class="fa fa-check"></i><b>6</b> Appendix - Types of variables</a><ul>
+<li class="chapter" data-level="6.1" data-path="appendixtypes.html"><a href="appendixtypes.html#discrete-variables"><i class="fa fa-check"></i><b>6.1</b> Discrete variables</a></li>
+<li class="chapter" data-level="6.2" data-path="appendixtypes.html"><a href="appendixtypes.html#continuous-variables"><i class="fa fa-check"></i><b>6.2</b> Continuous variables</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -147,43 +157,45 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Correlation is a measure of the strength and direction of association that exists between two variables. Correlation coefficents (<span class="math inline">\(r\)</span>) assume values in the range from −1 to +1, where ±1 indicates the strongest possible positive or negative correlation and 0 indicates no linear association between the variables.</p>
 <div id="pearson-correlation" class="section level2">
 <h2><span class="header-section-number">4.1</span> Pearson correlation</h2>
-<p>We start by looking at the Pearson correlation coefficient. The following built-in R function can be used to assess the correlation between variables <code>x</code> and <code>y</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor.test</span>(y, x, <span class="dt">method =</span> <span class="st">&quot;pearson&quot;</span>) <span class="co"># Built-in test</span></code></pre></div>
-<pre><code>## 
-##  Pearson&#39;s product-moment correlation
-## 
-## data:  y and x
-## t = -1.6507, df = 48, p-value = 0.1053
-## alternative hypothesis: true correlation is not equal to 0
-## 95 percent confidence interval:
-##  -0.47920849  0.04978276
-## sample estimates:
-##        cor 
-## -0.2317767</code></pre>
-<p>The output shows that the correlation coefficient (<span class="math inline">\(r\)</span>) is -0.2318, with a p-value of 0.1053. On this basis, we would not reject the null hypothesis that the true correlation is equal to 0.</p>
-<p>Now we can demonstrate that the linear model gives the exact same t-value and p-value as the Pearson correlation. The equivalent linear model is:</p>
-<p><span class="math inline">\(y = \beta_0 + \beta_1x \qquad H_0: \beta_1 = 0\)</span></p>
-<p>This model is run in R using the following commands. From the output, we see that the cofficient on <code>x</code>, <span class="math inline">\(\beta_1\)</span>, has a p-value of 0.1053, which is the same as the p-value above.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>x) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">summary</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">print</span>(<span class="dt">digits =</span> <span class="dv">5</span>)</code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = y ~ 1 + x)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -3.93980 -1.09967  0.12548  1.27904  3.88372 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)
-## (Intercept)  0.30000    0.27799  1.0792   0.2859
-## x           -0.46355    0.28081 -1.6507   0.1053
-## 
-## Residual standard error: 1.9657 on 48 degrees of freedom
-## Multiple R-squared:  0.05372,    Adjusted R-squared:  0.034006 
-## F-statistic:  2.725 on 1 and 48 DF,  p-value: 0.10532</code></pre>
+<p>We start by looking at the Pearson correlation coefficient. Here we compare the built-in test (in R) for the Pearson correlation with the equivalant linear model.</p>
+<p>The equivalent linear model is the basic regression of <span class="math inline">\(y\)</span> on <span class="math inline">\(x\)</span>, specified as follows: <span class="math inline">\(y = \beta_0 + \beta_1x \qquad H_0: \beta_1 = 0\)</span></p>
+<p>The two tests are written using the following R code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Pearson (built-in test)</span>
+<span class="kw">cor.test</span>(y, x, <span class="dt">method =</span> <span class="st">&quot;pearson&quot;</span>) 
+<span class="co"># Linear model</span>
+<span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>x) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">print</span>(<span class="dt">digits =</span> <span class="dv">5</span>)</code></pre></div>
+<p>If you were to run the code above, you would see the following the key statistics found in the output of each test:</p>
+<table>
+<caption><span id="tab:unnamed-chunk-14">Table 4.1: </span>Pearson vs linear model</caption>
+<thead>
+<tr class="header">
+<th align="left">Test</th>
+<th align="left">r</th>
+<th align="left">slope</th>
+<th align="right">t</th>
+<th align="right">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">cor.test (Pearson)</td>
+<td align="left">-0.2318</td>
+<td align="left"></td>
+<td align="right">-1.6507</td>
+<td align="right">0.1053</td>
+</tr>
+<tr class="even">
+<td align="left">lm</td>
+<td align="left"></td>
+<td align="left">-0.4636</td>
+<td align="right">-1.6507</td>
+<td align="right">0.1053</td>
+</tr>
+</tbody>
+</table>
+<p>The output shows that the correlation coefficient (<span class="math inline">\(r\)</span>) has a t-statistic of -1.6507 and p-value of 0.1053. And the exact same results are found in the linear model!</p>
 <p>The difference is that the linear model returns the <em>slope</em> of the relationship, <span class="math inline">\(\beta_1\)</span> (which in this case is -0.4636), rather than the correlation coefficient, <span class="math inline">\(r\)</span>. The slope is usually much more interpretable and informative than the correlation coefficient. However it is useful to understand how the two are related, which is by the following formula:</p>
-<p><span class="math inline">\(\beta_1 = r * sd_y / sd_x\)</span></p>
+<p><span class="math inline">\(\beta_1 = r \cdot sd_y / sd_x\)</span></p>
 <p>This shows that:</p>
 <ul>
 <li>When both <code>x</code> and <code>y</code> have the same standard deviations (<span class="math inline">\(sd_x\)</span> and <span class="math inline">\(sd_y\)</span>) then the slope (<span class="math inline">\(\beta_1\)</span>) will be equal the correlation coefficient (<span class="math inline">\(r\)</span>)</li>
@@ -193,16 +205,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="spearman-correlation" class="section level2">
 <h2><span class="header-section-number">4.2</span> Spearman correlation</h2>
-<p>There will be times when it is more appropriate to use the <strong>Spearman rank correlation</strong> than the Pearson correlation.</p>
+<p>There will be times when it is more appropriate to use the <strong>Spearman rank correlation</strong> than the Pearson correlation. This could be the case when:</p>
 <ol style="list-style-type: decimal">
-<li>When the relationship between the variables is not linear, i.e. not a straight line;</li>
-<li>When your data is not normally distributed;<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></li>
-<li>When you data has large outliers; or</li>
+<li>The relationship between the variables is not linear, i.e. not a straight line;</li>
+<li>The data is not normally distributed;<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></li>
+<li>The data has large outliers; or</li>
 <li>When you are working with ordinal rather than continuous data.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></li>
 </ol>
 <p>The Spearman correlation is a <em>non-parameteric</em> test as it does not require that the parameters of the linear model hold true - for example, there does not need to be a linear relationship between the two variables, and the data does not need to be normally distributed.</p>
-<p>The Spearman rank correlation is the same as a Pearson correlation but using the <em>rank</em> of the values in our samples.This is an approximation only,</p>
-<p>in this case, the rank of values in <code>x</code> and <code>y</code>.</p>
+<p>The Spearman rank correlation is the same as a Pearson correlation but using the <em>rank</em> of the values in our samples. This is an approximation only, which Lindelov shows is approximate when the sample is greater than 10 and almost perfect when the sample is greater than 20.</p>
+<p>This is also the same as the linear model using rank-transformed values of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>:</p>
+<p><span class="math inline">\(rank(y) = \beta_0 + \beta_1 \cdot rank(x) \qquad H_0: \beta_1 = 0\)</span></p>
+<p>For a comparison of the Spearman test, the Pearson test (using ranks) and the linear model (also using ranks) we run the following code:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Spearman</span>
 <span class="kw">cor.test</span>(y, x, <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)
 
@@ -211,8 +225,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <span class="co"># Linear model using rank</span>
 <span class="kw">lm</span>(<span class="kw">rank</span>(y) <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">rank</span>(x)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">print</span>(<span class="dt">digits =</span> <span class="dv">5</span>)</code></pre></div>
+<p>The output of this code is as follows:</p>
 <table>
-<caption><span id="tab:unnamed-chunk-16">Table 4.1: </span>Here is a nice table!</caption>
+<caption><span id="tab:unnamed-chunk-16">Table 4.2: </span>Spearman, Pearson (ranks) and linear model (ranks)</caption>
 <thead>
 <tr class="header">
 <th align="left">Test</th>
@@ -242,14 +257,25 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 </tbody>
 </table>
-<p>Note that we can interpret the slope which is the number of ranks <span class="math inline">\(y\)</span> changes for each rank on <span class="math inline">\(x\)</span>.</p>
+<p>This shows that the results are all the same (or at least very close approximations). Note that the slope from the linear model has an intuitive interpretation, which is the number of ranks <span class="math inline">\(y\)</span> changes for each rank on <span class="math inline">\(x\)</span>.</p>
+<p>Given the similarity of these tests, Lindelov notes that:</p>
+<blockquote>
+<p>One interesting implication is that many “non-parametric tests” are about as parametric as their parametric counterparts with means, standard deviations, homogeneity of variance, etc. - just on rank-transformed data.</p>
+</blockquote>
+<p>Finally, the figure below (reproduced from the original book) illustrates how the Pearson and Spearman correlations are the same as linear models, with the latter being based on rank-transformed values.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-17"></span>
+<img src="images/correlations.png" alt="Pearson and Spearman correlations as linear models" width="80%" />
+<p class="caption">
+Figure 4.1: Pearson and Spearman correlations as linear models
+</p>
+</div>
 </div>
 </div>
 <div class="footnotes">
 <hr />
 <ol start="1">
 <li id="fn1"><p>Technically the variables should have <em>bivariate</em> normality, which means they are normally distrbuted when added together, but this is complex and so it is common just to assess whether the variables are individually normal <a href="https://statistics.laerd.com/spss-tutorials/pearsons-product-moment-correlation-using-spss-statistics.php">(source)</a>. If bivariate normality does not hold then you will still get a fair estimate of <span class="math inline">\(r\)</span>, but the inferential tests (t-statistics and p-values) could be misleading <a href="https://www.researchgate.net/post/Why_should_data_be_normally_distributed_and_continuous_in_order_to_apply_Pearson_correlation">(source)</a>.<a href="correlations.html#fnref1">↩</a></p></li>
-<li id="fn2"><p>see Chapter <a href="appendixtypes.html#appendixtypes">5</a> for a description of the different types of data.<a href="correlations.html#fnref2">↩</a></p></li>
+<li id="fn2"><p>see Chapter <a href="appendixtypes.html#appendixtypes">6</a> for a description of the different types of data.<a href="correlations.html#fnref2">↩</a></p></li>
 </ol>
 </div>
             </section>
@@ -258,7 +284,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
         </div>
       </div>
 <a href="the-linear-model.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="appendixtypes.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="one-mean.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
