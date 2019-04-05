@@ -2,16 +2,23 @@
 title: "Statistical tests as linear models"
 author: "Steve Doogue"
 date: "`r Sys.Date()`"
-bibliography:
-- book.bib
-- packages.bib
+output:
+  html_document:
+    df_print: paged
 description: This is a minimal example of using the bookdown package to write a book.
   The output format for this example is bookdown::gitbook.
 documentclass: book
 link-citations: yes
+bibliography:
+- book.bib
+- packages.bib
 site: bookdown::bookdown_site
 biblio-style: apalike
 ---
+
+```{r, echo = FALSE}
+library(knitr)
+```
 
 # Introduction
 
@@ -22,9 +29,9 @@ This is a work through of the book [Common statistical tests are linear models (
 
 This aims to solidy my understanding of the original book by replicating the examples providing, and by adding additional background information to fill gaps in my knowledge.
 
-# The data
+# The data {#data}
 
-## Sample values
+## Sample values {#samplevalues}
 Most of the examples in the book are based on three imaginary samples (`x`, `y` and `y2`). Each is normally distributed and is made up of 50 observations:
 
 * `x` has a mean of 0 and a standard deviation of 1
@@ -169,11 +176,15 @@ $y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 ... + \beta_i x_i$
 
 This is referred to as _multiple regression_. In this case we still have only one intercept ($\beta_0$) but many slopes that need to be estimated ($\beta_1$, $\beta_2$ and so on). The same method can be used to estimate these parameters, i.e. an OLS regression which minimizes the sum of squared residuals. This cannot be illustrated in a two-dimensional diagram, as was the case when a single predictor was used, but the exact same concept applies. 
 
+So that's the linear model. The key premise of Lindelov's book many statistical tests are just special cases of this:  
+
+> Everything below, from one-sample t-test to two-way ANOVA are just special cases of this system. Nothing more, nothing less.
+
 ## Estimating linear models in R
 
 To estimate linear models in R we use the `lm()` function.
 
-For example, say we want to estimate the relationship (if any) between our sampled data for `x` and `y`. We will apply the following model: $y = \beta_0 + \beta_1 x$
+For example, say we want to estimate the relationship between our sampled data for `x` and `y`. We will apply the following model: $y = \beta_0 + \beta_1 x$
 
 In R, this can be written as follows:
 ```{r, eval = FALSE}
@@ -202,10 +213,84 @@ The linear model described above is only valid if a number of assumption hold.
 
 # Correlations
 
+Correlation is a measure of the strength and direction of association that exists between two variables. Correlation coefficents ($r$) assume values in the range from −1 to +1, where ±1 indicates the strongest possible positive or negative correlation and 0 indicates no linear association between the variables. 
+
 ## Pearson correlation
+
+We start by looking at the Pearson correlation coefficient. The following built-in R function can be used to assess the correlation between variables `x` and `y`. 
+
+```{r}
+cor.test(y, x, method = "pearson") # Built-in test
+```
+The output shows that the correlation coefficient ($r$) is -0.2318, with a p-value of 0.1053. On this basis, we would not reject the null hypothesis that the true correlation is equal to 0. 
+
+Now we can demonstrate that the linear model gives the exact same t-value and p-value as the Pearson correlation. The equivalent linear model is:
+
+$y = \beta_0 + \beta_1x  \qquad  H_0: \beta_1 = 0$
+
+This model is run in R using the following commands. From the output, we see that the cofficient on `x`, $\beta_1$, has a p-value of 0.1053, which is the same as the p-value above.
+
+```{r}
+lm(y ~ 1 + x) %>% 
+  summary() %>% print(digits = 5)
+```
+
+The difference is that the linear model returns the _slope_ of the relationship, $\beta_1$ (which in this case is -0.4636), rather than the correlation coefficient, $r$. The slope is usually much more interpretable and informative than the correlation coefficient. However it is useful to understand how the two are related, which is by the following formula:
+
+$\beta_1 = r * sd_y / sd_x$
+
+This shows that:
+
+* When both `x` and `y` have the same standard deviations ($sd_x$ and $sd_y$) then the slope ($\beta_1$) will be equal the correlation coefficient ($r$)
+* The ratio of the slope to the correlation coefficient ($\beta_1 / r$) is equal to the ratio of the standard deviations ($sd_y / sd_x$). We know that when we set up our data in Section \@ref(samplevalues) that the standard deviation of `y` was twice as large as `x`. This is why the value of the slope (-0.4636) is twice the size of the correlation coefficient (-0.2318),
+* The slope from the linear model will always have the same sign (+ or -) as the correlation coefficient (as standard devaiations are always positive).
+
+
+
 ## Spearman correlation
 
-# Appendix 1 - Types of variables
+There will be times when it is more appropriate to use the __Spearman rank correlation__ than the Pearson correlation.
+
+1.  When the relationship between the variables is not linear, i.e. not a straight line;
+2.  When your data is not normally distributed;^[Technically the variables should have _bivariate_ normality, which means they are normally distrbuted when added together, but this is complex and so it is common just to assess whether the variables are individually normal [(source)](https://statistics.laerd.com/spss-tutorials/pearsons-product-moment-correlation-using-spss-statistics.php). If bivariate normality does not hold then you will still get a fair estimate of $r$, but the inferential tests (t-statistics and p-values) could be misleading [(source)](https://www.researchgate.net/post/Why_should_data_be_normally_distributed_and_continuous_in_order_to_apply_Pearson_correlation).]
+3.  When you data has large outliers; or
+4.  When you are working with ordinal rather than continuous data.^[see Chapter \@ref(appendixtypes) for a description of the different types of data.]
+
+The Spearman correlation is a _non-parameteric_ test as it does not require that the parameters of the linear model hold true - for example, there does not need to be a linear relationship between the two variables, and the data does not need to be normally distributed. 
+
+The Spearman rank correlation is the same as a Pearson correlation but using the _rank_ of the values in our samples.This is an approximation only, 
+
+in this case, the rank of values in `x` and `y`. 
+
+```{r, eval=FALSE}
+# Spearman
+cor.test(y, x, method = "spearman")
+
+# Pearson using ranks
+cor.test(rank(y), rank(x), method = "pearson")
+
+# Linear model using rank
+lm(rank(y) ~ 1 + rank(x)) %>% summary() %>% print(digits = 5)
+```
+
+
+
+```{r, echo = FALSE}
+knitr::kable(
+  tribble(
+    ~Test,~'correlation',~slope,~p.value,
+    'cor.test (Spearman)',-0.2266,'',0.1135,
+    'cor.test (Pearson with ranks)',-0.2266,'',0.1135,
+    'lm (with ranks)','',-0.2266,0.1135
+    ),
+  caption = 'Here is a nice table!',
+  booktabs = TRUE
+)
+```
+
+Note that we can interpret the slope which is the number of ranks $y$ changes for each rank on $x$. 
+
+# Appendix - Types of variables {#appendixtypes}
 
 Variables (or measurements) fall into two categories: __discrete__ or __continuous__.
 

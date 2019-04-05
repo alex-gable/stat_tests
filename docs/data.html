@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Chapter 2 Data | Statistical tests as linear models</title>
+  <title>Chapter 2 The data | Statistical tests as linear models</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Chapter 2 Data | Statistical tests as linear models" />
+  <meta property="og:title" content="Chapter 2 The data | Statistical tests as linear models" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Data | Statistical tests as linear models" />
+  <meta name="twitter:title" content="Chapter 2 The data | Statistical tests as linear models" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -25,7 +25,7 @@
 <meta name="author" content="Steve Doogue">
 
 
-<meta name="date" content="2019-04-03">
+<meta name="date" content="2019-04-05">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="index.html">
-<link rel="next" href="intro.html">
+<link rel="next" href="the-linear-model.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -105,16 +105,23 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>2</b> Data</a></li>
-<li class="chapter" data-level="3" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>3</b> Introduction</a></li>
-<li class="chapter" data-level="4" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>4</b> Literature</a></li>
-<li class="chapter" data-level="5" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>5</b> Methods</a></li>
-<li class="chapter" data-level="6" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>6</b> Applications</a><ul>
-<li class="chapter" data-level="6.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>6.1</b> Example one</a></li>
-<li class="chapter" data-level="6.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>6.2</b> Example two</a></li>
+<li class="chapter" data-level="2" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>2</b> The data</a><ul>
+<li class="chapter" data-level="2.1" data-path="data.html"><a href="data.html#samplevalues"><i class="fa fa-check"></i><b>2.1</b> Sample values</a></li>
+<li class="chapter" data-level="2.2" data-path="data.html"><a href="data.html#rank_trans"><i class="fa fa-check"></i><b>2.2</b> Rank-transformed values</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>7</b> Final Words</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="3" data-path="the-linear-model.html"><a href="the-linear-model.html"><i class="fa fa-check"></i><b>3</b> The linear model</a><ul>
+<li class="chapter" data-level="3.1" data-path="the-linear-model.html"><a href="the-linear-model.html#overview-of-the-linear-model"><i class="fa fa-check"></i><b>3.1</b> Overview of the linear model</a></li>
+<li class="chapter" data-level="3.2" data-path="the-linear-model.html"><a href="the-linear-model.html#estimating-linear-models-in-r"><i class="fa fa-check"></i><b>3.2</b> Estimating linear models in R</a></li>
+<li class="chapter" data-level="3.3" data-path="the-linear-model.html"><a href="the-linear-model.html#assumptions"><i class="fa fa-check"></i><b>3.3</b> Assumptions</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>4</b> Correlations</a><ul>
+<li class="chapter" data-level="4.1" data-path="correlations.html"><a href="correlations.html#pearson-correlation"><i class="fa fa-check"></i><b>4.1</b> Pearson correlation</a></li>
+<li class="chapter" data-level="4.2" data-path="correlations.html"><a href="correlations.html#spearman-correlation"><i class="fa fa-check"></i><b>4.2</b> Spearman correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="appendixtypes.html"><a href="appendixtypes.html"><i class="fa fa-check"></i><b>5</b> Appendix - Types of variables</a><ul>
+<li class="chapter" data-level="5.1" data-path="appendixtypes.html"><a href="appendixtypes.html#discrete-variables"><i class="fa fa-check"></i><b>5.1</b> Discrete variables</a></li>
+<li class="chapter" data-level="5.2" data-path="appendixtypes.html"><a href="appendixtypes.html#continuous-variables"><i class="fa fa-check"></i><b>5.2</b> Continuous variables</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -136,23 +143,62 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="data" class="section level1">
-<h1><span class="header-section-number">Chapter 2</span> Data</h1>
-<p>Most of the examples in the book are based on three imaginary samples (<code>x</code>, <code>y</code> and <code>y2</code>). Each is normally distributed and comprises 50 observations:</p>
+<h1><span class="header-section-number">Chapter 2</span> The data</h1>
+<div id="samplevalues" class="section level2">
+<h2><span class="header-section-number">2.1</span> Sample values</h2>
+<p>Most of the examples in the book are based on three imaginary samples (<code>x</code>, <code>y</code> and <code>y2</code>). Each is normally distributed and is made up of 50 observations:</p>
 <ul>
 <li><code>x</code> has a mean of 0 and a standard deviation of 1</li>
 <li><code>y</code> has a mean of 0.3 and a standard deviation of 2</li>
 <li><code>y2</code>has a mean of 0.5 and a standard deviation of 1.5</li>
 </ul>
-<p><code>x</code> and <code>y</code> can be thought of as samples from different populations (e.g. men and women), while <code>y</code> and <code>y2</code> are samples from the same population at different points in time.</p>
-<p>We create these normally-distributed sample</p>
-<p>This is a <em>sample</em> book written in <strong>Markdown</strong>. You can use anything that Pandoc’s Markdown supports, e.g., a math equation <span class="math inline">\(a^2 + b^2 = c^2\)</span>.</p>
-<p>The <strong>bookdown</strong> package can be installed from CRAN or Github:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;bookdown&quot;</span>)
-<span class="co"># or the development version</span>
-<span class="co"># devtools::install_github(&quot;rstudio/bookdown&quot;)</span></code></pre></div>
-<p>Remember each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading <code>#</code>.</p>
-<p>To compile this example to PDF, you need XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <a href="https://yihui.name/tinytex/" class="uri">https://yihui.name/tinytex/</a>.</p>
+<p><code>x</code> and <code>y</code> can be thought of as samples from different populations (e.g. 50 women and 50 men), while <code>y</code> and <code>y2</code> are samples of the same individuals at different points in time (the same 50 men before and after participating in a new drug trial).</p>
+<p>We begin by creating a function that will allow us to produce samples of a given size (<code>N</code>) with a specified mean (<code>mu</code>) and standard deviation (<code>sd</code>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+rnorm_fixed =<span class="st"> </span><span class="cf">function</span>(N, <span class="dt">mu =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>){<span class="kw">scale</span>(<span class="kw">rnorm</span>(N))<span class="op">*</span>sd <span class="op">+</span><span class="st"> </span>mu}</code></pre></div>
+<p>Now we can create our three samples:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set the seed so our &#39;random&#39; results match those in the original book</span>
+<span class="kw">set.seed</span>(<span class="dv">40</span>)
 
+<span class="co"># Create the samples:</span>
+x =<span class="st"> </span><span class="kw">rnorm_fixed</span>(<span class="dt">N =</span> <span class="dv">50</span>, <span class="dt">mu=</span><span class="dv">0</span>, <span class="dt">sd=</span><span class="dv">1</span>)
+y =<span class="st"> </span><span class="kw">rnorm_fixed</span>(<span class="dt">N =</span> <span class="dv">50</span>, <span class="dt">mu=</span><span class="fl">0.3</span>, <span class="dt">sd=</span><span class="dv">2</span>)
+y2 =<span class="st"> </span><span class="kw">rnorm_fixed</span>(<span class="dt">N =</span> <span class="dv">50</span>, <span class="dt">mu=</span><span class="fl">0.5</span>, <span class="dt">sd=</span><span class="fl">1.5</span>)</code></pre></div>
+<p>Lets also combine these samples into ‘wide’ and ‘long’ data frames. This doesn’t change any of the values, it just rearranges to data into different layouts which can sometimes be easier to work with (e.g. when producing plots):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The wide layout is a dataframe with three columns, one for each of x, y and y2</span>
+mydata_wide &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">y2 =</span> y2)
+
+<span class="co"># the long layout has two columns: one listing the group to which each observation </span>
+<span class="co"># belongs (x, y or y2), and another column with the corresponding value</span>
+mydata_long &lt;-<span class="st"> </span>mydata_wide <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">gather</span>(group,value,x<span class="op">:</span>y2)</code></pre></div>
+<p>Here’s what our three samples look like when plotted. Note the different mean (0.0, 0.3 and 0.5) and the different ‘spread’ of values for each group (reflecting their different standard deviations).</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-5"></span>
+<img src="stat_tests_files/figure-html/unnamed-chunk-5-1.png" alt="Our sample data" width="480" />
+<p class="caption">
+Figure 2.1: Our sample data
+</p>
+</div>
+</div>
+<div id="rank_trans" class="section level2">
+<h2><span class="header-section-number">2.2</span> Rank-transformed values</h2>
+<p>Most common tests demonstrated in the book use the <em>actual</em> values from the samples above. However, some tests also use their <em>rank-transformed</em> values. Specifically, the <em>signed rank</em> of the values is used.</p>
+<p>What is meant by signed ranks? The signed rank is found by:<br />
+1. taking the <em>absolute</em> value of each observation in the original sample; that is, expressing all the values as a positive number;<br />
+2. finding the rank of each of these absolute values, where the smallest absolute value has a rank of 1; and<br />
+3. giving each of these ranks the same sign (+ or -) as the original value.</p>
+<p>For example, the numbers -2, 3, 7, -25, -30, 31 would have the signed ranks of -1, 2, 3, -4, -5, 6.</p>
+<p>We create a function, <code>signed_rank()</code>, that we can use later to convert our actual values into signed ranks:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Takes any list of values, x, and calculates their signed rank</span>
+signed_rank =<span class="st"> </span><span class="cf">function</span>(x) {<span class="kw">sign</span>(x) <span class="op">*</span><span class="st"> </span><span class="kw">rank</span>(<span class="kw">abs</span>(x))}</code></pre></div>
+<p>Here is what our sample data would look like if we used signed ranks instead of actual values (I have remove the horizonal ‘jitter’ from this chart). Because each sample has 50 observations, each signed rank is somewhere between -50 and +50:</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-7"></span>
+<img src="stat_tests_files/figure-html/unnamed-chunk-7-1.png" alt="Our sample data, with signed ranks" width="480" />
+<p class="caption">
+Figure 2.2: Our sample data, with signed ranks
+</p>
+</div>
+</div>
 </div>
             </section>
 
@@ -160,7 +206,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
         </div>
       </div>
 <a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="intro.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="the-linear-model.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
