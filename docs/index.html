@@ -25,7 +25,7 @@
 <meta name="author" content="Steve Doogue">
 
 
-<meta name="date" content="2019-04-05">
+<meta name="date" content="2019-04-22">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -101,36 +101,45 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">Statistical tests as linear models</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>2</b> The data</a><ul>
 <li class="chapter" data-level="2.1" data-path="data.html"><a href="data.html#samplevalues"><i class="fa fa-check"></i><b>2.1</b> Sample values</a></li>
-<li class="chapter" data-level="2.2" data-path="data.html"><a href="data.html#rank_trans"><i class="fa fa-check"></i><b>2.2</b> Rank-transformed values</a></li>
+<li class="chapter" data-level="2.2" data-path="data.html"><a href="data.html#ranktrans"><i class="fa fa-check"></i><b>2.2</b> ‘Signed rank’ values</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="the-linear-model.html"><a href="the-linear-model.html"><i class="fa fa-check"></i><b>3</b> The linear model</a><ul>
-<li class="chapter" data-level="3.1" data-path="the-linear-model.html"><a href="the-linear-model.html#overview-of-the-linear-model"><i class="fa fa-check"></i><b>3.1</b> Overview of the linear model</a></li>
-<li class="chapter" data-level="3.2" data-path="the-linear-model.html"><a href="the-linear-model.html#estimating-linear-models-in-r"><i class="fa fa-check"></i><b>3.2</b> Estimating linear models in R</a></li>
-<li class="chapter" data-level="3.3" data-path="the-linear-model.html"><a href="the-linear-model.html#assumptions"><i class="fa fa-check"></i><b>3.3</b> Assumptions</a></li>
+<li class="chapter" data-level="3" data-path="linearmodel.html"><a href="linearmodel.html"><i class="fa fa-check"></i><b>3</b> The linear model</a><ul>
+<li class="chapter" data-level="3.1" data-path="linearmodel.html"><a href="linearmodel.html#overview-of-the-linear-model"><i class="fa fa-check"></i><b>3.1</b> Overview of the linear model</a></li>
+<li class="chapter" data-level="3.2" data-path="linearmodel.html"><a href="linearmodel.html#estimating-linear-models-in-r"><i class="fa fa-check"></i><b>3.2</b> Estimating linear models in R</a></li>
+<li class="chapter" data-level="3.3" data-path="linearmodel.html"><a href="linearmodel.html#assumptions"><i class="fa fa-check"></i><b>3.3</b> Assumptions</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>4</b> Correlations</a><ul>
 <li class="chapter" data-level="4.1" data-path="correlations.html"><a href="correlations.html#pearson-correlation"><i class="fa fa-check"></i><b>4.1</b> Pearson correlation</a></li>
 <li class="chapter" data-level="4.2" data-path="correlations.html"><a href="correlations.html#spearman-correlation"><i class="fa fa-check"></i><b>4.2</b> Spearman correlation</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="one-mean.html"><a href="one-mean.html"><i class="fa fa-check"></i><b>5</b> One mean</a><ul>
-<li class="chapter" data-level="5.1" data-path="one-mean.html"><a href="one-mean.html#one-sample-t-test"><i class="fa fa-check"></i><b>5.1</b> One sample t-test</a><ul>
-<li class="chapter" data-level="5.1.1" data-path="one-mean.html"><a href="one-mean.html#as-a-linear-model"><i class="fa fa-check"></i><b>5.1.1</b> As a linear model</a></li>
+<li class="chapter" data-level="5.1" data-path="one-mean.html"><a href="one-mean.html#one-sample"><i class="fa fa-check"></i><b>5.1</b> One sample</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="one-mean.html"><a href="one-mean.html#one-sample-t-test"><i class="fa fa-check"></i><b>5.1.1</b> One-sample t-test</a></li>
 <li class="chapter" data-level="5.1.2" data-path="one-mean.html"><a href="one-mean.html#wilcoxen-signed-rank"><i class="fa fa-check"></i><b>5.1.2</b> Wilcoxen signed rank</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="one-mean.html"><a href="one-mean.html#paired-sample-t-test"><i class="fa fa-check"></i><b>5.2</b> Paired sample t-test</a><ul>
-<li class="chapter" data-level="5.2.1" data-path="one-mean.html"><a href="one-mean.html#as-a-linear-model-1"><i class="fa fa-check"></i><b>5.2.1</b> As a linear model</a></li>
+<li class="chapter" data-level="5.2" data-path="one-mean.html"><a href="one-mean.html#paired-samples"><i class="fa fa-check"></i><b>5.2</b> Paired samples</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="one-mean.html"><a href="one-mean.html#paired-sample-t-test"><i class="fa fa-check"></i><b>5.2.1</b> Paired-sample t-test</a></li>
 <li class="chapter" data-level="5.2.2" data-path="one-mean.html"><a href="one-mean.html#wilcoxen-matched-pairs"><i class="fa fa-check"></i><b>5.2.2</b> Wilcoxen matched pairs</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="appendixtypes.html"><a href="appendixtypes.html"><i class="fa fa-check"></i><b>6</b> Appendix - Types of variables</a><ul>
-<li class="chapter" data-level="6.1" data-path="appendixtypes.html"><a href="appendixtypes.html#discrete-variables"><i class="fa fa-check"></i><b>6.1</b> Discrete variables</a></li>
-<li class="chapter" data-level="6.2" data-path="appendixtypes.html"><a href="appendixtypes.html#continuous-variables"><i class="fa fa-check"></i><b>6.2</b> Continuous variables</a></li>
+<li class="chapter" data-level="6" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html"><i class="fa fa-check"></i><b>6</b> Two means (independent samples)</a><ul>
+<li class="chapter" data-level="6.1" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#equal-variances"><i class="fa fa-check"></i><b>6.1</b> Equal variances</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#independent-sample-t-test"><i class="fa fa-check"></i><b>6.1.1</b> Independent-sample t-test</a></li>
+<li class="chapter" data-level="6.1.2" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#mann-whitney-u-test"><i class="fa fa-check"></i><b>6.1.2</b> Mann-Whitney U test</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#unequal-variances"><i class="fa fa-check"></i><b>6.2</b> Unequal variances</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#welchs-t-test"><i class="fa fa-check"></i><b>6.2.1</b> Welch’s t-test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="appendixtypes.html"><a href="appendixtypes.html"><i class="fa fa-check"></i><b>7</b> Appendix - Types of variables</a><ul>
+<li class="chapter" data-level="7.1" data-path="appendixtypes.html"><a href="appendixtypes.html#discrete-variables"><i class="fa fa-check"></i><b>7.1</b> Discrete variables</a></li>
+<li class="chapter" data-level="7.2" data-path="appendixtypes.html"><a href="appendixtypes.html#continuous-variables"><i class="fa fa-check"></i><b>7.2</b> Continuous variables</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -155,7 +164,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Statistical tests as linear models</h1>
 <p class="author"><em>Steve Doogue</em></p>
-<p class="date"><em>2019-04-05</em></p>
+<p class="date"><em>2019-04-22</em></p>
 </div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
@@ -164,6 +173,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>This beautiful simplicity means that there is less to learn. In particular, it all comes down to <span class="math inline">\(y = a \cdot x + b\)</span> which most students know from highschool. Unfortunately, stats intro courses are usually taught as if each test is an independent tool, needlessly making life more complicated for students and teachers alike.</p>
 </blockquote>
 <p>This aims to solidy my understanding of the original book by replicating the examples providing, and by adding additional background information to fill gaps in my knowledge.</p>
+
 </div>
             </section>
 

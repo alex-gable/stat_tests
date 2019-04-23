@@ -25,7 +25,7 @@
 <meta name="author" content="Steve Doogue">
 
 
-<meta name="date" content="2019-04-05">
+<meta name="date" content="2019-04-22">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="correlations.html">
-<link rel="next" href="appendixtypes.html">
+<link rel="next" href="two-means-independent-samples.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -101,36 +101,45 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">Statistical tests as linear models</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>2</b> The data</a><ul>
 <li class="chapter" data-level="2.1" data-path="data.html"><a href="data.html#samplevalues"><i class="fa fa-check"></i><b>2.1</b> Sample values</a></li>
-<li class="chapter" data-level="2.2" data-path="data.html"><a href="data.html#rank_trans"><i class="fa fa-check"></i><b>2.2</b> Rank-transformed values</a></li>
+<li class="chapter" data-level="2.2" data-path="data.html"><a href="data.html#ranktrans"><i class="fa fa-check"></i><b>2.2</b> ‘Signed rank’ values</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="the-linear-model.html"><a href="the-linear-model.html"><i class="fa fa-check"></i><b>3</b> The linear model</a><ul>
-<li class="chapter" data-level="3.1" data-path="the-linear-model.html"><a href="the-linear-model.html#overview-of-the-linear-model"><i class="fa fa-check"></i><b>3.1</b> Overview of the linear model</a></li>
-<li class="chapter" data-level="3.2" data-path="the-linear-model.html"><a href="the-linear-model.html#estimating-linear-models-in-r"><i class="fa fa-check"></i><b>3.2</b> Estimating linear models in R</a></li>
-<li class="chapter" data-level="3.3" data-path="the-linear-model.html"><a href="the-linear-model.html#assumptions"><i class="fa fa-check"></i><b>3.3</b> Assumptions</a></li>
+<li class="chapter" data-level="3" data-path="linearmodel.html"><a href="linearmodel.html"><i class="fa fa-check"></i><b>3</b> The linear model</a><ul>
+<li class="chapter" data-level="3.1" data-path="linearmodel.html"><a href="linearmodel.html#overview-of-the-linear-model"><i class="fa fa-check"></i><b>3.1</b> Overview of the linear model</a></li>
+<li class="chapter" data-level="3.2" data-path="linearmodel.html"><a href="linearmodel.html#estimating-linear-models-in-r"><i class="fa fa-check"></i><b>3.2</b> Estimating linear models in R</a></li>
+<li class="chapter" data-level="3.3" data-path="linearmodel.html"><a href="linearmodel.html#assumptions"><i class="fa fa-check"></i><b>3.3</b> Assumptions</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>4</b> Correlations</a><ul>
 <li class="chapter" data-level="4.1" data-path="correlations.html"><a href="correlations.html#pearson-correlation"><i class="fa fa-check"></i><b>4.1</b> Pearson correlation</a></li>
 <li class="chapter" data-level="4.2" data-path="correlations.html"><a href="correlations.html#spearman-correlation"><i class="fa fa-check"></i><b>4.2</b> Spearman correlation</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="one-mean.html"><a href="one-mean.html"><i class="fa fa-check"></i><b>5</b> One mean</a><ul>
-<li class="chapter" data-level="5.1" data-path="one-mean.html"><a href="one-mean.html#one-sample-t-test"><i class="fa fa-check"></i><b>5.1</b> One sample t-test</a><ul>
-<li class="chapter" data-level="5.1.1" data-path="one-mean.html"><a href="one-mean.html#as-a-linear-model"><i class="fa fa-check"></i><b>5.1.1</b> As a linear model</a></li>
-<li class="chapter" data-level="5.1.2" data-path="one-mean.html"><a href="one-mean.html#wilcoxen-signed-rank"><i class="fa fa-check"></i><b>5.1.2</b> Wilcoxen signed rank</a></li>
+<li class="chapter" data-level="5.1" data-path="one-mean.html"><a href="one-mean.html#one-sample"><i class="fa fa-check"></i><b>5.1</b> One sample</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="one-mean.html"><a href="one-mean.html#one-sample-t-test"><i class="fa fa-check"></i><b>5.1.1</b> One-sample t-test</a></li>
+<li class="chapter" data-level="5.1.2" data-path="one-mean.html"><a href="one-mean.html#wilcoxen-signed-rank"><i class="fa fa-check"></i><b>5.1.2</b> Wilcoxen signed-rank</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="one-mean.html"><a href="one-mean.html#paired-sample-t-test"><i class="fa fa-check"></i><b>5.2</b> Paired sample t-test</a><ul>
-<li class="chapter" data-level="5.2.1" data-path="one-mean.html"><a href="one-mean.html#as-a-linear-model-1"><i class="fa fa-check"></i><b>5.2.1</b> As a linear model</a></li>
+<li class="chapter" data-level="5.2" data-path="one-mean.html"><a href="one-mean.html#paired-samples"><i class="fa fa-check"></i><b>5.2</b> Paired samples</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="one-mean.html"><a href="one-mean.html#paired-sample-t-test"><i class="fa fa-check"></i><b>5.2.1</b> Paired-sample t-test</a></li>
 <li class="chapter" data-level="5.2.2" data-path="one-mean.html"><a href="one-mean.html#wilcoxen-matched-pairs"><i class="fa fa-check"></i><b>5.2.2</b> Wilcoxen matched pairs</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="appendixtypes.html"><a href="appendixtypes.html"><i class="fa fa-check"></i><b>6</b> Appendix - Types of variables</a><ul>
-<li class="chapter" data-level="6.1" data-path="appendixtypes.html"><a href="appendixtypes.html#discrete-variables"><i class="fa fa-check"></i><b>6.1</b> Discrete variables</a></li>
-<li class="chapter" data-level="6.2" data-path="appendixtypes.html"><a href="appendixtypes.html#continuous-variables"><i class="fa fa-check"></i><b>6.2</b> Continuous variables</a></li>
+<li class="chapter" data-level="6" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html"><i class="fa fa-check"></i><b>6</b> Two means (independent samples)</a><ul>
+<li class="chapter" data-level="6.1" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#equal-variances"><i class="fa fa-check"></i><b>6.1</b> Equal variances</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#independent-sample-t-test"><i class="fa fa-check"></i><b>6.1.1</b> Independent-sample t-test</a></li>
+<li class="chapter" data-level="6.1.2" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#mann-whitney-u-test"><i class="fa fa-check"></i><b>6.1.2</b> Mann-Whitney U test</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#unequal-variances"><i class="fa fa-check"></i><b>6.2</b> Unequal variances</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#welchs-t-test"><i class="fa fa-check"></i><b>6.2.1</b> Welch’s t-test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="appendixtypes.html"><a href="appendixtypes.html"><i class="fa fa-check"></i><b>7</b> Appendix - Types of variables</a><ul>
+<li class="chapter" data-level="7.1" data-path="appendixtypes.html"><a href="appendixtypes.html#discrete-variables"><i class="fa fa-check"></i><b>7.1</b> Discrete variables</a></li>
+<li class="chapter" data-level="7.2" data-path="appendixtypes.html"><a href="appendixtypes.html#continuous-variables"><i class="fa fa-check"></i><b>7.2</b> Continuous variables</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -154,22 +163,228 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="one-mean" class="section level1">
 <h1><span class="header-section-number">Chapter 5</span> One mean</h1>
-<div id="one-sample-t-test" class="section level2">
-<h2><span class="header-section-number">5.1</span> One sample t-test</h2>
-<div id="as-a-linear-model" class="section level3">
-<h3><span class="header-section-number">5.1.1</span> As a linear model</h3>
+<p>This set of tests deals with a single mean. They tell us whether, based on our sample, we have reason to believe that the mean of the underlying population differs from a specified level (the ‘null hypothesis’).</p>
+<p>In some cases we might have two samples with <em>paired</em> observations (e.g. an athlete’s average running speed before and after a new training technique is introduced). In this case we take the <em>difference</em> between the paired observations (the change in each athlete’s running speed) and treat this as a single measurement. We then assess whether, based on the mean of these differences in our sampple, we have reason to believe that the ‘true’ mean differs from a specified level (e.g. zero).</p>
+<p>The <em>one sample</em> and <em>paired sample</em> cases are addressed in turn, below.</p>
+<div id="one-sample" class="section level2">
+<h2><span class="header-section-number">5.1</span> One sample</h2>
+<div id="one-sample-t-test" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> One-sample t-test</h3>
+<p>A one-sample t-test (or one-sample Student’s t-test) is used to determine whether a sample could have come from a population with a specific mean. This population mean is not always known and may only be theoretical / hypothesized.</p>
+<p>For example, say we sample pupils who have received a new teaching method. These pupils receive an average score of 70% in an end-of-year test, while the average score for all pupils nationally is 60%. We want to know how often we are likely to see a sample average of 70% (or more extreme) if the ‘true’ average for pupils receiving the new teaching method was 60%, i.e. was no different from the national average.</p>
+<p><strong>Student’s t-test:</strong></p>
+<p>In R, we can assess this using a one-sample Student’s <a href="https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/t.test">t.test</a>.</p>
+<p><strong>Equivalent linear model:</strong></p>
+<p>The one-sample t-test is the same as a linear model containing a dependent variable, <span class="math inline">\(y\)</span>, and a constant: <span class="math inline">\(y = \beta_0 \qquad H_0: \beta_0 = 0\)</span></p>
+<p>This is the same as the equation <span class="math inline">\(y = \beta_0 + \beta_1 \cdot x\)</span> that was shown earlier (Chapter <a href="linearmodel.html#linearmodel">3</a>), but having dropped the last term. This is shown graphically below. Note that this is the same as our original regression, but treating all values of <span class="math inline">\(x\)</span> as zero:</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-1"></span>
+<img src="images/image04.png" alt="Linear model equivalent to one-sample t-test" width="40%" />
+<p class="caption">
+Figure 5.1: Linear model equivalent to one-sample t-test
+</p>
+</div>
+<p>The estimated intercept (<span class="math inline">\(\beta_0\)</span>) is simply the average of all the values in our sample. The linear regression returns the t-statistic and p-value based on the null hypothesis that the average (or <span class="math inline">\(\beta_0\)</span>) is equal to zero.</p>
+<p><strong>Comparison:</strong></p>
+<p>Here is how you would run the t-test and equivalent linear model in R:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># t-test (built-in test)</span>
+<span class="kw">t.test</span>(y, <span class="dt">mu =</span> <span class="dv">0</span>, <span class="dt">alternative =</span> <span class="st">&#39;two.sided&#39;</span>) 
+
+<span class="co"># Linear model</span>
+lm &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span><span class="dv">1</span>)
+  lm <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">print</span>(<span class="dt">digits =</span> <span class="dv">5</span>) <span class="co"># show summary output</span>
+  <span class="kw">confint</span>(lm) <span class="co"># show confidence intervals</span></code></pre></div>
+<p>The output of this code, including the 95 percent confidence intervals, is shown in the table below. The outputs are exactly the same!</p>
+<table>
+<caption><span id="tab:unnamed-chunk-3">Table 5.1: </span>One-sample t-test and linear model</caption>
+<thead>
+<tr class="header">
+<th align="left">Test</th>
+<th align="right">mean / intercept</th>
+<th align="right">t</th>
+<th align="right">p.value</th>
+<th align="right">conf.low</th>
+<th align="right">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">t.test</td>
+<td align="right">0.3</td>
+<td align="right">1.0607</td>
+<td align="right">0.294</td>
+<td align="right">-0.2684</td>
+<td align="right">0.8684</td>
+</tr>
+<tr class="even">
+<td align="left">lm</td>
+<td align="right">0.3</td>
+<td align="right">1.0607</td>
+<td align="right">0.294</td>
+<td align="right">-0.2684</td>
+<td align="right">0.8684</td>
+</tr>
+</tbody>
+</table>
+<div id="a-null-hypothesis-other-than-zero" class="section level5 unnumbered">
+<h5>A null hypothesis other than zero:</h5>
+<p>By default, the t-test has a null hypothesis is that the sample comes from a population with a mean of <em>zero</em>. This was written as <span class="math inline">\(H_0: \beta_0 = 0\)</span> above. What if we want to use a different null hypothesis? For example, to how likely it is that our sample <code>y</code> came from a population with a mean of 0.1?</p>
+<p>This can be done by specifying the null hypothesis in the built-in t-test (in this case using the argument <code>mu = 0.1</code>) or, in the linear model, by first subtracting this amount from the dependent variable (using <code>y - 0.1</code> as the dependent variable).</p>
+<p>The code is as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># t-test (built-in test)</span>
+<span class="kw">t.test</span>(y, <span class="dt">mu =</span> <span class="fl">0.1</span>, <span class="dt">alternative =</span> <span class="st">&#39;two.sided&#39;</span>) 
+
+<span class="co"># Linear model</span>
+<span class="kw">lm</span>((y <span class="op">-</span><span class="st"> </span><span class="fl">0.1</span>) <span class="op">~</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summary</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">print</span>(<span class="dt">digits =</span> <span class="dv">5</span>) <span class="co"># show summary output</span></code></pre></div>
+<p>The two tests above give identical t statistics and p-values.</p>
+</div>
 </div>
 <div id="wilcoxen-signed-rank" class="section level3">
-<h3><span class="header-section-number">5.1.2</span> Wilcoxen signed rank</h3>
+<h3><span class="header-section-number">5.1.2</span> Wilcoxen signed-rank</h3>
+<p>What if we cannot assume that our population is normally distributed? Here we need to use a non-parametric version of the t-test.</p>
+<p><strong>Wilcoxen signed-rank test:</strong></p>
+<p>In this case we could use the Wilcoxon signed-rank test, which is the non-parametric version of the t-test. Specifically, we use the one-sample Wilcoxon test.</p>
+<p>The Wilcoxon signed-rank test is very similar to the linear model shown above, just with the <em>signed ranks</em> of <span class="math inline">\(y\)</span> instead of <span class="math inline">\(y\)</span> itself. The concept of signed ranks was explained in section <a href="data.html#ranktrans">2.2</a>.</p>
+<p>It is implemented in R using the <a href="https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/wilcox.test">wilcox.test</a>, as shown below.</p>
+<p><strong>Equivalent linear model:</strong></p>
+<p>In this case the equivalent linear model is:</p>
+<p><span class="math inline">\(signed\_rank(y) = \beta_0 \qquad H_0: \beta_0 = 0\)</span></p>
+<p><a href="https://lindeloev.github.io/tests-as-linear/simulations/simulate_wilcoxon.html">Lindelov shows</a> that the linear model will be a good approximation of the Wilcoxon signed-rank test when the sample size is larger than 14 and almost perfect when the sample size is larger than 50.</p>
+<p><strong>Comparison:</strong></p>
+<p>The code below is for the <a href="https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/wilcox.test">wilcox.test</a> in R and the equivalent linear model using signed ranks:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Wilcox test (built-in)</span>
+<span class="kw">wilcox.test</span>(y)
+
+<span class="co"># Equivalent linear model</span>
+lm &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">signed_rank</span>(y) <span class="op">~</span><span class="st"> </span><span class="dv">1</span>)  
+  lm <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">print</span>(<span class="dt">digits =</span> <span class="dv">8</span>) <span class="co"># show summary output</span></code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-6">Table 5.2: </span>Wilcox test and linear model</caption>
+<thead>
+<tr class="header">
+<th align="left">Test</th>
+<th align="left">mean / intercept</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">wilcox.test</td>
+<td align="left"></td>
+<td align="right">0.2628</td>
+</tr>
+<tr class="even">
+<td align="left">lm (signed ranks)</td>
+<td align="left">4.66</td>
+<td align="right">0.2650</td>
+</tr>
+</tbody>
+</table>
+<p>The two tests give similar (though not quite identical) p-values.</p>
 </div>
 </div>
-<div id="paired-sample-t-test" class="section level2">
-<h2><span class="header-section-number">5.2</span> Paired sample t-test</h2>
-<div id="as-a-linear-model-1" class="section level3">
-<h3><span class="header-section-number">5.2.1</span> As a linear model</h3>
+<div id="paired-samples" class="section level2">
+<h2><span class="header-section-number">5.2</span> Paired samples</h2>
+<div id="paired-sample-t-test" class="section level3">
+<h3><span class="header-section-number">5.2.1</span> Paired-sample t-test</h3>
+<p>A <strong>paired-sample</strong> t-test (sometime called a dependent-sample t-test) is used to compare two population means where you have two samples in which observations in one sample can be paired with observations in the other sample.</p>
+<p>Common applications of the paired-sample t-test include case-control studies or repeated-measures designs. Examples of when you might use a paired-sample t-test:</p>
+<ul>
+<li>Before-and-after observations on the same subjects (e.g. students’ test results before and after taking a course).<br />
+</li>
+<li>A comparison of two different treatments, where where the treatments are applied to the same subjects (e.g. athletes’ ability to lift weights following two different warm-up routines).</li>
+<li>A comparison of two different measurements, where where the measurements are applied to the same subjects (e.g. blood pressure measured using two types of machines).</li>
+</ul>
+<p><strong>Paired-sample t-test / dependent-sample t-test:</strong></p>
+<p>The paired-sample t-test determines whether the average difference between two sets of observations is zero. To run this in R, we use the same built-in Student’s t-test as above, but now including both variables as arguments and specifying that we have paired observations (the argument <code>paired = TRUE</code>).</p>
+<p><strong>Equivalent linear model:</strong></p>
+<p>The equivalent linear model is the difference between the two observations regressed against a constant: <span class="math inline">\(y_2 - y_1 = \beta_0 \qquad H_0: \beta_0 = 0\)</span></p>
+<p><strong>Comparison:</strong></p>
+<p>We can compare the t-test and linear model using our sample data (section <a href="data.html#samplevalues">2.1</a>) as an example. Recall that <code>y</code> had a mean of 0.3, and <code>y2</code> had a mean of 0.5.</p>
+<p>The code and the outputs are shown below. Again, the linear model gives exactly the same results as the t-test!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># t-test (built-in test)</span>
+<span class="kw">t.test</span>(y2,y, <span class="dt">paired =</span> <span class="ot">TRUE</span>, <span class="dt">mu =</span> <span class="dv">0</span>, <span class="dt">alternative =</span> <span class="st">&#39;two.sided&#39;</span>)
+
+<span class="co"># Equivalent linear model</span>
+lm &lt;-<span class="st"> </span><span class="kw">lm</span>(y2 <span class="op">-</span><span class="st"> </span>y <span class="op">~</span><span class="st"> </span><span class="dv">1</span>)
+  lm <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">print</span>(<span class="dt">digits =</span> <span class="dv">8</span>)
+  <span class="kw">confint</span>(lm)</code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-8">Table 5.3: </span>Paired-sample t-test and linear model</caption>
+<thead>
+<tr class="header">
+<th align="left">Test</th>
+<th align="right">mean / intercept</th>
+<th align="right">t</th>
+<th align="right">p.value</th>
+<th align="right">conf.low</th>
+<th align="right">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">t.test</td>
+<td align="right">0.2</td>
+<td align="right">0.5426</td>
+<td align="right">0.5898</td>
+<td align="right">-0.5407</td>
+<td align="right">0.9407</td>
+</tr>
+<tr class="even">
+<td align="left">lm</td>
+<td align="right">0.2</td>
+<td align="right">0.5426</td>
+<td align="right">0.5898</td>
+<td align="right">-0.5407</td>
+<td align="right">0.9407</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="wilcoxen-matched-pairs" class="section level3">
 <h3><span class="header-section-number">5.2.2</span> Wilcoxen matched pairs</h3>
+<p>If the necessary assumptions do not hold for a paired-sample t-test, we can use the non-parameteric counterpart. This is the <strong>Wilcoxen matched pairs</strong>.</p>
+<p>For this we use the built-in <a href="https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/wilcox.test">wilcox.test</a> in R, including both variables and specifying that we have paired observations (the argument <code>paired = TRUE</code>).</p>
+<p>The equivalent linear model is exactly the same above but using <em>signed rank</em> of the difference between observations, i.e.:</p>
+<p><span class="math inline">\(signed\_rank(y_2 - y_1) = \beta_0 \qquad H_0: \beta_0 = 0\)</span></p>
+<p>A comparison of the outputs is shown below. The p-values are almost identical. The t-test has also been included, this time using signed ranks, to show that this is the same as the linear model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#  Wilcox test (built-in test)</span>
+<span class="kw">wilcox.test</span>(y2,y, <span class="dt">paired =</span> <span class="ot">TRUE</span>, <span class="dt">mu =</span> <span class="dv">0</span>, <span class="dt">alternative =</span> <span class="st">&#39;two.sided&#39;</span>)
+
+<span class="co"># Equivalent linear model</span>
+lm &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">signed_rank</span>(y2 <span class="op">-</span><span class="st"> </span>y) <span class="op">~</span><span class="st"> </span><span class="dv">1</span>)
+  lm <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">print</span>(<span class="dt">digits =</span> <span class="dv">8</span>)
+  
+<span class="co"># t-test using signed ranks (built-in test)</span>
+<span class="kw">t.test</span>(<span class="kw">signed_rank</span>(y2<span class="op">-</span>y), <span class="dt">mu =</span> <span class="dv">0</span>, <span class="dt">alternative =</span> <span class="st">&#39;two.sided&#39;</span>)</code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-10">Table 5.4: </span>Wilcox test and linear model, with paired samples</caption>
+<thead>
+<tr class="header">
+<th align="left">Test</th>
+<th align="left">mean / intercept</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">wilcox.test</td>
+<td align="left"></td>
+<td align="right">0.7795</td>
+</tr>
+<tr class="even">
+<td align="left">lm (signed ranks)</td>
+<td align="left">1.18</td>
+<td align="right">0.7790</td>
+</tr>
+<tr class="odd">
+<td align="left">t.test (signed ranks)</td>
+<td align="left">1.18</td>
+<td align="right">0.7790</td>
+</tr>
+</tbody>
+</table>
+
 </div>
 </div>
 </div>
@@ -179,7 +394,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
         </div>
       </div>
 <a href="correlations.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="appendixtypes.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="two-means-independent-samples.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

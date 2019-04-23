@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Chapter 3 The simple linear model | Statistical tests as linear models</title>
+  <title>Chapter 3 The linear model | Statistical tests as linear models</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Chapter 3 The simple linear model | Statistical tests as linear models" />
+  <meta property="og:title" content="Chapter 3 The linear model | Statistical tests as linear models" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 3 The simple linear model | Statistical tests as linear models" />
+  <meta name="twitter:title" content="Chapter 3 The linear model | Statistical tests as linear models" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -25,14 +25,14 @@
 <meta name="author" content="Steve Doogue">
 
 
-<meta name="date" content="2019-04-04">
+<meta name="date" content="2019-04-22">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="the-data.html">
+<link rel="prev" href="data.html">
 <link rel="next" href="correlations.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -101,36 +101,46 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">Statistical tests as linear models</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="the-data.html"><a href="the-data.html"><i class="fa fa-check"></i><b>2</b> The data</a><ul>
-<li class="chapter" data-level="2.1" data-path="the-data.html"><a href="the-data.html#sample-values"><i class="fa fa-check"></i><b>2.1</b> Sample values</a></li>
-<li class="chapter" data-level="2.2" data-path="the-data.html"><a href="the-data.html#rank_trans"><i class="fa fa-check"></i><b>2.2</b> Rank-transformed values</a></li>
+<li class="chapter" data-level="2" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>2</b> The data</a><ul>
+<li class="chapter" data-level="2.1" data-path="data.html"><a href="data.html#samplevalues"><i class="fa fa-check"></i><b>2.1</b> Sample values</a></li>
+<li class="chapter" data-level="2.2" data-path="data.html"><a href="data.html#ranktrans"><i class="fa fa-check"></i><b>2.2</b> ‘Signed rank’ values</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="the-simple-linear-model.html"><a href="the-simple-linear-model.html"><i class="fa fa-check"></i><b>3</b> The simple linear model</a><ul>
-<li class="chapter" data-level="3.1" data-path="the-simple-linear-model.html"><a href="the-simple-linear-model.html#overview-of-the-linear-model"><i class="fa fa-check"></i><b>3.1</b> Overview of the linear model</a></li>
-<li class="chapter" data-level="3.2" data-path="the-simple-linear-model.html"><a href="the-simple-linear-model.html#estimating-linear-models-in-r"><i class="fa fa-check"></i><b>3.2</b> Estimating linear models in R</a></li>
-<li class="chapter" data-level="3.3" data-path="the-simple-linear-model.html"><a href="the-simple-linear-model.html#assumptions"><i class="fa fa-check"></i><b>3.3</b> Assumptions</a></li>
+<li class="chapter" data-level="3" data-path="linearmodel.html"><a href="linearmodel.html"><i class="fa fa-check"></i><b>3</b> The linear model</a><ul>
+<li class="chapter" data-level="3.1" data-path="linearmodel.html"><a href="linearmodel.html#overview-of-the-linear-model"><i class="fa fa-check"></i><b>3.1</b> Overview of the linear model</a></li>
+<li class="chapter" data-level="3.2" data-path="linearmodel.html"><a href="linearmodel.html#estimating-linear-models-in-r"><i class="fa fa-check"></i><b>3.2</b> Estimating linear models in R</a></li>
+<li class="chapter" data-level="3.3" data-path="linearmodel.html"><a href="linearmodel.html#assumptions"><i class="fa fa-check"></i><b>3.3</b> Assumptions</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>4</b> Correlations</a><ul>
 <li class="chapter" data-level="4.1" data-path="correlations.html"><a href="correlations.html#pearson-correlation"><i class="fa fa-check"></i><b>4.1</b> Pearson correlation</a></li>
 <li class="chapter" data-level="4.2" data-path="correlations.html"><a href="correlations.html#spearman-correlation"><i class="fa fa-check"></i><b>4.2</b> Spearman correlation</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="appendix-1-types-of-variables.html"><a href="appendix-1-types-of-variables.html"><i class="fa fa-check"></i><b>5</b> Appendix 1 - Types of variables</a><ul>
-<li class="chapter" data-level="5.1" data-path="appendix-1-types-of-variables.html"><a href="appendix-1-types-of-variables.html#discrete-variables"><i class="fa fa-check"></i><b>5.1</b> Discrete variables</a></li>
-<li class="chapter" data-level="5.2" data-path="appendix-1-types-of-variables.html"><a href="appendix-1-types-of-variables.html#continuous-variables"><i class="fa fa-check"></i><b>5.2</b> Continuous variables</a></li>
+<li class="chapter" data-level="5" data-path="one-mean.html"><a href="one-mean.html"><i class="fa fa-check"></i><b>5</b> One mean</a><ul>
+<li class="chapter" data-level="5.1" data-path="one-mean.html"><a href="one-mean.html#one-sample"><i class="fa fa-check"></i><b>5.1</b> One sample</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="one-mean.html"><a href="one-mean.html#one-sample-t-test"><i class="fa fa-check"></i><b>5.1.1</b> One-sample t-test</a></li>
+<li class="chapter" data-level="5.1.2" data-path="one-mean.html"><a href="one-mean.html#wilcoxen-signed-rank"><i class="fa fa-check"></i><b>5.1.2</b> Wilcoxen signed rank</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>6</b> Introduction</a></li>
-<li class="chapter" data-level="7" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>7</b> Literature</a></li>
-<li class="chapter" data-level="8" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>8</b> Methods</a></li>
-<li class="chapter" data-level="9" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>9</b> Applications</a><ul>
-<li class="chapter" data-level="9.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>9.1</b> Example one</a></li>
-<li class="chapter" data-level="9.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>9.2</b> Example two</a></li>
+<li class="chapter" data-level="5.2" data-path="one-mean.html"><a href="one-mean.html#paired-samples"><i class="fa fa-check"></i><b>5.2</b> Paired samples</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="one-mean.html"><a href="one-mean.html#paired-sample-t-test"><i class="fa fa-check"></i><b>5.2.1</b> Paired-sample t-test</a></li>
+<li class="chapter" data-level="5.2.2" data-path="one-mean.html"><a href="one-mean.html#wilcoxen-matched-pairs"><i class="fa fa-check"></i><b>5.2.2</b> Wilcoxen matched pairs</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>10</b> Final Words</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html"><i class="fa fa-check"></i><b>6</b> Two means (independent samples)</a><ul>
+<li class="chapter" data-level="6.1" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#equal-variances"><i class="fa fa-check"></i><b>6.1</b> Equal variances</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#independent-sample-t-test"><i class="fa fa-check"></i><b>6.1.1</b> Independent-sample t-test</a></li>
+<li class="chapter" data-level="6.1.2" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#mann-whitney-u-test"><i class="fa fa-check"></i><b>6.1.2</b> Mann-Whitney U test</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#unequal-variances"><i class="fa fa-check"></i><b>6.2</b> Unequal variances</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#welchs-t-test"><i class="fa fa-check"></i><b>6.2.1</b> Welch’s t-test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="appendixtypes.html"><a href="appendixtypes.html"><i class="fa fa-check"></i><b>7</b> Appendix - Types of variables</a><ul>
+<li class="chapter" data-level="7.1" data-path="appendixtypes.html"><a href="appendixtypes.html#discrete-variables"><i class="fa fa-check"></i><b>7.1</b> Discrete variables</a></li>
+<li class="chapter" data-level="7.2" data-path="appendixtypes.html"><a href="appendixtypes.html#continuous-variables"><i class="fa fa-check"></i><b>7.2</b> Continuous variables</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -151,8 +161,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="the-simple-linear-model" class="section level1">
-<h1><span class="header-section-number">Chapter 3</span> The simple linear model</h1>
+<div id="linearmodel" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> The linear model</h1>
 <div id="overview-of-the-linear-model" class="section level2">
 <h2><span class="header-section-number">3.1</span> Overview of the linear model</h2>
 <p>Many common statistical tests are really just special cases of the linear model, or at least a close approximation.</p>
@@ -161,14 +171,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>For example, assume we are looking at a variable <span class="math inline">\(y\)</span> and we want to know its relationship with a variable <span class="math inline">\(x\)</span>. We assume that the relationship can be expressed as a mathematical relationship between <span class="math inline">\(y\)</span> (the dependent variable) and <span class="math inline">\(x\)</span> (the explanatory variable):</p>
 <p><span class="math inline">\(y = \beta_0 + \beta_1 x\)</span></p>
 <p>To illustrate what this equation is showing, imagine we have six observations of variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, which can be plotted as follows:</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-7"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-8"></span>
 <img src="images/image01.png" alt="Six observations of x and y" width="60%" />
 <p class="caption">
 Figure 3.1: Six observations of x and y
 </p>
 </div>
 <p>We assume that this relationship can be represented by a straight line. The line is composed of an intercept (<span class="math inline">\(\beta_0\)</span>) and a slope (<span class="math inline">\(\beta_1\)</span>). Each point on this line represents our <em>predicted</em> value of <span class="math inline">\(y\)</span> for a given value of <span class="math inline">\(x\)</span>.</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-8"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-9"></span>
 <img src="images/image02.png" alt="Intercept and slope of model" width="60%" />
 <p class="caption">
 Figure 3.2: Intercept and slope of model
@@ -177,7 +187,7 @@ Figure 3.2: Intercept and slope of model
 <p>So how do we estimate the intercept and slope? In other words, how do we estimate what the values of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> should be?</p>
 <p>Linear regression estimates the line (i.e., slope and intercept) that minimizes the difference between our <em>predicted</em> values of <span class="math inline">\(y\)</span> and the <em>actual</em> values of <span class="math inline">\(y\)</span> that were observed in the original sample. These difference are referred to as “residuals”.</p>
 <p>More specifically, linear regression minimizes the sum of the <em>squared</em> value of these residuals. So in the figure below, linear regression is used to estimate the line that would minimise the combined area of the purple squares. For this reason, the method is sometimes referred to as an “ordinary least squares” (OLS) regression.</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-9"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-10"></span>
 <img src="images/image03.png" alt="Line of best fit minimizes the sum of squared residuals" width="60%" />
 <p class="caption">
 Figure 3.3: Line of best fit minimizes the sum of squared residuals
@@ -186,11 +196,15 @@ Figure 3.3: Line of best fit minimizes the sum of squared residuals
 <p>In the example above, we considered a dependent variable (<span class="math inline">\(y\)</span>) that was being “explained” by one other variable, or predictor (<span class="math inline">\(x\)</span>). But this can be expanded to include multiple predictors, for example with the model:</p>
 <p><span class="math inline">\(y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 ... + \beta_i x_i\)</span></p>
 <p>This is referred to as <em>multiple regression</em>. In this case we still have only one intercept (<span class="math inline">\(\beta_0\)</span>) but many slopes that need to be estimated (<span class="math inline">\(\beta_1\)</span>, <span class="math inline">\(\beta_2\)</span> and so on). The same method can be used to estimate these parameters, i.e. an OLS regression which minimizes the sum of squared residuals. This cannot be illustrated in a two-dimensional diagram, as was the case when a single predictor was used, but the exact same concept applies.</p>
+<p>So that’s the linear model. The key premise of Lindelov’s book many statistical tests are just special cases of this:</p>
+<blockquote>
+<p>Everything below, from one-sample t-test to two-way ANOVA are just special cases of this system. Nothing more, nothing less.</p>
+</blockquote>
 </div>
 <div id="estimating-linear-models-in-r" class="section level2">
 <h2><span class="header-section-number">3.2</span> Estimating linear models in R</h2>
 <p>To estimate linear models in R we use the <code>lm()</code> function.</p>
-<p>For example, say we want to estimate the relationship (if any) between our sampled data for <code>x</code> and <code>y</code>. We will apply the following model: <span class="math inline">\(y = \beta_0 + \beta_1 x\)</span></p>
+<p>For example, say we want to estimate the relationship between our sampled data for <code>x</code> and <code>y</code>. We will apply the following model: <span class="math inline">\(y = \beta_0 + \beta_1 x\)</span></p>
 <p>In R, this can be written as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>x)  <span class="co"># Represents y = beta0 + beta1 * x</span></code></pre></div>
 <p>In the original book, the specified model is accompanied by the null hypothesis, <span class="math inline">\(H_0: \beta_1=0\)</span>. This is equivalent to saying that there is no relationship between <code>x</code> and <code>y</code>. The output from our linear model tells us whether there could be grounds for rejecting this null hypothesis of “no relationship”, in favor of the alternative hypothesis that there <em>is</em> a relationship.</p>
@@ -222,6 +236,7 @@ Figure 3.3: Line of best fit minimizes the sum of squared residuals
 <div id="assumptions" class="section level2">
 <h2><span class="header-section-number">3.3</span> Assumptions</h2>
 <p>The linear model described above is only valid if a number of assumption hold.</p>
+
 </div>
 </div>
             </section>
@@ -229,7 +244,7 @@ Figure 3.3: Line of best fit minimizes the sum of squared residuals
           </div>
         </div>
       </div>
-<a href="the-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="correlations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

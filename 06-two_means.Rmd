@@ -1,0 +1,110 @@
+# Two means (independent samples)
+
+These tests compare the means of two independent groups in order to determine whether there is statistical evidence that the associated population means are significantly different. 
+
+## Equal variances
+
+### Independent-sample t-test
+
+The indepent sample t-test can be used to compare the means of two independent groups.
+
+Assumptions include:
+
+* Independence of observations (independent samples / groups);
+* Normal distribution (approximately) of the dependent variable for each group, though this might not be an issue for large samples;
+* No outliers; and
+* Homogeniety of variances; i.e. variances are approximately equal across the two groups.
+
+__Student's t-test:__ 
+
+In R, we can assesses the difference between two groups using the [t.test](https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/t.test). As shown in the accompanying documentation, this has the default assumptions that the two samples are _not_ paired, and that their variances are _not_ equal. 
+
+__Equivalent linear model:__ 
+
+The linear model uses dummy variables (see the explanation of dummy variables explained by Lindelov in section 5.1.3 of the [original book](https://lindeloev.github.io/tests-as-linear/#51_independent_t-test_and_mann-whitney_u)). 
+
+The linear model takes the form: 
+
+$y = \beta_0 + \beta_1 \cdot x_i \qquad  H_0: \beta_0 = 0$  
+
+where $x_i$ is a dummy variable taking the value of 0 or 1, indicating whether data point $i$ was taken from the reference group (0) or the other group (1).
+
+For example, assume $y$ is a measure of income, and we sampled 50 women and 50 men. We are interested in whether there is evidence that income varies for the two genders. We could use a dummy variable, $x_i$, which takes the value of 0 for women and 1 for men. 
+
+The use of dummy variables is illustrated below. The intercept ($\beta_0$) is the sample average for observations in our reference group (in this example, women) when $x = 0$. The slope ($\beta_1$) is the difference in the averages of the two groups. In this example, when $x = 1$ (indicating men), the average salary is equal to $\beta_0 + \beta_1$. Therefore, $\beta_1$ is the difference between the two groups, and we want to assess whether this difference is significantly different from zero.
+
+```{r, echo = FALSE, fig.cap = 'Linear model equivalent to independent-sample t-test', out.width = '65%', fig.align = 'center'}
+knitr::include_graphics("images/image_dummy1.png")
+```
+<br>
+
+__Comparison:__ 
+
+Let's say we want to compare the means of two groups in our sample data, `y` and `y2`.
+
+To enable a linear model approach, we're going to take our data set which has the `group` in the first column and the `value` in the second column. We then create a dummy variable called $group\_y_2$ that takes the value 0 for group `y` and 1 for group `y2`.
+
+We create this using the following code (see section \@ref(samplevalues) in which this data was originally created):
+
+
+```{r, eval = FALSE}
+mydata_dummy <- mydata_long %>%
+  # Filter out 'x' group which is not used in this example
+  filter(group != 'x') %>% 
+  # Create a dummy variable that takes 0 for the group 'y' and 1 for group 'y2'
+  mutate(group_y2 = if_else(group == 'y2',1,0))
+
+```
+
+Here's a random sample of rows from our new data set, which now inclues the dummy variable:
+
+```{r, echo = FALSE}
+knitr::kable(
+  sample_n(mydata_dummy, 6),
+  caption = 'Some randomly selected rows from our data set',
+  booktabs = TRUE)
+
+```
+
+Now we've organized our data, we can compare the results of the t-test with the linear model:
+
+```{r, eval = FALSE}
+# t-test (built-in test)
+t.test(y2, y, mu = 0, var.equal = TRUE, alternative = 'two.sided')
+
+# Linear model
+lm <- lm(value ~ 1 + group_y2, data = mydata_dummy)
+  lm %>% summary() %>% print(digits = 8) # show summary output
+  confint(lm) # show confidence intervals
+```
+
+The output of the t-test and linear model is shown below. The t statistic, p-value and confidence intervals are identical. While the t-test reports the averages of the two samples, the linear model reports the average of the reference group (0.3 for `y`) and the _difference_ between the average of this reference group and the other group indicated by the dummy variable (+0.2 for group `y2`). 
+<br>   
+
+```{r, echo = FALSE}
+knitr::kable(
+  tribble(
+    ~Test,~'mean.y',~'mean.y2',~'difference',~t,~p.value,~conf.low,~conf.high,
+    't-test',0.3,0.5,'', 0.5657, 0.5729,-0.5016,0.9016,
+    'lm (with dummy)',0.3,'', 0.2, 0.5657,0.5729,-0.5016,0.9016
+    ),
+  caption = 'Independent-sample t-test and linear model',
+  booktabs = TRUE
+)
+```
+
+### Mann-Whitney U test
+
+If our assumptions don't hold (e.g. normal distributions) we can use a non-parametric version of these tests instead. 
+
+__Mann-Whitney U test:__ this is a nonparametric test of the null hypothesis that it is equally likely that a randomly selected value from one sample will be less than or greater than a randomly selected value from a second sample ([source]).
+
+To expand: Useful link at [Laerd](https://statistics.laerd.com/premium-sample/mwut/mann-whitney-test-in-spss-2.php) - it seems the Mann-Whiteney U test can be interpreted as the difference in medians, but only if the two groups have similar distributions. 
+
+Will also be useful to include this discussion at [Stack Exchange](https://stats.stackexchange.com/questions/113334/mann-whitney-test-with-unequal-variances)
+
+## Unequal variances
+
+### Welch's t-test
+
+[There is an argument](http://daniellakens.blogspot.com/2015/01/always-use-welchs-t-test-instead-of.html) that we should use Welch’s t-test by default, instead of Student’s t-test, because Welch's t-test performs better than Student's t-test whenever sample sizes and variances are unequal between groups, and gives the same result when sample sizes and variances are equal.

@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Chapter 2 The data | Statistical tests as linear models</title>
+  <title>Chapter 6 Two means (independent samples) | Statistical tests as linear models</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Chapter 2 The data | Statistical tests as linear models" />
+  <meta property="og:title" content="Chapter 6 Two means (independent samples) | Statistical tests as linear models" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 The data | Statistical tests as linear models" />
+  <meta name="twitter:title" content="Chapter 6 Two means (independent samples) | Statistical tests as linear models" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="index.html">
-<link rel="next" href="linearmodel.html">
+<link rel="prev" href="one-mean.html">
+<link rel="next" href="appendixtypes.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -121,7 +121,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="5" data-path="one-mean.html"><a href="one-mean.html"><i class="fa fa-check"></i><b>5</b> One mean</a><ul>
 <li class="chapter" data-level="5.1" data-path="one-mean.html"><a href="one-mean.html#one-sample"><i class="fa fa-check"></i><b>5.1</b> One sample</a><ul>
 <li class="chapter" data-level="5.1.1" data-path="one-mean.html"><a href="one-mean.html#one-sample-t-test"><i class="fa fa-check"></i><b>5.1.1</b> One-sample t-test</a></li>
-<li class="chapter" data-level="5.1.2" data-path="one-mean.html"><a href="one-mean.html#wilcoxen-signed-rank"><i class="fa fa-check"></i><b>5.1.2</b> Wilcoxen signed rank</a></li>
+<li class="chapter" data-level="5.1.2" data-path="one-mean.html"><a href="one-mean.html#wilcoxen-signed-rank"><i class="fa fa-check"></i><b>5.1.2</b> Wilcoxen signed-rank</a></li>
 </ul></li>
 <li class="chapter" data-level="5.2" data-path="one-mean.html"><a href="one-mean.html#paired-samples"><i class="fa fa-check"></i><b>5.2</b> Paired samples</a><ul>
 <li class="chapter" data-level="5.2.1" data-path="one-mean.html"><a href="one-mean.html#paired-sample-t-test"><i class="fa fa-check"></i><b>5.2.1</b> Paired-sample t-test</a></li>
@@ -161,63 +161,151 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="data" class="section level1">
-<h1><span class="header-section-number">Chapter 2</span> The data</h1>
-<div id="samplevalues" class="section level2">
-<h2><span class="header-section-number">2.1</span> Sample values</h2>
-<p>Most of the examples in the book are based on three imaginary samples (<code>x</code>, <code>y</code> and <code>y2</code>). Each is normally distributed and is made up of 50 observations:</p>
+<div id="two-means-independent-samples" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Two means (independent samples)</h1>
+<p>These tests compare the means of two independent groups in order to determine whether there is statistical evidence that the associated population means are significantly different.</p>
+<div id="equal-variances" class="section level2">
+<h2><span class="header-section-number">6.1</span> Equal variances</h2>
+<div id="independent-sample-t-test" class="section level3">
+<h3><span class="header-section-number">6.1.1</span> Independent-sample t-test</h3>
+<p>The indepent sample t-test can be used to compare the means of two independent groups.</p>
+<p>Assumptions include:</p>
 <ul>
-<li><code>x</code> has a mean of 0 and a standard deviation of 1</li>
-<li><code>y</code> has a mean of 0.3 and a standard deviation of 2</li>
-<li><code>y2</code>has a mean of 0.5 and a standard deviation of 1.5</li>
+<li>Independence of observations (independent samples / groups);</li>
+<li>Normal distribution (approximately) of the dependent variable for each group, though this might not be an issue for large samples;</li>
+<li>No outliers; and</li>
+<li>Homogeniety of variances; i.e. variances are approximately equal across the two groups.</li>
 </ul>
-<p><code>x</code> and <code>y</code> can be thought of as samples from different populations (e.g. 50 women and 50 men), while <code>y</code> and <code>y2</code> are samples of the same individuals at different points in time (the same 50 men before and after participating in a new drug trial).</p>
-<p>We begin by creating a function that will allow us to produce samples of a given size (<code>N</code>) with a specified mean (<code>mu</code>) and standard deviation (<code>sd</code>):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
-rnorm_fixed =<span class="st"> </span><span class="cf">function</span>(N, <span class="dt">mu =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>){<span class="kw">scale</span>(<span class="kw">rnorm</span>(N))<span class="op">*</span>sd <span class="op">+</span><span class="st"> </span>mu}</code></pre></div>
-<p>Now we can create our three samples:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set the seed so our &#39;random&#39; results match those in the original book</span>
-<span class="kw">set.seed</span>(<span class="dv">40</span>)
-
-<span class="co"># Create the samples:</span>
-x =<span class="st"> </span><span class="kw">rnorm_fixed</span>(<span class="dt">N =</span> <span class="dv">50</span>, <span class="dt">mu=</span><span class="dv">0</span>, <span class="dt">sd=</span><span class="dv">1</span>)
-y =<span class="st"> </span><span class="kw">rnorm_fixed</span>(<span class="dt">N =</span> <span class="dv">50</span>, <span class="dt">mu=</span><span class="fl">0.3</span>, <span class="dt">sd=</span><span class="dv">2</span>)
-y2 =<span class="st"> </span><span class="kw">rnorm_fixed</span>(<span class="dt">N =</span> <span class="dv">50</span>, <span class="dt">mu=</span><span class="fl">0.5</span>, <span class="dt">sd=</span><span class="fl">1.5</span>)</code></pre></div>
-<p>Lets also combine these samples into ‘wide’ and ‘long’ data frames. This doesn’t change any of the values, it just rearranges to data into different layouts which can sometimes be easier to work with (e.g. when producing plots):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The wide layout is a dataframe with three columns, one for each of x, y and y2</span>
-mydata_wide &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">y2 =</span> y2)
-
-<span class="co"># the long layout has two columns: one listing the group to which each observation </span>
-<span class="co"># belongs (x, y or y2), and another column with the corresponding value</span>
-mydata_long &lt;-<span class="st"> </span>mydata_wide <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">gather</span>(group,value,x<span class="op">:</span>y2)</code></pre></div>
-<p>Here’s what our three samples look like when plotted. Note the different mean (0.0, 0.3 and 0.5) and the different ‘spread’ of values for each group (reflecting their different standard deviations).</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-5"></span>
-<img src="stat_tests_files/figure-html/unnamed-chunk-5-1.png" alt="Our sample data" width="480" />
+<p><strong>Student’s t-test:</strong></p>
+<p>In R, we can assesses the difference between two groups using the <a href="https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/t.test">t.test</a>. As shown in the accompanying documentation, this has the default assumptions that the two samples are <em>not</em> paired, and that their variances are <em>not</em> equal.</p>
+<p><strong>Equivalent linear model:</strong></p>
+<p>The linear model uses dummy variables (see the explanation of dummy variables explained by Lindelov in section 5.1.3 of the <a href="https://lindeloev.github.io/tests-as-linear/#51_independent_t-test_and_mann-whitney_u">original book</a>).</p>
+<p>The linear model takes the form:</p>
+<p><span class="math inline">\(y = \beta_0 + \beta_1 \cdot x_i \qquad H_0: \beta_0 = 0\)</span></p>
+<p>where <span class="math inline">\(x_i\)</span> is a dummy variable taking the value of 0 or 1, indicating whether data point <span class="math inline">\(i\)</span> was taken from the reference group (0) or the other group (1).</p>
+<p>For example, assume <span class="math inline">\(y\)</span> is a measure of income, and we sampled 50 women and 50 men. We are interested in whether there is evidence that income varies for the two genders. We could use a dummy variable, <span class="math inline">\(x_i\)</span>, which takes the value of 0 for women and 1 for men.</p>
+<p>The use of dummy variables is illustrated below. The intercept (<span class="math inline">\(\beta_0\)</span>) is the sample average for observations in our reference group (in this example, women) when <span class="math inline">\(x = 0\)</span>. The slope (<span class="math inline">\(\beta_1\)</span>) is the difference in the averages of the two groups. In this example, when <span class="math inline">\(x = 1\)</span> (indicating men), the average salary is equal to <span class="math inline">\(\beta_0 + \beta_1\)</span>. Therefore, <span class="math inline">\(\beta_1\)</span> is the difference between the two groups, and we want to assess whether this difference is significantly different from zero.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-1"></span>
+<img src="images/image_dummy1.png" alt="Linear model equivalent to independent-sample t-test" width="65%" />
 <p class="caption">
-Figure 2.1: Our sample data
+Figure 6.1: Linear model equivalent to independent-sample t-test
 </p>
 </div>
-</div>
-<div id="ranktrans" class="section level2">
-<h2><span class="header-section-number">2.2</span> ‘Signed rank’ values</h2>
-<p>Most common tests demonstrated in the book use the <em>actual</em> values from the samples above. However, some tests also use their <em>rank-transformed</em> values. Specifically, the <em>signed rank</em> of the values is used.</p>
-<p>What is meant by signed ranks? The signed rank is found by:<br />
-1. taking the <em>absolute</em> value of each observation in the original sample; that is, expressing all the values as a positive number;<br />
-2. finding the rank of each of these absolute values, where the smallest absolute value has a rank of 1; and<br />
-3. giving each of these ranks the same sign (+ or -) as the original value.</p>
-<p>For example, the numbers -2, 3, 7, -25, -30, 31 would have the signed ranks of -1, 2, 3, -4, -5, 6.</p>
-<p>We create a function, <code>signed_rank()</code>, that we can use later to convert our actual values into signed ranks:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Takes any list of values, x, and calculates their signed rank</span>
-signed_rank =<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">sign</span>(x) <span class="op">*</span><span class="st"> </span><span class="kw">rank</span>(<span class="kw">abs</span>(x))</code></pre></div>
-<p>Here is what our sample data would look like if we used signed ranks instead of actual values (I have remove the horizonal ‘jitter’ from this chart). Because each sample has 50 observations, each signed rank is somewhere between -50 and +50:</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-7"></span>
-<img src="stat_tests_files/figure-html/unnamed-chunk-7-1.png" alt="Our sample data, with signed ranks" width="480" />
-<p class="caption">
-Figure 2.2: Our sample data, with signed ranks
-</p>
-</div>
+<p><br></p>
+<p><strong>Comparison:</strong></p>
+<p>Let’s say we want to compare the means of two groups in our sample data, <code>y</code> and <code>y2</code>.</p>
+<p>To enable a linear model approach, we’re going to take our data set which has the <code>group</code> in the first column and the <code>value</code> in the second column. We then create a dummy variable called <span class="math inline">\(group\_y_2\)</span> that takes the value 0 for group <code>y</code> and 1 for group <code>y2</code>.</p>
+<p>We create this using the following code (see section <a href="data.html#samplevalues">2.1</a> in which this data was originally created):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mydata_dummy &lt;-<span class="st"> </span>mydata_long <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="co"># Filter out &#39;x&#39; group which is not used in this example</span>
+<span class="st">  </span><span class="kw">filter</span>(group <span class="op">!=</span><span class="st"> &#39;x&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="co"># Create a dummy variable that takes 0 for the group &#39;y&#39; and 1 for group &#39;y2&#39;</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">group_y2 =</span> <span class="kw">if_else</span>(group <span class="op">==</span><span class="st"> &#39;y2&#39;</span>,<span class="dv">1</span>,<span class="dv">0</span>))</code></pre></div>
+<p>Here’s a random sample of rows from our new data set, which now inclues the dummy variable:</p>
+<table>
+<caption><span id="tab:unnamed-chunk-3">Table 6.1: </span>Some randomly selected rows from our data set</caption>
+<thead>
+<tr class="header">
+<th align="left">group</th>
+<th align="right">value</th>
+<th align="right">group_y2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">y2</td>
+<td align="right">0.8356017</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">y2</td>
+<td align="right">0.6238886</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">y</td>
+<td align="right">4.8118617</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">y</td>
+<td align="right">1.9249220</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">y2</td>
+<td align="right">-0.9903914</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">y2</td>
+<td align="right">-0.2808907</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<p>Now we’ve organized our data, we can compare the results of the t-test with the linear model:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># t-test (built-in test)</span>
+<span class="kw">t.test</span>(y2, y, <span class="dt">mu =</span> <span class="dv">0</span>, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>, <span class="dt">alternative =</span> <span class="st">&#39;two.sided&#39;</span>)
 
+<span class="co"># Linear model</span>
+lm &lt;-<span class="st"> </span><span class="kw">lm</span>(value <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>group_y2, <span class="dt">data =</span> mydata_dummy)
+  lm <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">print</span>(<span class="dt">digits =</span> <span class="dv">8</span>) <span class="co"># show summary output</span>
+  <span class="kw">confint</span>(lm) <span class="co"># show confidence intervals</span></code></pre></div>
+<p>The output of the t-test and linear model is shown below. The t statistic, p-value and confidence intervals are identical. While the t-test reports the averages of the two samples, the linear model reports the average of the reference group (0.3 for <code>y</code>) and the <em>difference</em> between the average of this reference group and the other group indicated by the dummy variable (+0.2 for group <code>y2</code>). <br></p>
+<table>
+<caption><span id="tab:unnamed-chunk-5">Table 6.2: </span>Independent-sample t-test and linear model</caption>
+<thead>
+<tr class="header">
+<th align="left">Test</th>
+<th align="right">mean.y</th>
+<th align="left">mean.y2</th>
+<th align="left">difference</th>
+<th align="right">t</th>
+<th align="right">p.value</th>
+<th align="right">conf.low</th>
+<th align="right">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">t-test</td>
+<td align="right">0.3</td>
+<td align="left">0.5</td>
+<td align="left"></td>
+<td align="right">0.5657</td>
+<td align="right">0.5729</td>
+<td align="right">-0.5016</td>
+<td align="right">0.9016</td>
+</tr>
+<tr class="even">
+<td align="left">lm (with dummy)</td>
+<td align="right">0.3</td>
+<td align="left"></td>
+<td align="left">0.2</td>
+<td align="right">0.5657</td>
+<td align="right">0.5729</td>
+<td align="right">-0.5016</td>
+<td align="right">0.9016</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="mann-whitney-u-test" class="section level3">
+<h3><span class="header-section-number">6.1.2</span> Mann-Whitney U test</h3>
+<p>If our assumptions don’t hold (e.g. normal distributions) we can use a non-parametric version of these tests instead.</p>
+<p><strong>Mann-Whitney U test:</strong> this is a nonparametric test of the null hypothesis that it is equally likely that a randomly selected value from one sample will be less than or greater than a randomly selected value from a second sample ([source]).</p>
+<p>To expand: Useful link at <a href="https://statistics.laerd.com/premium-sample/mwut/mann-whitney-test-in-spss-2.php">Laerd</a> - it seems the Mann-Whiteney U test can be interpreted as the difference in medians, but only if the two groups have similar distributions.</p>
+<p>Will also be useful to include this discussion at <a href="https://stats.stackexchange.com/questions/113334/mann-whitney-test-with-unequal-variances">Stack Exchange</a></p>
+</div>
+</div>
+<div id="unequal-variances" class="section level2">
+<h2><span class="header-section-number">6.2</span> Unequal variances</h2>
+<div id="welchs-t-test" class="section level3">
+<h3><span class="header-section-number">6.2.1</span> Welch’s t-test</h3>
+<p><a href="http://daniellakens.blogspot.com/2015/01/always-use-welchs-t-test-instead-of.html">There is an argument</a> that we should use Welch’s t-test by default, instead of Student’s t-test, because Welch’s t-test performs better than Student’s t-test whenever sample sizes and variances are unequal between groups, and gives the same result when sample sizes and variances are equal.</p>
+
+</div>
 </div>
 </div>
             </section>
@@ -225,8 +313,8 @@ Figure 2.2: Our sample data, with signed ranks
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="linearmodel.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="one-mean.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="appendixtypes.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

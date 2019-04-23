@@ -1,0 +1,34 @@
+
+# Appendix - Types of variables {#appendixtypes}
+
+Variables (or measurements) fall into two categories: __discrete__ or __continuous__.
+
+## Discrete variables
+
+Discrete variables are also known as categorical variables. They are descriptions of categories into which observations can fall. Discrete variables can be further categorized as either _nominal_ or _ordinal_.
+
+__Nominals__ variables have two or more categories which do not have an intrinsic order. In other words, there is no basis for ranking the categories. Examples of nominal variables include:
+
+* Whether a person has a landline telephone could be categorized as "yes" or "no" (two categories)
+* The US state in which a person lives (50 categories)
+
+__Ordinal__ variables have two or more catogories which do have an intrinsic order - that is, they _can_ be ordered or ranked. Examples include:  
+
+* Levels of agreement, e.g. asking a survey respondent if they (i) strongly agree, (ii) agree, (iii) neither agree nor disagree, (iv) disagree or (v) strongly disagree with a question.
+* Educational attainment could be recorded in a survey using four categories: (i) no high school degree, (ii) high school degree, (iii) college degree, or (iv) postgraduate degree. Here the categories can be ranked based on the level of educational attainment. 
+
+For ordinal variables, the interval or distance between the categories does not have a meaningful interpretation. For example, we cannot say that the distance between (i) no highschool degree and (ii) high school degree is the same as the distance bewteen (iii) college degree and (iv) postgraduate degree. 
+
+## Continuous variables
+
+Continuous variables are numbers rather than categories. Continuous variables can be further categorized as either _interval_ or _ratio_ variables.
+
+__Interval__ variables have a numeric value and can be measured along a continuum. The difference between values is interpretable. An example is temperature measure in Fahrenheit: the difference between 20F and 30F is the same as the difference bewtween 30F to 40F. However Fahrenheit is not a ratio variables. For example, 40 degrees is not "twice as hot" as 20 degrees. 
+
+__Ratio__ variables are interval variables for which you can construct a meaningful fraction. Examples include height, weight, distance and income. For example, you could say that an income of \$40,000 was twice as much as an income of \$20,000. "Count" variables are also ratio variables; for example, the number of survey respondents who would vote for a presidential candidate. A condition of ratio variables is that 0 (zero) of the measurement indicates that there is none of that variable (e.g. $0 indicates zero income). This was not the case of temperature measured in Farenheit, as 0F does not mean there is "no temperature". 
+
+The four types of variables above form a hierarchy, where ratio variables are the highest:  
+
+Nominal < Ordinal < Interval < Ratio
+
+At each level up the hierarchy, the current level includes all of the qualities of the one below it and adds something new.

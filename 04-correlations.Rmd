@@ -1,0 +1,107 @@
+# Correlations
+
+Correlation is a measure of the strength and direction of association that exists between two variables. Correlation coefficents ($r$) assume values in the range from −1 to +1, where ±1 indicates the strongest possible positive or negative correlation and 0 indicates no linear association between the variables. 
+
+## Pearson correlation
+
+We start by looking at the Pearson correlation coefficient. Here we compare the built-in test (in R) for the Pearson correlation with the equivalant linear model. 
+
+The equivalent linear model is the basic regression of $y$ on $x$, specified as follows:
+$y = \beta_0 + \beta_1x  \qquad  H_0: \beta_1 = 0$
+
+The two tests are written using the following R code: 
+
+```{r, eval = FALSE}
+# Pearson (built-in test)
+cor.test(y, x, method = "pearson") 
+# Linear model
+lm(y ~ 1 + x) %>% summary() %>% print(digits = 5)
+```
+
+If you were to run the code above, you would see the following the key statistics found in the output of each test:
+
+```{r, echo = FALSE}
+knitr::kable(
+  tribble(
+    ~Test,~r,~slope,~t,~'p-value',
+    'cor.test (Pearson)',-0.2318,'',-1.6507,0.1053,
+    'lm','',-0.4636,-1.6507,0.1053
+    ),
+  caption = 'Pearson vs linear model',
+  booktabs = TRUE
+)
+```
+  
+   
+   
+The output shows that the correlation coefficient ($r$) has a t-statistic of -1.6507 and p-value of 0.1053. And the exact same results are found in the linear model!
+
+The difference is that the linear model returns the _slope_ of the relationship, $\beta_1$ (which in this case is -0.4636), rather than the correlation coefficient, $r$. The slope is usually much more interpretable and informative than the correlation coefficient. However it is useful to understand how the two are related, which is by the following formula:
+
+$\beta_1 = r \cdot sd_y / sd_x$
+
+This shows that:
+
+* When both `x` and `y` have the same standard deviations ($sd_x$ and $sd_y$) then the slope ($\beta_1$) will be equal the correlation coefficient ($r$)
+* The ratio of the slope to the correlation coefficient ($\beta_1 / r$) is equal to the ratio of the standard deviations ($sd_y / sd_x$). We know that when we set up our data in Section \@ref(samplevalues) that the standard deviation of `y` was twice as large as `x`. This is why the value of the slope (-0.4636) is twice the size of the correlation coefficient (-0.2318),
+* The slope from the linear model will always have the same sign (+ or -) as the correlation coefficient (as standard devaiations are always positive).
+
+
+
+## Spearman correlation
+
+There will be times when it is more appropriate to use the __Spearman rank correlation__ than the Pearson correlation. This could be the case when:
+
+1.  The relationship between the variables is not linear, i.e. not a straight line;
+2.  The data is not normally distributed;^[Technically the variables should have _bivariate_ normality, which means they are normally distrbuted when added together, but this is complex and so it is common just to assess whether the variables are individually normal [(source)](https://statistics.laerd.com/spss-tutorials/pearsons-product-moment-correlation-using-spss-statistics.php). If bivariate normality does not hold then you will still get a fair estimate of $r$, but the inferential tests (t-statistics and p-values) could be misleading [(source)](https://www.researchgate.net/post/Why_should_data_be_normally_distributed_and_continuous_in_order_to_apply_Pearson_correlation).]
+3.  The data has large outliers; or
+4.  When you are working with ordinal rather than continuous data.^[see Chapter \@ref(appendixtypes) for a description of the different types of data.]
+
+The Spearman correlation is a _non-parameteric_ test as it does not require that the parameters of the linear model hold true - for example, there does not need to be a linear relationship between the two variables, and the data does not need to be normally distributed. 
+
+The Spearman rank correlation is the same as a Pearson correlation but using the _rank_ of the values in our samples. This is an approximation only, which Lindelov shows is approximate when the sample is greater than 10 and almost perfect when the sample is greater than 20.
+
+This is also the same as the linear model using rank-transformed values of $x$ and $y$:
+
+$rank(y) = \beta_0 + \beta_1 \cdot rank(x)  \qquad  H_0: \beta_1 = 0$
+
+For a comparison of the Spearman test, the Pearson test (using ranks) and the linear model (also using ranks) we run the following code:
+
+```{r, eval=FALSE}
+# Spearman
+cor.test(y, x, method = "spearman")
+
+# Pearson using ranks
+cor.test(rank(y), rank(x), method = "pearson")
+
+# Linear model using rank
+lm <- lm(rank(y) ~ 1 + rank(x)) 
+  lm %>% summary() %>% print(digits = 5) # show summary ouput
+```
+
+The output of this code is as follows:
+
+```{r, echo = FALSE}
+knitr::kable(
+  tribble(
+    ~Test,~'correlation',~slope,~p.value,
+    'cor.test (Spearman)',-0.2266,'',0.1135,
+    'cor.test (Pearson with ranks)',-0.2266,'',0.1135,
+    'lm (with ranks)','',-0.2266,0.1135
+    ),
+  caption = 'Spearman, Pearson (ranks) and linear model (ranks)',
+  booktabs = TRUE
+)
+```
+
+This shows that the results are all the same (or at least very close approximations). Note that the slope from the linear model has an intuitive interpretation, which is the number of ranks $y$ changes for each rank on $x$. 
+
+Given the similarity of these tests, Lindelov notes that:  
+
+> One interesting implication is that many “non-parametric tests” are about as parametric as their parametric counterparts with means, standard deviations, homogeneity of variance, etc. - just on rank-transformed data.
+
+Finally, the figure below (reproduced from the original book) illustrates how the Pearson and Spearman correlations are the same as linear models, with the latter being based on rank-transformed values. 
+
+```{r, echo = FALSE, fig.cap = 'Pearson and Spearman correlations as linear models', out.width = '80%',fig.align = 'center'}
+knitr::include_graphics("images/correlations.png")
+```
