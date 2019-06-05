@@ -1,14 +1,21 @@
 # Two means (independent samples)
 
-These tests compare the means of two independent groups in order to determine whether there is statistical evidence that the associated population means are significantly different. 
+These tests compare the means of two independent groups in order to determine whether there is statistical evidence that the associated population means are significantly different. Examples include:
 
-## Equal variances
+* Do first year graduate salaries differ based on gender? and  
+* Is there is a difference in test anxiety based on educational level (undergraduate vs postgraduate)?
 
-### Independent-sample t-test
+A key assumption is whether the __variances__ of the two samples are equal (this can be tested with the Levene's Test for Equality of Variances). In general terms:
 
-The indepent sample t-test can be used to compare the means of two independent groups.
+* If the samples have _equal_ variance then an __independent-sample t-test__ (Student's t-test) could be used.
+* If the samples have _unequal_ variance then the __Welch's t-test__ can be used, as this does not assume identical variances.
+* If the samples are _not normally distibuted_, or if the other requirements of the above tests are not met, then the non-parametric __Mann-Whitney U__ test could be used.  
 
-Assumptions include:
+This is somewhat simplistic, and the choice of tests is not always clear (see the discussion [here](https://stats.stackexchange.com/questions/121852/how-to-choose-between-t-test-or-non-parametric-test-e-g-wilcoxon-in-small-sampl) on StackExchange for example). The following sections goes through each of these tests in turn, and describes how they can be approximated by the linear model.  
+
+## Independent-sample t-test
+
+The indepent sample t-test can be used to compare the means of two independent groups. Assumptions include:
 
 * Independence of observations (independent samples / groups);
 * Normal distribution (approximately) of the dependent variable for each group, though this might not be an issue for large samples;
@@ -27,13 +34,11 @@ The linear model takes the form:
 
 $y = \beta_0 + \beta_1 \cdot x_i \qquad  H_0: \beta_0 = 0$  
 
-where $x_i$ is a dummy variable taking the value of 0 or 1, indicating whether data point $i$ was taken from the reference group (0) or the other group (1).
-
-For example, assume $y$ is a measure of income, and we sampled 50 women and 50 men. We are interested in whether there is evidence that income varies for the two genders. We could use a dummy variable, $x_i$, which takes the value of 0 for women and 1 for men. 
+where $x_i$ is a dummy variable taking the value of 0 or 1, indicating whether data point $i$ was taken from the reference group (0) or the other group (1). For example, $y$ could be a measure of income and $x_i$ could take the value of 0 for women and 1 for men. 
 
 The use of dummy variables is illustrated below. The intercept ($\beta_0$) is the sample average for observations in our reference group (in this example, women) when $x = 0$. The slope ($\beta_1$) is the difference in the averages of the two groups. In this example, when $x = 1$ (indicating men), the average salary is equal to $\beta_0 + \beta_1$. Therefore, $\beta_1$ is the difference between the two groups, and we want to assess whether this difference is significantly different from zero.
 
-```{r, echo = FALSE, fig.cap = 'Linear model equivalent to independent-sample t-test', out.width = '65%', fig.align = 'center'}
+```{r dummy1, echo = FALSE, fig.cap = 'Linear model equivalent to independent-sample t-test', out.width = '65%', fig.align = 'center'}
 knitr::include_graphics("images/image_dummy1.png")
 ```
 <br>
@@ -47,7 +52,7 @@ To enable a linear model approach, we're going to take our data set which has th
 We create this using the following code (see section \@ref(samplevalues) in which this data was originally created):
 
 
-```{r, eval = FALSE}
+```{r, echo = FALSE}
 mydata_dummy <- mydata_long %>%
   # Filter out 'x' group which is not used in this example
   filter(group != 'x') %>% 
@@ -59,6 +64,7 @@ mydata_dummy <- mydata_long %>%
 Here's a random sample of rows from our new data set, which now inclues the dummy variable:
 
 ```{r, echo = FALSE}
+set.seed(40)
 knitr::kable(
   sample_n(mydata_dummy, 6),
   caption = 'Some randomly selected rows from our data set',
@@ -71,6 +77,7 @@ Now we've organized our data, we can compare the results of the t-test with the 
 ```{r, eval = FALSE}
 # t-test (built-in test)
 t.test(y2, y, mu = 0, var.equal = TRUE, alternative = 'two.sided')
+  # mu = 0 for the null hypothesis that the difference between population means is zero
 
 # Linear model
 lm <- lm(value ~ 1 + group_y2, data = mydata_dummy)
@@ -88,23 +95,117 @@ knitr::kable(
     't-test',0.3,0.5,'', 0.5657, 0.5729,-0.5016,0.9016,
     'lm (with dummy)',0.3,'', 0.2, 0.5657,0.5729,-0.5016,0.9016
     ),
-  caption = 'Independent-sample t-test and linear model',
+  caption = 'Independent-sample t-test (equal variance) and linear model',
   booktabs = TRUE
 )
 ```
 
-### Mann-Whitney U test
+## Welch's t-test
 
-If our assumptions don't hold (e.g. normal distributions) we can use a non-parametric version of these tests instead. 
+If the two samples have unequal variance then Welch's t-test could be used. 
 
-__Mann-Whitney U test:__ this is a nonparametric test of the null hypothesis that it is equally likely that a randomly selected value from one sample will be less than or greater than a randomly selected value from a second sample ([source]).
+In fact, [there is an argument](http://daniellakens.blogspot.com/2015/01/always-use-welchs-t-test-instead-of.html) that we should use Welch’s t-test by default, rather then the Student’s t-test, because Welch's t-test performs better than the t-test whenever sample sizes and variances are unequal between groups, and gives the same result when sample sizes and variances are equal.
 
-To expand: Useful link at [Laerd](https://statistics.laerd.com/premium-sample/mwut/mann-whitney-test-in-spss-2.php) - it seems the Mann-Whiteney U test can be interpreted as the difference in medians, but only if the two groups have similar distributions. 
+Note that in our toy data set, we intentionally specified different variances for $y$ and $y_2$. 
 
-Will also be useful to include this discussion at [Stack Exchange](https://stats.stackexchange.com/questions/113334/mann-whitney-test-with-unequal-variances)
+__Student's t-test:__ 
 
-## Unequal variances
+The Welch t-test is identical to the independent-sample Student's t-test described above, except that it does not assume equal variance of the two samples. In R, we can again assesses the difference between two groups using the Student's [t.test](https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/t.test). When entering the code, we just need to specify that the sample variances are __not equal__ (though this is the default assumption anyway). 
 
-### Welch's t-test
+__Equivalent linear model:__ 
 
-[There is an argument](http://daniellakens.blogspot.com/2015/01/always-use-welchs-t-test-instead-of.html) that we should use Welch’s t-test by default, instead of Student’s t-test, because Welch's t-test performs better than Student's t-test whenever sample sizes and variances are unequal between groups, and gives the same result when sample sizes and variances are equal.
+The equivalent linear model is based on generalized least squares (GLS). The GLS approach makes the assumption that there is a relationship between the variance of observations and an independent variables (e.g. the gender dummy variable). In a GLS regression, less weight is given to the observations with a higher variance.
+
+We don't know the true relationship between variance and independent variables in the underlying population, so this is estimated from our sample. The estimate is based on the relationship between residuals (i.e. observed values minus predicted values, based on an OLS regression) and an independent variable. Once we have estimated this relationship, we then re-weight each observation in our sample by dividing each observation by the predicted variance. The final GLS regression is then run on these re-weighted observations. A more detailed explanation of the GLS approach (without using matrix algebra!) [can be found here](http://www.homepages.ucl.ac.uk/~uctpsc0/Teaching/GR03/Heter&Autocorr.pdf).
+
+In this example, when applying the GLS model in R, we specify that there is a different variance for each each level of the factor $x_i$ (which takes the values 0 or 1), which you will recall was in the column called `group`. 
+
+Here is the code:
+
+```{r, eval = FALSE}
+# t-test (built-in test)
+t.test(y2, y, mu = 0, var.equal = FALSE, alternative = 'two.sided')
+  # Note the assumption that variances are false
+
+# Linear model (GLS)
+lm <- nlme::gls(value ~ 1 + group_y2, weights = nlme::varIdent(form=~1|group), method="ML", data=mydata_dummy)
+  lm %>% summary() %>% print(digits = 8) # show summary output
+  confint(lm) # show confidence intervals
+```
+Here are the results, which are almost identical: 
+
+```{r, echo = FALSE}
+knitr::kable(
+  tribble(
+    ~Test,~'mean.y',~'mean.y2',~'difference',~t,~p.value,~conf.low,~conf.high,
+    't-test',0.3,0.5,'', 0.5657, 0.5730,-0.5023,0.9023,
+    'lm (GLS)',0.3,'', 0.2, 0.5657,0.5729,-0.4930,0.8930
+    ),
+  caption = 'Independent-sample t-test (unequal variance) and GLS model',
+  booktabs = TRUE
+)
+```
+
+
+Note that we get the same estimates for the means of $y$ and $y_2$ (0.3 and 0.5 respectively) from the t-test both with and without the assumption of equal variance. The unequal variance (heteroscedasticity) does not affect our estimates of the population means, but rather our assessment of whether or differences are stastitically significant, in the form of t statistics, p-values and confidence intervals.
+
+## Mann-Whitney U test
+
+If our usual assumptions don't hold (e.g. normal distributions, or if we're working with ordinal data) we can use a non-parametric version of these tests instead. When comparing two independent samples, this would be the Mann-Whitney U test. 
+
+__Mann-Whitney U test:__  
+
+This tests the null hypothesis that it is equally likely that a randomly selected value from one sample will be less than or greater than a randomly selected value from a second sample. In other words, if the null hypothesis was rejected, you would infer that values from one population are more likely to be higher or lower than values from another population. 
+
+The Man-Whitney U test is a Wilcoxon test but with two samples. It can be run using R's built-in [wilcox.test](https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/wilcox.test).
+
+__Equivalent linear model:__ 
+
+Another way to describe the Mann-Whitney U test is as a test of mean ranks. It first ranks all your values for the dependent variable (e.g. income) from high to low, with the smallest rank assigned the smallest value. It then computes the mean rank in each group (e.g. male or female), and then computes the probability than random shuffling of those values between two groups would end up with the mean ranks as far apart as, or further apart, than you observed (see for example [StackExchange](https://stats.stackexchange.com/questions/113334/mann-whitney-test-with-unequal-variances) and [Laerd](https://statistics.laerd.com/premium-sample/mwut/mann-whitney-test-in-spss-2.php)). If the resulting p-value was sufficiently small, you would infer that the difference in mean ranks between the samples was probably not due to chance, and that the values from one population were higher than those from another.
+
+The equivalent linear model, with a close approximation, is a regression using the rank of the dependent variable:
+
+$rank(y_i) = \beta_0 + \beta_1 \cdot x_i \qquad  H_0: \beta_0 = 0$
+
+where again $x_i$ is a dummy variable indicating the sample to which an observation belongs (e.g. 0 for women and 1 for men). Note that this uses the rank of the dependent variable, and not the signed rank as was the case with matched pairs.
+
+__Comparison:__
+
+Here is how you would run the Man-Whitney U test and equivalent linear model in R:  
+
+
+```{r, eval=FALSE}
+# Wilcoxon / Mann-Whitney U test (built-in)
+wilcox.test(y, y2)
+
+# Equivalent linear model
+lm <- lm(rank(value) ~ 1 + group_y2, data = mydata_dummy)  
+  lm %>% summary() %>% print(digits = 8) # show summary output
+```
+
+The results are shown below. Both tests have very similar p-values. On this basis, we would not reject the null hypothesis that a value randomly selected from group `y` was not more likely to be higher or lower than one sampled from `y2`.  
+
+
+```{r, echo = FALSE}
+knitr::kable(
+  tribble(
+    ~Test,~'p-value',~'rank diff',
+    'wilcox.test',0.7907,'',
+    'lm (ranks)',0.7896,1.56
+    ),
+  caption = 'Mann-Whitney U and equivalent linear model',
+  booktabs = TRUE
+)
+```
+
+  
+  
+__Digression - Mann-Whitney U test and medians:__  
+
+It's worth noting that, with additional assumptions, the Man-Whitney U test is also a test for different _medians_. 
+
+This requires the assumption that the two samples have an equal shape, and therefore an equal variance. [Laerd](https://statistics.laerd.com/premium-sample/mwut/mann-whitney-test-in-spss-2.php) illustrates this concept using the diagram below: on the left, the two samples (men and women) have the same shape, so the Mann-Whitney U test tests for differences in the median score for men and women. On the right, the samples have different shapes, so it is a more general test for whether a randomly-selected woman's score is higher than a randomly-selected man's score (without telling us anything about medians). 
+
+```{r, echo = FALSE, fig.cap = 'Man-Whitney U test and sample shapes', out.width = '95%', fig.align = 'center'}
+knitr::include_graphics("images/mann_whitney_laerd.png")
+```

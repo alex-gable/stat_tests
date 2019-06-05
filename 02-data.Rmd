@@ -22,9 +22,9 @@ Now we can create our three samples:
 # Set the seed so our 'random' results match those in the original book
 set.seed(40)
 
-# Create the samples:
-x = rnorm_fixed(N = 50, mu=0, sd=1)
+# Create the samples (use the same order as original book - y, x, then y2)
 y = rnorm_fixed(N = 50, mu=0.3, sd=2)
+x = rnorm_fixed(N = 50, mu=0, sd=1)
 y2 = rnorm_fixed(N = 50, mu=0.5, sd=1.5)
 ```
 

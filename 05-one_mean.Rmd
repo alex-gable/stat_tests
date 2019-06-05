@@ -114,8 +114,8 @@ lm <- lm(signed_rank(y) ~ 1)
 knitr::kable(
   tribble(
     ~Test,~'mean / intercept',~p.value,
-    'wilcox.test','',0.2628,
-    'lm (signed ranks)',4.66,0.2650
+    'wilcox.test','',0.3693,
+    'lm (signed ranks)',3.74,0.3721
     ),
   caption = 'Wilcox test and linear model',
   booktabs = TRUE
@@ -167,8 +167,8 @@ lm <- lm(y2 - y ~ 1)
 knitr::kable(
   tribble(
     ~Test,~'mean / intercept',~t,~p.value,~conf.low,~conf.high,
-    't.test', 0.2, 0.5426, 0.5898, -0.5407, 0.9407,
-    'lm', 0.2, 0.5426, 0.5898, -0.5407, 0.9407
+    't.test', 0.2, 0.5264, 0.6010, -0.5635, 0.9635,
+    'lm', 0.2, 0.5264, 0.6010, -0.5635, 0.9635
     ),
   caption = 'Paired-sample t-test and linear model',
   booktabs = TRUE
@@ -204,9 +204,9 @@ t.test(signed_rank(y2-y), mu = 0, alternative = 'two.sided')
 knitr::kable(
   tribble(
     ~Test,~'mean / intercept',~p.value,
-    'wilcox.test','',0.7795,
-    'lm (signed ranks)', 1.18,0.7790,
-    't.test (signed ranks)', 1.18, 0.7790 
+    'wilcox.test','',0.8243,
+    'lm (signed ranks)', 0.94,0.8232,
+    't.test (signed ranks)', 0.94, 0.8232 
     ),
   caption = 'Wilcox test and linear model, with paired samples',
   booktabs = TRUE

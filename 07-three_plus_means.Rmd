@@ -1,0 +1,77 @@
+# Three or more means
+
+
+## One-way ANOVA
+
+The one-way analysis of variance (ANOVA) is used to determine whether there are any statistically significant differences between the means of three or more independent (unrelated) groups.
+
+Examples include:  
+
+* Is there a difference in academic outcomes for pupils from ten different schools?
+* Is there a difference daily coffee consumption between people in three different countries?
+
+Intuitively, ANOVA is based on comparing the variance (or variation) between the groups, to variation
+within each particular group. If the 'between' variation is much larger than the 'within' variation,
+we are more likely to conclude that the means of the different samples are not equal. If the 'between' and 'within' variations are more similar in size, then we are less likely to conclude that there is a significant difference between sample means.
+
+Why can't we just compare the means of every possible pair of groups, and see if any differences are statistically significant? The reason is that as the number of groups increases, the more likely we are to see differences that are due to chance alone. This means we are more likely to commit a Type I error, rejecting the null hypothesis (that there is no difference between the means) when the null hypothesis is in fact true.^[For example, if there were only two groups, we would be carrying out one comparison: the mean of Group A vs the mean of Group B. At a 0.05 level of significance, there would be a 5% chance of a Type I error. If we had three groups, there would be three comparisons (Group A vs Group B, Group A vs Group C, and Group B vs Group C), and we would have a 14.3% (1-0.95^3) chance of a Type I error.] An ANOVA controls for this additional risk of Type I errors.
+
+__Dataset:__
+
+To illustrate, we will create a new dataset (`mydata_anova1`). We assume three groups (A, B and C) of normally-distributed variables, with means of 0, 1 and 0.5 respectively. We also create indicator/dummy variables for groups B and C (group A is our reference group, and so does not require an indicator):
+
+```{r}
+# Create dataset 'mydata_anova1' which is three groups:
+N <- 20
+mydata_anova1 <- data.frame(
+                    value = c(rnorm_fixed(N,mu = 0, sd = 1),     # Group A
+                              rnorm_fixed(N, mu = 1, sd = 1),    # Group B
+                              rnorm_fixed(N, mu = 0.5, sd = 1)), # Group C
+                    group = rep(c('a', 'b', 'c'), each=N)
+                    ) %>% 
+  # Explicitly add indicator/dummy variables
+  mutate(group_b = if_else(group == 'b', 1 , 0)) %>%             # Group B dummy
+  mutate(group_c = if_else(group == 'c', 1 , 0))                 # Group C dummy
+
+```
+
+Here’s a random sample of rows from our new data set, which inclues the dummy variables:
+
+```{r, echo = FALSE}
+set.seed(40)
+knitr::kable(
+  (sample_n(mydata_anova1, 6) %>% arrange(group)),
+  caption = 'Some randomly selected rows from our data set',
+  booktabs = TRUE)
+```
+
+__Built-in ANOVA function:__
+
+R has a built-in function for ANOVA analysis in this case `car::Anova(aov())`. However, this is simply a 'wrapper' around the equivalent linear model, described below, and yields identical results. 
+
+__Equivalent linear model:__
+
+The linear model assumes that the dependent variable can be predicted with a single mean for each group:
+
+$y = \beta_0 + \beta_1 \cdot x_1 + \beta_2 \cdot x_2 + ... \qquad  H_0: y = \beta_0$
+
+This assumption is illustrated below. This extends the case with two groups (the independent-sample t-test, illustrated in figure \@ref(fig:dummy1)) to a case with three or more groups. The linear model makes the assumption that _neither_ $\beta_1$ _nor_ $\beta_2$ are signficantly different from zero; or equivalently, that all groups have the same mean of $\beta_0$.
+
+```{r dummy2, echo = FALSE, fig.cap = 'Linear model equivalent to ANOVA with three groups', out.width = '75%', fig.align = 'center'}
+knitr::include_graphics("images/image_dummy2.png")
+```
+
+__Comparison:__
+
+```{r}
+car::Anova(aov(value ~ group, data = mydata_anova1))
+
+# Linear model
+lm <- lm(value ~ 1 + group_b + group_c, data = mydata_anova1)
+  lm %>% summary() %>% print(digits = 8) # show summary output
+
+```
+
+## Two-way ANOVA
+
+## ANCOVA

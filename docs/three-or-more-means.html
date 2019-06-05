@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Chapter 2 The data | Statistical tests as linear models</title>
+  <title>Chapter 7 Three or more means | Statistical tests as linear models</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Chapter 2 The data | Statistical tests as linear models" />
+  <meta property="og:title" content="Chapter 7 Three or more means | Statistical tests as linear models" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 The data | Statistical tests as linear models" />
+  <meta name="twitter:title" content="Chapter 7 Three or more means | Statistical tests as linear models" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="index.html">
-<link rel="next" href="linearmodel.html">
+<link rel="prev" href="two-means-independent-samples.html">
+<link rel="next" href="appendixtypes.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -162,72 +162,147 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="data" class="section level1">
-<h1><span class="header-section-number">Chapter 2</span> The data</h1>
-<div id="samplevalues" class="section level2">
-<h2><span class="header-section-number">2.1</span> Sample values</h2>
-<p>Most of the examples in the book are based on three imaginary samples (<code>x</code>, <code>y</code> and <code>y2</code>). Each is normally distributed and is made up of 50 observations:</p>
+<div id="three-or-more-means" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> Three or more means</h1>
+<div id="one-way-anova" class="section level2">
+<h2><span class="header-section-number">7.1</span> One-way ANOVA</h2>
+<p>The one-way analysis of variance (ANOVA) is used to determine whether there are any statistically significant differences between the means of three or more independent (unrelated) groups.</p>
+<p>Examples include:</p>
 <ul>
-<li><code>x</code> has a mean of 0 and a standard deviation of 1</li>
-<li><code>y</code> has a mean of 0.3 and a standard deviation of 2</li>
-<li><code>y2</code>has a mean of 0.5 and a standard deviation of 1.5</li>
+<li>Is there a difference in academic outcomes for pupils from ten different schools?</li>
+<li>Is there a difference daily coffee consumption between people in three different countries?</li>
 </ul>
-<p><code>x</code> and <code>y</code> can be thought of as samples from different populations (e.g. 50 women and 50 men), while <code>y</code> and <code>y2</code> are samples of the same individuals at different points in time (the same 50 men before and after participating in a new drug trial).</p>
-<p>We begin by creating a function that will allow us to produce samples of a given size (<code>N</code>) with a specified mean (<code>mu</code>) and standard deviation (<code>sd</code>):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
-rnorm_fixed =<span class="st"> </span><span class="cf">function</span>(N, <span class="dt">mu =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>){<span class="kw">scale</span>(<span class="kw">rnorm</span>(N))<span class="op">*</span>sd <span class="op">+</span><span class="st"> </span>mu}</code></pre></div>
-<p>Now we can create our three samples:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set the seed so our &#39;random&#39; results match those in the original book</span>
-<span class="kw">set.seed</span>(<span class="dv">40</span>)
-
-<span class="co"># Create the samples (use the same order as original book - y, x, then y2)</span>
-y =<span class="st"> </span><span class="kw">rnorm_fixed</span>(<span class="dt">N =</span> <span class="dv">50</span>, <span class="dt">mu=</span><span class="fl">0.3</span>, <span class="dt">sd=</span><span class="dv">2</span>)
-x =<span class="st"> </span><span class="kw">rnorm_fixed</span>(<span class="dt">N =</span> <span class="dv">50</span>, <span class="dt">mu=</span><span class="dv">0</span>, <span class="dt">sd=</span><span class="dv">1</span>)
-y2 =<span class="st"> </span><span class="kw">rnorm_fixed</span>(<span class="dt">N =</span> <span class="dv">50</span>, <span class="dt">mu=</span><span class="fl">0.5</span>, <span class="dt">sd=</span><span class="fl">1.5</span>)</code></pre></div>
-<p>Lets also combine these samples into ‘wide’ and ‘long’ data frames. This doesn’t change any of the values, it just rearranges to data into different layouts which can sometimes be easier to work with (e.g. when producing plots):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The wide layout is a dataframe with three columns, one for each of x, y and y2</span>
-mydata_wide &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">y2 =</span> y2)
-
-<span class="co"># the long layout has two columns: one listing the group to which each observation </span>
-<span class="co"># belongs (x, y or y2), and another column with the corresponding value</span>
-mydata_long &lt;-<span class="st"> </span>mydata_wide <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">gather</span>(group,value,x<span class="op">:</span>y2)</code></pre></div>
-<p>Here’s what our three samples look like when plotted. Note the different mean (0.0, 0.3 and 0.5) and the different ‘spread’ of values for each group (reflecting their different standard deviations).</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-5"></span>
-<img src="stat_tests_files/figure-html/unnamed-chunk-5-1.png" alt="Our sample data" width="480" />
+<p>Intuitively, ANOVA is based on comparing the variance (or variation) between the groups, to variation within each particular group. If the ‘between’ variation is much larger than the ‘within’ variation, we are more likely to conclude that the means of the different samples are not equal. If the ‘between’ and ‘within’ variations are more similar in size, then we are less likely to conclude that there is a significant difference between sample means.</p>
+<p>Why can’t we just compare the means of every possible pair of groups, and see if any differences are statistically significant? The reason is that as the number of groups increases, the more likely we are to see differences that are due to chance alone. This means we are more likely to commit a Type I error, rejecting the null hypothesis (that there is no difference between the means) when the null hypothesis is in fact true.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> An ANOVA controls for this additional risk of Type I errors.</p>
+<p><strong>Dataset:</strong></p>
+<p>To illustrate, we will create a new dataset (<code>mydata_anova1</code>). We assume three groups (A, B and C) of normally-distributed variables, with means of 0, 1 and 0.5 respectively. We also create indicator/dummy variables for groups B and C (group A is our reference group, and so does not require an indicator):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create dataset &#39;mydata_anova1&#39; which is three groups:</span>
+N &lt;-<span class="st"> </span><span class="dv">20</span>
+mydata_anova1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+                    <span class="dt">value =</span> <span class="kw">c</span>(<span class="kw">rnorm_fixed</span>(N,<span class="dt">mu =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>),     <span class="co"># Group A</span>
+                              <span class="kw">rnorm_fixed</span>(N, <span class="dt">mu =</span> <span class="dv">1</span>, <span class="dt">sd =</span> <span class="dv">1</span>),    <span class="co"># Group B</span>
+                              <span class="kw">rnorm_fixed</span>(N, <span class="dt">mu =</span> <span class="fl">0.5</span>, <span class="dt">sd =</span> <span class="dv">1</span>)), <span class="co"># Group C</span>
+                    <span class="dt">group =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;c&#39;</span>), <span class="dt">each=</span>N)
+                    ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="co"># Explicitly add indicator/dummy variables</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">group_b =</span> <span class="kw">if_else</span>(group <span class="op">==</span><span class="st"> &#39;b&#39;</span>, <span class="dv">1</span> , <span class="dv">0</span>)) <span class="op">%&gt;%</span><span class="st">             </span><span class="co"># Group B dummy</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">group_c =</span> <span class="kw">if_else</span>(group <span class="op">==</span><span class="st"> &#39;c&#39;</span>, <span class="dv">1</span> , <span class="dv">0</span>))                 <span class="co"># Group C dummy</span></code></pre></div>
+<p>Here’s a random sample of rows from our new data set, which inclues the dummy variables:</p>
+<table>
+<caption><span id="tab:unnamed-chunk-2">Table 7.1: </span>Some randomly selected rows from our data set</caption>
+<thead>
+<tr class="header">
+<th align="right">value</th>
+<th align="left">group</th>
+<th align="right">group_b</th>
+<th align="right">group_c</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">-1.2447366</td>
+<td align="left">a</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">-0.4855228</td>
+<td align="left">a</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="right">1.6896629</td>
+<td align="left">b</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">-1.3609026</td>
+<td align="left">c</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">1.1446378</td>
+<td align="left">c</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">-0.0555862</td>
+<td align="left">c</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Built-in ANOVA function:</strong></p>
+<p>R has a built-in function for ANOVA analysis in this case <code>car::Anova(aov())</code>. However, this is simply a ‘wrapper’ around the equivalent linear model, described below, and yields identical results.</p>
+<p><strong>Equivalent linear model:</strong></p>
+<p>The linear model assumes that the dependent variable can be predicted with a single mean for each group:</p>
+<p><span class="math inline">\(y = \beta_0 + \beta_1 \cdot x_1 + \beta_2 \cdot x_2 + ... \qquad H_0: y = \beta_0\)</span></p>
+<p>This assumption is illustrated below. This extends the case with two groups (the independent-sample t-test, illustrated in figure <a href="#fig:dummy1"><strong>??</strong></a>) to a case with three or more groups. The linear model makes the assumption that <em>neither</em> <span class="math inline">\(\beta_1\)</span> <em>nor</em> <span class="math inline">\(\beta_2\)</span> are signficantly different from zero; or equivalently, that all groups have the same mean of <span class="math inline">\(\beta_0\)</span>.</p>
+<div class="figure" style="text-align: center"><span id="fig:dummy2"></span>
+<img src="images/image_dummy2.png" alt="Linear model equivalent to ANOVA with three groups" width="75%" />
 <p class="caption">
-Figure 2.1: Our sample data
+Figure 7.1: Linear model equivalent to ANOVA with three groups
 </p>
 </div>
+<p><strong>Comparison:</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">car<span class="op">::</span><span class="kw">Anova</span>(<span class="kw">aov</span>(value <span class="op">~</span><span class="st"> </span>group, <span class="dt">data =</span> mydata_anova1))</code></pre></div>
+<pre><code>## Anova Table (Type II tests)
+## 
+## Response: value
+##           Sum Sq Df F value   Pr(&gt;F)   
+## group         10  2       5 0.009984 **
+## Residuals     57 57                    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Linear model</span>
+lm &lt;-<span class="st"> </span><span class="kw">lm</span>(value <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>group_b <span class="op">+</span><span class="st"> </span>group_c, <span class="dt">data =</span> mydata_anova1)
+  lm <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">print</span>(<span class="dt">digits =</span> <span class="dv">8</span>) <span class="co"># show summary output</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = value ~ 1 + group_b + group_c, data = mydata_anova1)
+## 
+## Residuals:
+##         Min          1Q      Median          3Q         Max 
+## -1.86090264 -0.87620916  0.11470254  0.69625303  1.90242723 
+## 
+## Coefficients:
+##               Estimate Std. Error t value  Pr(&gt;|t|)   
+## (Intercept) 0.00000000 0.22360680 0.00000 1.0000000   
+## group_b     1.00000000 0.31622777 3.16228 0.0025088 **
+## group_c     0.50000000 0.31622777 1.58114 0.1193800   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1 on 57 degrees of freedom
+## Multiple R-squared:  0.14925373, Adjusted R-squared:  0.11940299 
+## F-statistic:         5 on 2 and 57 DF,  p-value: 0.0099839296</code></pre>
 </div>
-<div id="ranktrans" class="section level2">
-<h2><span class="header-section-number">2.2</span> ‘Signed rank’ values</h2>
-<p>Most common tests demonstrated in the book use the <em>actual</em> values from the samples above. However, some tests also use their <em>rank-transformed</em> values. Specifically, the <em>signed rank</em> of the values is used.</p>
-<p>What is meant by signed ranks? The signed rank is found by:<br />
-1. taking the <em>absolute</em> value of each observation in the original sample; that is, expressing all the values as a positive number;<br />
-2. finding the rank of each of these absolute values, where the smallest absolute value has a rank of 1; and<br />
-3. giving each of these ranks the same sign (+ or -) as the original value.</p>
-<p>For example, the numbers -2, 3, 7, -25, -30, 31 would have the signed ranks of -1, 2, 3, -4, -5, 6.</p>
-<p>We create a function, <code>signed_rank()</code>, that we can use later to convert our actual values into signed ranks:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Takes any list of values, x, and calculates their signed rank</span>
-signed_rank =<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">sign</span>(x) <span class="op">*</span><span class="st"> </span><span class="kw">rank</span>(<span class="kw">abs</span>(x))</code></pre></div>
-<p>Here is what our sample data would look like if we used signed ranks instead of actual values (I have remove the horizonal ‘jitter’ from this chart). Because each sample has 50 observations, each signed rank is somewhere between -50 and +50:</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-7"></span>
-<img src="stat_tests_files/figure-html/unnamed-chunk-7-1.png" alt="Our sample data, with signed ranks" width="480" />
-<p class="caption">
-Figure 2.2: Our sample data, with signed ranks
-</p>
+<div id="two-way-anova" class="section level2">
+<h2><span class="header-section-number">7.2</span> Two-way ANOVA</h2>
 </div>
+<div id="ancova" class="section level2">
+<h2><span class="header-section-number">7.3</span> ANCOVA</h2>
 
 </div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>For example, if there were only two groups, we would be carrying out one comparison: the mean of Group A vs the mean of Group B. At a 0.05 level of significance, there would be a 5% chance of a Type I error. If we had three groups, there would be three comparisons (Group A vs Group B, Group A vs Group C, and Group B vs Group C), and we would have a 14.3% (1-0.95^3) chance of a Type I error.<a href="three-or-more-means.html#fnref1">↩</a></p></li>
+</ol>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="linearmodel.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="two-means-independent-samples.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="appendixtypes.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
