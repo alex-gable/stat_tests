@@ -192,8 +192,8 @@ mydata_wide &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span c
 mydata_long &lt;-<span class="st"> </span>mydata_wide <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">gather</span>(group,value,x<span class="op">:</span>y2)</code></pre></div>
 <p>Here’s what our three samples look like when plotted. Note the different mean (0.0, 0.3, and 0.5) and the different ‘spread’ of values for each group (reflecting their different standard deviations).</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-4"></span>
-<img src="stat_tests_files/figure-html/unnamed-chunk-4-1.png" alt="Our sample data" width="480" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-5"></span>
+<img src="stat_tests_files/figure-html/unnamed-chunk-5-1.png" alt="Our sample data" width="480" />
 <p class="caption">
 Figure 2.1: Our sample data
 </p>
@@ -264,6 +264,19 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
