@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Common statistical tests are linear models: a work through</title>
+  <title>Chapter 8 Proportions and chi square | Statistical tests as linear models</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Common statistical tests are linear models: a work through" />
+  <meta property="og:title" content="Chapter 8 Proportions and chi square | Statistical tests as linear models" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Common statistical tests are linear models: a work through" />
+  <meta name="twitter:title" content="Chapter 8 Proportions and chi square | Statistical tests as linear models" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -25,15 +25,15 @@
 <meta name="author" content="Steve Doogue">
 
 
-<meta name="date" content="2019-07-09">
+<meta name="date" content="2019-06-26">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="data.html">
+<link rel="prev" href="three-or-more-means.html">
+<link rel="next" href="appendixtypes.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,6 +50,43 @@
 
 
 
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -92,7 +129,7 @@
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html"><i class="fa fa-check"></i><b>6</b> Two means (independent samples)</a><ul>
-<li class="chapter" data-level="6.1" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#independent-t-test"><i class="fa fa-check"></i><b>6.1</b> Independent t-test</a></li>
+<li class="chapter" data-level="6.1" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#independent-sample-t-test"><i class="fa fa-check"></i><b>6.1</b> Independent-sample t-test</a></li>
 <li class="chapter" data-level="6.2" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#welchs-t-test"><i class="fa fa-check"></i><b>6.2</b> Welch’s t-test</a></li>
 <li class="chapter" data-level="6.3" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#mann-whitney-u-test"><i class="fa fa-check"></i><b>6.3</b> Mann-Whitney U test</a></li>
 </ul></li>
@@ -103,9 +140,9 @@
 <li class="chapter" data-level="7.2" data-path="three-or-more-means.html"><a href="three-or-more-means.html#two-way-anova"><i class="fa fa-check"></i><b>7.2</b> Two-way ANOVA</a></li>
 <li class="chapter" data-level="7.3" data-path="three-or-more-means.html"><a href="three-or-more-means.html#ancova"><i class="fa fa-check"></i><b>7.3</b> ANCOVA</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="proportions-and-chi-squared.html"><a href="proportions-and-chi-squared.html"><i class="fa fa-check"></i><b>8</b> Proportions and chi squared</a><ul>
-<li class="chapter" data-level="8.1" data-path="proportions-and-chi-squared.html"><a href="proportions-and-chi-squared.html#goodness-of-fit"><i class="fa fa-check"></i><b>8.1</b> Goodness of fit</a></li>
-<li class="chapter" data-level="8.2" data-path="proportions-and-chi-squared.html"><a href="proportions-and-chi-squared.html#contingency-tables"><i class="fa fa-check"></i><b>8.2</b> Contingency tables</a></li>
+<li class="chapter" data-level="8" data-path="proportions-and-chi-square.html"><a href="proportions-and-chi-square.html"><i class="fa fa-check"></i><b>8</b> Proportions and chi square</a><ul>
+<li class="chapter" data-level="8.1" data-path="proportions-and-chi-square.html"><a href="proportions-and-chi-square.html#goodness-of-fit"><i class="fa fa-check"></i><b>8.1</b> Goodness of fit</a></li>
+<li class="chapter" data-level="8.2" data-path="proportions-and-chi-square.html"><a href="proportions-and-chi-square.html#contingency-tables"><i class="fa fa-check"></i><b>8.2</b> Contingency tables</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="appendixtypes.html"><a href="appendixtypes.html"><i class="fa fa-check"></i><b>9</b> Appendix - Types of variables</a><ul>
 <li class="chapter" data-level="9.1" data-path="appendixtypes.html"><a href="appendixtypes.html#discrete-variables"><i class="fa fa-check"></i><b>9.1</b> Discrete variables</a></li>
@@ -123,7 +160,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Common statistical tests are linear models: a work through</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistical tests as linear models</a>
           </h1>
         </div>
 
@@ -131,28 +168,76 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Common statistical tests are linear models: a work through</h1>
-<p class="author"><em>Steve Doogue</em></p>
-<p class="date"><em>2019-07-09</em></p>
+<div id="proportions-and-chi-square" class="section level1">
+<h1><span class="header-section-number">Chapter 8</span> Proportions and chi square</h1>
+<p>These are methods used for analyzing relationships in <em>categorical</em> (or discrete) data.</p>
+<div id="goodness-of-fit" class="section level2">
+<h2><span class="header-section-number">8.1</span> Goodness of fit</h2>
+<p>A test of <strong>goodness of fit</strong> establishes whether an observed frequency distribution differs from a theoretical distribution. For example, to test the hypothesis that a random sample with 44 men and 56 women has been drawn from a population in which men and women are equal in frequency, i.e. with the theoretical distribution of 50 men and 50 women.</p>
+<p>The goodness of fit test is based on the following test statistic:</p>
+<p><span class="math inline">\(\chi^2 = \sum \frac{(O_i - Ei)^2}{E_i}\)</span></p>
+<p>where <span class="math inline">\(O_i\)</span> is the observed count in each category and <span class="math inline">\(E_i\)</span> is the exected count in each category. The test statistic follows a chi-square distribution where the degrees of freedom are equal to the number of categories minus one, ie. <span class="math inline">\(d.f. = rows - 1\)</span>.</p>
+<p>A simple worked example of a goodness-of-fit test is provided <a href="https://www.khanacademy.org/math/statistics-probability/inference-categorical-data-chi-square-tests/chi-square-goodness-of-fit-tests/v/chi-square-statistic">here</a> by Khan Academy.</p>
+<p><strong>Sample dataset:</strong></p>
+<p>We will illustrate the goodness-fit-test using the following dataset, which is one category (mood) with three possible levels (‘happy’, ‘sad’ or ‘meh’). These are 120 observations in total. We will add dummy variables to represent ‘happy’ and ‘sad’ for use in the linear model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mydata_chi1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">mood =</span> <span class="kw">c</span>(<span class="st">&#39;happy&#39;</span>, <span class="st">&#39;sad&#39;</span>, <span class="st">&#39;meh&#39;</span>),
+               <span class="dt">counts =</span> <span class="kw">c</span>(<span class="dv">60</span>, <span class="dv">90</span>, <span class="dv">70</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>
+<span class="st">  </span><span class="co"># Dummy variables to be used in linear model</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">mood_happy =</span> <span class="kw">if_else</span>(mood <span class="op">==</span><span class="st"> &#39;happy&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">mood_sad =</span> <span class="kw">if_else</span>(mood <span class="op">==</span><span class="st"> &#39;sad&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>))</code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-2">Table 8.1: </span>Categorical data with one variable</caption>
+<thead>
+<tr class="header">
+<th align="left">mood</th>
+<th align="right">counts</th>
+<th align="right">mood_happy</th>
+<th align="right">mood_sad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">happy</td>
+<td align="right">60</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">sad</td>
+<td align="right">90</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">meh</td>
+<td align="right">70</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
-<p>This is a reworking of the book <a href="https://lindeloev.github.io/tests-as-linear/">Common statistical tests are linear models (or: how to teach stats)</a>, written by Jonas Lindeløv. The book beautifully demonstrates how many common statistical tests (such as the t-test, ANOVA and chi-squared) are special cases of the linear model. The book also demonstrates that many non-parametric tests, which are needed when certain test assumptions do not hold, can be approximated by linear models using the <em>rank</em> of values.</p>
-<p>This approach offers a way to greatly simplify the teaching of introductory statistics, using the simple model of the form <span class="math inline">\(y = a + b \cdot x\)</span> which is familiar to most students. This approach brings coherence to a wide-range of statistical tests, which are usually taught to students as independent tools with a potentially-overwhelming array of names. The approach also helps to explain the intuition underlying statistical tests, drawing on the familiar concept of linear regressions, which emphasizes understanding over the rote learning.</p>
-<p>The purpose of creating this book is to solidify my understanding of this approach. I do this by reproducing the examples provided by Lindeløv; by expanding on areas where there were gaps in my knowledge; and by paraphrasing some of the explanations, using concepts and terms with which I am more familiar. The book may also be helpful to others who want to follow along with Lindeløv’s book, but who require more background on some of the concepts being discussed.</p>
-<p>Credit for this book should be attributed to Jonas Lindeløv, though I am of course responsible for any errors in my own interpretation.</p>
-<p>Note that some of the data used in this book varies from that used by Lindeløv, and so some of the test results differ. However, the concepts being discussed are exactly the same.</p>
-<p><em>Steve Doogue</em></p>
+<div id="contingency-tables" class="section level2">
+<h2><span class="header-section-number">8.2</span> Contingency tables</h2>
+<p>A contingency table is a table that lists the frequencies of occurrence for categories of <strong>two</strong> variables. The first variable is shown in rows, and the second variable is shown in columns.</p>
+<p><a href="http://www.u.arizona.edu/~kuchi/Courses/MAT167/Files/LH_LEC.0640.HypTest.IndepHomog.pdf" class="uri">http://www.u.arizona.edu/~kuchi/Courses/MAT167/Files/LH_LEC.0640.HypTest.IndepHomog.pdf</a></p>
+<ul>
+<li>A test of <strong>homogeneity</strong>. This tests the null hypothesis that <em>different populations</em> have the same proportions of some characteristics. The key difference from the test of independence is that there are multiple populations that the data is drawn from. The null hypothesis is that the proportion of X is the same in all populations studied.</li>
+<li>A test of <strong>independence</strong>. A test of independence tests the null hypothesis that there is no association between the two variables in a contingency table where the data is all drawn from <em>one population</em>. The null hypothesiss is that X and Y are independent.</li>
+</ul>
+<p>The both of these tests (for homogeneity and independence) involve the same procedures, and differ in terms of the hypothesis.</p>
+<p>Khan <a href="https://www.khanacademy.org/math/statistics-probability/inference-categorical-data-chi-square-tests/chi-square-goodness-of-fit-tests/v/chi-square-statistic">goodness of fit</a></p>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="data.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="three-or-more-means.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="appendixtypes.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

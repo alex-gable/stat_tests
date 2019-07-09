@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 8 Proportions and chi squared | Common statistical tests are linear models: a work through</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 8 Proportions and chi squared | Common statistical tests are linear models: a work through" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Proportions and chi squared | Common statistical tests are linear models: a work through" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Steve Doogue">
+
+
+<meta name="date" content="2019-07-09">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="three-or-more-means.html">
+<link rel="next" href="appendixtypes.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Statistical tests as linear models</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>2</b> The data</a><ul>
+<li class="chapter" data-level="2.1" data-path="data.html"><a href="data.html#samplevalues"><i class="fa fa-check"></i><b>2.1</b> Sample values</a></li>
+<li class="chapter" data-level="2.2" data-path="data.html"><a href="data.html#ranktrans"><i class="fa fa-check"></i><b>2.2</b> ‘Signed rank’ values</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="linearmodel.html"><a href="linearmodel.html"><i class="fa fa-check"></i><b>3</b> The linear model</a><ul>
+<li class="chapter" data-level="3.1" data-path="linearmodel.html"><a href="linearmodel.html#overview-of-the-linear-model"><i class="fa fa-check"></i><b>3.1</b> Overview of the linear model</a></li>
+<li class="chapter" data-level="3.2" data-path="linearmodel.html"><a href="linearmodel.html#estimating-linear-models-in-r"><i class="fa fa-check"></i><b>3.2</b> Estimating linear models in R</a></li>
+<li class="chapter" data-level="3.3" data-path="linearmodel.html"><a href="linearmodel.html#assumptions"><i class="fa fa-check"></i><b>3.3</b> Assumptions</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i><b>4</b> Correlations</a><ul>
+<li class="chapter" data-level="4.1" data-path="correlations.html"><a href="correlations.html#pearson-correlation"><i class="fa fa-check"></i><b>4.1</b> Pearson correlation</a></li>
+<li class="chapter" data-level="4.2" data-path="correlations.html"><a href="correlations.html#spearman-correlation"><i class="fa fa-check"></i><b>4.2</b> Spearman correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="one-mean.html"><a href="one-mean.html"><i class="fa fa-check"></i><b>5</b> One mean</a><ul>
+<li class="chapter" data-level="5.1" data-path="one-mean.html"><a href="one-mean.html#one-sample"><i class="fa fa-check"></i><b>5.1</b> One sample</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="one-mean.html"><a href="one-mean.html#one-sample-t-test"><i class="fa fa-check"></i><b>5.1.1</b> One-sample t-test</a></li>
+<li class="chapter" data-level="5.1.2" data-path="one-mean.html"><a href="one-mean.html#wilcoxen-signed-rank"><i class="fa fa-check"></i><b>5.1.2</b> Wilcoxen signed-rank</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="one-mean.html"><a href="one-mean.html#paired-samples"><i class="fa fa-check"></i><b>5.2</b> Paired samples</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="one-mean.html"><a href="one-mean.html#paired-sample-t-test"><i class="fa fa-check"></i><b>5.2.1</b> Paired-sample t-test</a></li>
+<li class="chapter" data-level="5.2.2" data-path="one-mean.html"><a href="one-mean.html#wilcoxen-matched-pairs"><i class="fa fa-check"></i><b>5.2.2</b> Wilcoxen matched pairs</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html"><i class="fa fa-check"></i><b>6</b> Two means (independent samples)</a><ul>
+<li class="chapter" data-level="6.1" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#independent-t-test"><i class="fa fa-check"></i><b>6.1</b> Independent t-test</a></li>
+<li class="chapter" data-level="6.2" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#welchs-t-test"><i class="fa fa-check"></i><b>6.2</b> Welch’s t-test</a></li>
+<li class="chapter" data-level="6.3" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#mann-whitney-u-test"><i class="fa fa-check"></i><b>6.3</b> Mann-Whitney U test</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="three-or-more-means.html"><a href="three-or-more-means.html"><i class="fa fa-check"></i><b>7</b> Three or more means</a><ul>
+<li class="chapter" data-level="7.1" data-path="three-or-more-means.html"><a href="three-or-more-means.html#one-way-anova"><i class="fa fa-check"></i><b>7.1</b> One-way ANOVA</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="three-or-more-means.html"><a href="three-or-more-means.html#kruskal-wallis"><i class="fa fa-check"></i><b>7.1.1</b> Kruskal-Wallis</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="three-or-more-means.html"><a href="three-or-more-means.html#two-way-anova"><i class="fa fa-check"></i><b>7.2</b> Two-way ANOVA</a></li>
+<li class="chapter" data-level="7.3" data-path="three-or-more-means.html"><a href="three-or-more-means.html#ancova"><i class="fa fa-check"></i><b>7.3</b> ANCOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="proportions-and-chi-squared.html"><a href="proportions-and-chi-squared.html"><i class="fa fa-check"></i><b>8</b> Proportions and chi squared</a><ul>
+<li class="chapter" data-level="8.1" data-path="proportions-and-chi-squared.html"><a href="proportions-and-chi-squared.html#goodness-of-fit"><i class="fa fa-check"></i><b>8.1</b> Goodness of fit</a></li>
+<li class="chapter" data-level="8.2" data-path="proportions-and-chi-squared.html"><a href="proportions-and-chi-squared.html#contingency-tables"><i class="fa fa-check"></i><b>8.2</b> Contingency tables</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="appendixtypes.html"><a href="appendixtypes.html"><i class="fa fa-check"></i><b>9</b> Appendix - Types of variables</a><ul>
+<li class="chapter" data-level="9.1" data-path="appendixtypes.html"><a href="appendixtypes.html#discrete-variables"><i class="fa fa-check"></i><b>9.1</b> Discrete variables</a></li>
+<li class="chapter" data-level="9.2" data-path="appendixtypes.html"><a href="appendixtypes.html#continuous-variables"><i class="fa fa-check"></i><b>9.2</b> Continuous variables</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Common statistical tests are linear models: a work through</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="proportions-and-chi-squared" class="section level1">
+<h1><span class="header-section-number">Chapter 8</span> Proportions and chi squared</h1>
+<p>This chapter looks at methods used for analyzing relationships in <em>categorical</em> data. The variable of interest is not a single continuous variable (e.g. how income or weight varies between groups) but the relative <em>count</em> or <em>proportion</em> of observations that fall into each category.</p>
+<p>A key point is that the chi-squared test used in these cases is equivanet to a test of nested Poisson regression models.</p>
+<div id="goodness-of-fit" class="section level2">
+<h2><span class="header-section-number">8.1</span> Goodness of fit</h2>
+<p>A test of <strong>goodness-of-fit</strong> establishes whether an observed frequency distribution differs from a theoretical distribution. For example, we could test the hypothesis that a random sample with 44 men and 56 women has been drawn from a population in which men and women are equal in frequency, i.e. with the theoretical distribution of 50 men and 50 women.</p>
+<p><strong>Sample dataset:</strong></p>
+<p>Assume we have one category (mood) with three possible levels (‘happy’, ‘sad’ or ‘meh’). We have a sample of 120 observations in total, as generated by the code below. We also add dummy variables to represent ‘happy’ and ‘sad’ for use in the linear model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mydata_chi1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">mood =</span> <span class="kw">c</span>(<span class="st">&#39;happy&#39;</span>, <span class="st">&#39;sad&#39;</span>, <span class="st">&#39;meh&#39;</span>),
+               <span class="dt">counts =</span> <span class="kw">c</span>(<span class="dv">60</span>, <span class="dv">90</span>, <span class="dv">70</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>
+<span class="st">  </span><span class="co"># Dummy variables to be used in linear model</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">mood_happy =</span> <span class="kw">if_else</span>(mood <span class="op">==</span><span class="st"> &#39;happy&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">mood_sad =</span> <span class="kw">if_else</span>(mood <span class="op">==</span><span class="st"> &#39;sad&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>))</code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-56">Table 8.1: </span>Categorical data with one variable</caption>
+<thead>
+<tr class="header">
+<th align="left">mood</th>
+<th align="right">counts</th>
+<th align="right">mood_happy</th>
+<th align="right">mood_sad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">happy</td>
+<td align="right">60</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">sad</td>
+<td align="right">90</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">meh</td>
+<td align="right">70</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>In this example, we may want to test whether the proportions of people with each mood in the underlying population are equal, based on our observation of 120 people.</p>
+<p><strong>Chi-squared test:</strong></p>
+<p>The goodness-of-fit test is based on the following test statistic:</p>
+<p><span class="math inline">\(\chi^2 = \sum \frac{(O_i - Ei)^2}{E_i}\)</span></p>
+<p>where <span class="math inline">\(O_i\)</span> is the observed count in each category and <span class="math inline">\(E_i\)</span> is the expected count in each category. The test statistic follows a chi-squared (<span class="math inline">\(\chi^2\)</span>) distribution where the degrees of freedom are equal to the number of categories minus one, i.e. <span class="math inline">\(d.f. = rows - 1\)</span> (in this example, df = 2).</p>
+<p>A worked example of a goodness-of-fit test is provided <a href="https://www.khanacademy.org/math/statistics-probability/inference-categorical-data-chi-square-tests/chi-square-goodness-of-fit-tests/v/chi-square-statistic">in this video</a> by Khan Academy.</p>
+<p>R’s built-in chi-squared test, <code>chisq.test</code>, compares the proportion of counts in each category with the expected proportions. By default, the expected proportions in each category are assumed to be equal.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Built-in test</span>
+<span class="kw">chisq.test</span>(mydata_chi1<span class="op">$</span>counts)</code></pre></div>
+<pre><code>## 
+##  Chi-squared test for given probabilities
+## 
+## data:  mydata_chi1$counts
+## X-squared = 6.3636, df = 2, p-value = 0.04151</code></pre>
+<p>In this example, we would reject the null hypothesis that the proportion of people with each mood are all equal (p = 0.04151).</p>
+<p><strong>Equivalent linear model:</strong></p>
+<p>The equivalent linear model is a <a href="https://en.wikipedia.org/wiki/Poisson_regression">Poisson regression</a>. This is a type of Generalized Linear Model (GLM). Poisson regressions use the natural log of the dependent variable, and so are sometimes referred to as a <em>log-linear models</em>. The follow model specification can be used:</p>
+<p><span class="math inline">\(log(y) = \beta_0 + \beta_1 \cdot x_1 + \beta_2 \cdot x_2 + ...\)</span></p>
+<p>where in this example <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> would be dummy variables representing ‘happy’ and ‘sad’ moods.</p>
+<p>There are two reasons why we need to use a log-linear model rather than the OLS linear regression model, as explained in the book <a href="https://bookdown.org/roback/bookdown-bysh/">‘Broadening Your Statistical Horizons’</a> by Julie Legler and Paul Roback:</p>
+<ol style="list-style-type: decimal">
+<li><p>Since a Poisson random variable is a count, its minimum value is zero and, in theory, the maximum is unbounded. A line from an OLS is model certain to yield negative values for certain values of the dependent variable, <span class="math inline">\(x\)</span>; however, <span class="math inline">\(y\)</span> can only take values from 0 to <span class="math inline">\(\infty\)</span>.</p></li>
+<li><p>The equal variance assumption in linear regression inference is violated, because as the expected value of a Poisson variable increases so too does the variance. With a Poisson distribution, the variance is equal to the expected value of the dependent variable, that is <span class="math inline">\(E(Y) = VAR(Y)\)</span>.</p></li>
+</ol>
+<p>These issues are addressed by taking the natural log of the dependent variable. It is assumed that the resulting logarithm of the dependent variable can be modeled by a linear combination of the independent variable(s) used in the model.</p>
+<p>Because we are using the natural log of the dependent variable, the coefficients from our regression, <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_1\)</span>, are interpreted as the <em>percentage</em> differences in the number of people whose moods are happy or sad, relative to the reference level of ‘meh.’<a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a> Because of this, it can be used as a test for differences of proportions; that is, whether there is a significant difference in the percentage of people in each category.</p>
+<p>To assess whether the differences between categories (moods) are statistically significant we compare two nested models, just as we did with the ANOVA and ANCOVA tests in the previous chapter. In this case we compare a ‘full’ Poisson regression model, which includes our dummy variables, and a ‘null’ model which does not. Instead of using the F-test to compare nested models (as was the case with ANOVA/ANCOVA), here we use a <a href="https://en.wikipedia.org/wiki/Score_test">‘score test’</a>, specifically the Rao test. This gives us a test statistic that follows a <span class="math inline">\(\chi^2\)</span> distribution, with the degrees of freedom being equal to the additional parameters in the full model compared to the null model.</p>
+<p>The code is as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">full =<span class="st"> </span><span class="kw">glm</span>(counts <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>mood_happy <span class="op">+</span><span class="st"> </span>mood_sad, <span class="dt">data=</span>mydata_chi1, <span class="dt">family=</span><span class="kw">poisson</span>())
+null =<span class="st"> </span><span class="kw">glm</span>(counts <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,  <span class="dt">data=</span>mydata_chi1, <span class="dt">family=</span><span class="kw">poisson</span>())
+<span class="kw">anova</span>(null, full, <span class="dt">test=</span><span class="st">&#39;Rao&#39;</span>)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: counts ~ 1
+## Model 2: counts ~ 1 + mood_happy + mood_sad
+##   Resid. Df Resid. Dev Df Deviance    Rao Pr(&gt;Chi)  
+## 1         2     6.2697                              
+## 2         0     0.0000  2   6.2697 6.3636  0.04151 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p><strong>Comparison:</strong></p>
+<p>As seen above, the p-value is identical under both the built-in chi-squared test and the equivalent linear model:</p>
+<table>
+<caption><span id="tab:unnamed-chunk-59">Table 8.2: </span>Goodness-of-fit: chi-squared test and equivalent linear model</caption>
+<thead>
+<tr class="header">
+<th align="left">model</th>
+<th align="right">Chi-squared</th>
+<th align="right">df</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">chisq.test</td>
+<td align="right">6.3636</td>
+<td align="right">2</td>
+<td align="right">0.04151</td>
+</tr>
+<tr class="even">
+<td align="left">glm</td>
+<td align="right">6.3636</td>
+<td align="right">2</td>
+<td align="right">0.04151</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="contingency-tables" class="section level2">
+<h2><span class="header-section-number">8.2</span> Contingency tables</h2>
+<p>Contingency tables are used in statistics to summarize the relationship between two categorical variables. They are used to test whether the frequency distribution differs between two or more groups. This can be tested using R’s built-in chi-squared test (<code>chisq.test</code>), similar to the goodness-of-fit test above, or again as two nested linear models (Poisson regressions), one of which includes dummy variables representing the interaction between the two categories in our table.</p>
+<p><strong>Sample dataset:</strong></p>
+<p>As an example, we might like to test whether a subjects mood (happy, sad or meh) is related to sex (male or female). We can create the following data set:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mydata_chi2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+  <span class="dt">sex =</span> <span class="kw">c</span>(<span class="st">&#39;male&#39;</span>,<span class="st">&#39;female&#39;</span>),
+  <span class="dt">happy =</span> <span class="kw">c</span>(<span class="dv">70</span>,<span class="dv">100</span>),
+  <span class="dt">meh =</span> <span class="kw">c</span>(<span class="dv">32</span>,<span class="dv">30</span>),
+  <span class="dt">sad =</span> <span class="kw">c</span>(<span class="dv">120</span>,<span class="dv">110</span>)
+)</code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-61">Table 8.3: </span>A contingency table</caption>
+<thead>
+<tr class="header">
+<th align="left">sex</th>
+<th align="right">happy</th>
+<th align="right">meh</th>
+<th align="right">sad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">male</td>
+<td align="right">70</td>
+<td align="right">32</td>
+<td align="right">120</td>
+</tr>
+<tr class="even">
+<td align="left">female</td>
+<td align="right">100</td>
+<td align="right">30</td>
+<td align="right">110</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Chi-squared test:</strong></p>
+<p>As shown above, a contingency table is a table that lists the frequencies of occurrence for categories of <strong>two</strong> variables. The first variable is shown in rows, and the second variable is shown in columns.</p>
+<p>Contingency tables can be used to assess whether the proportion of observations in one category depends on, or is <em>contingent</em> upon, the other category in the table. There are actually two types of tests:</p>
+<ul>
+<li>A test of <strong>homogeneity</strong>. This tests the null hypothesis that <em>different populations</em> have the same proportions of some characteristics. The key difference from the test of independence is that there are multiple populations that the data is drawn from. The null hypothesis is that the proportion of X is the same in all populations studied.</li>
+<li>A test of <strong>independence</strong>. A test of independence tests the null hypothesis that there is no association between the two variables in a contingency table where the data is all drawn from <em>one population</em>. The null hypothesis is that X and Y are independent.</li>
+</ul>
+<p>Both these tests involve the exactly the same mathematical procedures and only differ only in terms of the hypothesis being tested. Some further reading can be found <a href="http://www.u.arizona.edu/~kuchi/Courses/MAT167/Files/LH_LEC.0640.HypTest.IndepHomog.pdf">here</a>.</p>
+<p>These tests are based on a similar test statistic to the goodness-of-fit test:</p>
+<p><span class="math inline">\(\chi^2 = \sum \frac{(O_i - Ei)^2}{E_i}\)</span></p>
+<p>where <span class="math inline">\(O_i\)</span> is the observed count in each category and <span class="math inline">\(E_i\)</span> is the expected count in each category. The test statistic follows a chi-squared (<span class="math inline">\(\chi^2\)</span>) distribution where the degrees of freedom are found by <span class="math inline">\(d.f. = (rows - 1)(columns - 1 )\)</span>.</p>
+<p>A worked example of a chi-squared test is provided <a href="https://www.khanacademy.org/math/statistics-probability/inference-categorical-data-chi-square-tests/chi-square-tests-for-homogeneity-and-association-independence/v/chi-square-test-homogeneity">in this video</a> by Khan Academy.</p>
+<p>R’s built-in chi squared test, <code>chisq.test</code>, can be used to assess whether the distribution of observations in one category is contingent on the distribution of observations under the other category. Note that first we must convert our data to a matrix and drop the first column (in this case <code>sex</code>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Convert data to matrix format, need for the built-in chi-squared</span>
+mydata_chi2_matrix &lt;-<span class="st"> </span>mydata_chi2 <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>sex) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">as.matrix</span>()</code></pre></div>
+<p>Now carry out the chi-squared test:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Built-in chi-squared</span>
+<span class="kw">chisq.test</span>(mydata_chi2_matrix)</code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  mydata_chi2_matrix
+## X-squared = 5.0999, df = 2, p-value = 0.07809</code></pre>
+<p>Based on this p-value we would not reject the null hypothesis that sex and mood were independent at the 0.05 level of significance.</p>
+<p><strong>Equivalent linear model:</strong></p>
+<p>The equivalent linear model is a Poisson regression with interaction terms between the two sets of dummy variables (in this case one set of dummy variables is for mood, the other is for sex).</p>
+<p>Here we are testing for the interaction between two the two categories, just as we did with the two-way ANOVA (though here our dependent variable is the natural log of the count of observations, rather than the value of a single continuous variable). The test is equivalent to the following linear model, which is expressed using matrix notation:</p>
+<p><span class="math inline">\(log(y) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_2 X_3 \qquad H_0: \beta_3 = 0\)</span></p>
+<p>Here <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> represent the two categories in our model (in this example, mood and sex). <span class="math inline">\(\beta_3\)</span> is a vector that relates to the interactions of the categories. Here, it will be a vector comprising two values, corresponding to the combinations of the sex and mood dummy variables (<code>male</code> and <code>mood_happy</code>, and <code>male</code> and <code>mood__meh</code>). The null hypothesis (of <span class="math inline">\(\beta_3 = 0\)</span>) is that all values in this vector are zero, and that there is no interaction between sex and mood when explaining the distribution of observations in each category.</p>
+<p>We begin by expressing our data in ‘long’ format, including dummy variables to identify the groups of people who are happy and ‘meh’. This following data will be used in our linear model:</p>
+<table>
+<caption><span id="tab:unnamed-chunk-65">Table 8.4: </span>Contingency table data in long format with dummy variables</caption>
+<thead>
+<tr class="header">
+<th align="left">sex</th>
+<th align="left">mood</th>
+<th align="right">Freq</th>
+<th align="right">mood_happy</th>
+<th align="right">mood_meh</th>
+<th align="right">sex_male</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">male</td>
+<td align="left">happy</td>
+<td align="right">70</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">female</td>
+<td align="left">happy</td>
+<td align="right">100</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">male</td>
+<td align="left">meh</td>
+<td align="right">32</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">female</td>
+<td align="left">meh</td>
+<td align="right">30</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">male</td>
+<td align="left">sad</td>
+<td align="right">120</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">female</td>
+<td align="left">sad</td>
+<td align="right">110</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>The test involves a comparison of two nested linear models: a full model which includes the interaction terms between the two sets of dummy variables, and the null model which excludes the interaction terms. Again we use the (Rao) score test.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">full =<span class="st"> </span><span class="kw">glm</span>(Freq <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>mood_happy <span class="op">+</span><span class="st"> </span>mood_meh <span class="op">+</span><span class="st"> </span>sex_male <span class="op">+</span><span class="st"> </span>mood_happy<span class="op">*</span>sex_male <span class="op">+</span><span class="st"> </span>mood_meh<span class="op">*</span>sex_male, 
+           <span class="dt">data =</span> mydata_chi2_long, <span class="dt">family =</span> <span class="kw">poisson</span>())
+null =<span class="st"> </span><span class="kw">glm</span>(Freq <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>mood_happy <span class="op">+</span><span class="st"> </span>mood_meh <span class="op">+</span><span class="st"> </span>sex_male, 
+           <span class="dt">data =</span> mydata_chi2_long, <span class="dt">family =</span> <span class="kw">poisson</span>())
+<span class="kw">anova</span>(null, full, <span class="dt">test =</span> <span class="st">&#39;Rao&#39;</span>) </code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: Freq ~ 1 + mood_happy + mood_meh + sex_male
+## Model 2: Freq ~ 1 + mood_happy + mood_meh + sex_male + mood_happy * sex_male + 
+##     mood_meh * sex_male
+##   Resid. Df Resid. Dev Df Deviance    Rao Pr(&gt;Chi)  
+## 1         2     5.1199                              
+## 2         0     0.0000  2   5.1199 5.0999  0.07809 .
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Note that the only difference between the nested models is the two interaction terms. Intuitively, we are testing whether the <em>interaction</em> of the two categories is statistically significant, i.e. whether the interaction between mood and sex can explain the distribution of observations over and above the individual effects of mood and sex alone.</p>
+<p><strong>Comparison:</strong></p>
+<p>As summarized in the table below, the linear model gives the same test statistic as the built-in chi-squared test, has the same degrees of freedom (which is equal to the number of interaction terms), and the same p-value.</p>
+<table>
+<caption><span id="tab:unnamed-chunk-67">Table 8.5: </span>Contingency table: chi-squared test and linear model</caption>
+<thead>
+<tr class="header">
+<th align="left">model</th>
+<th align="right">Chi-squared</th>
+<th align="right">df</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">chisq.test</td>
+<td align="right">5.0999</td>
+<td align="right">2</td>
+<td align="right">0.07809</td>
+</tr>
+<tr class="even">
+<td align="left">glm</td>
+<td align="right">5.0999</td>
+<td align="right">2</td>
+<td align="right">0.07809</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="7">
+<li id="fn7"><p>Technically, the percentage difference is equal to <span class="math inline">\(e^{\beta_1}\)</span> and <span class="math inline">\(e^{\beta_2}\)</span>, where <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> are continuously compounded rates of growth between 0 and 1. So for example, in the example below, the coefficient on ‘sad’ is <span class="math inline">\(\beta_2 = 0.2513\)</span>. This mean the proportion of people in the ‘sad’ category are higher by <span class="math inline">\(e^{0.2513} - 1 = 0.286 = 28.6\%\)</span> than the proportion of people in the ‘meh’ category. This is equal to difference of the count of people in these two categories i.e. 90 ‘sad’ people and 70 ‘meh’ people.<a href="proportions-and-chi-squared.html#fnref7">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="three-or-more-means.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="appendixtypes.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["stat_tests.pdf", "stat_tests.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

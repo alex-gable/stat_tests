@@ -1,5 +1,5 @@
 --- 
-title: "Statistical tests as linear models"
+title: "Common statistical tests are linear models: a work through"
 author: "Steve Doogue"
 date: "`r Sys.Date()`"
 output:
@@ -19,13 +19,20 @@ biblio-style: apalike
 ```{r, echo = FALSE}
 library(knitr)
 library(tidyverse)
+set.seed(40)
 ```
 
 # Introduction
 
-This is a work through of the book [Common statistical tests are linear models (or: how to teach stats)](https://lindeloev.github.io/tests-as-linear/) by Jonas Kristoffer Lindelov. The book demonstrates how most common statistical models (t-test, correlation, ANOVA; chi-square, etc.) are special cases of linear models or a very close approximations.
+This is a reworking of the book [Common statistical tests are linear models (or: how to teach stats)](https://lindeloev.github.io/tests-as-linear/), written by Jonas Lindeløv. The book beautifully demonstrates how many common statistical tests (such as the t-test, ANOVA and chi-squared) are special cases of the linear model. The book also demonstrates that many non-parametric tests, which are needed when certain test assumptions do not hold, can be approximated by linear models using the _rank_ of values. 
 
-> This beautiful simplicity means that there is less to learn. In particular, it all comes down to $y = a \cdot x + b$ which most students know from highschool. Unfortunately, stats intro courses are usually taught as if each test is an independent tool, needlessly making life more complicated for students and teachers alike.
+This approach offers a way to greatly simplify the teaching of introductory statistics, using the simple model of the form $y = a + b \cdot x$ which is familiar to most students. This approach brings coherence to a wide-range of statistical tests, which are usually taught to students as independent tools with a potentially-overwhelming array of names. The approach also helps to explain the intuition underlying statistical tests, drawing on the familiar concept of linear regressions, which emphasizes understanding over the rote learning.
+
+The purpose of creating this book is to solidify my understanding of this approach. I do this by reproducing the examples provided by Lindeløv; by expanding on areas where there were gaps in my knowledge; and by paraphrasing some of the explanations, using concepts and terms with which I am more familiar. The book may also be helpful to others who want to follow along with Lindeløv's book, but who require more background on some of the concepts being discussed. 
+
+Credit for this book should be attributed to Jonas Lindeløv, though I am of course responsible for any errors in my own interpretation.   
+
+Note that some of the data used in this book varies from that used by Lindeløv, and so some of the test results differ. However, the concepts being discussed are exactly the same.
 
 
-This aims to solidy my understanding of the original book by replicating the examples providing, and by adding additional background information to fill gaps in my knowledge.
+_Steve Doogue_

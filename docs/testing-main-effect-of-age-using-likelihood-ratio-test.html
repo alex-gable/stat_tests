@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Common statistical tests are linear models: a work through</title>
+  <title>Chapter 9 Testing main effect of age using Likelihood-ratio test | Statistical tests as linear models</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Common statistical tests are linear models: a work through" />
+  <meta property="og:title" content="Chapter 9 Testing main effect of age using Likelihood-ratio test | Statistical tests as linear models" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Common statistical tests are linear models: a work through" />
+  <meta name="twitter:title" content="Chapter 9 Testing main effect of age using Likelihood-ratio test | Statistical tests as linear models" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -25,15 +25,15 @@
 <meta name="author" content="Steve Doogue">
 
 
-<meta name="date" content="2019-07-09">
+<meta name="date" content="2019-06-12">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="data.html">
+<link rel="prev" href="as-dummy-coded-linear-model-.html">
+<link rel="next" href="testing-main-effect-of-groupusing-likelihood-ratio-test.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,6 +50,43 @@
 
 
 
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -92,7 +129,7 @@
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html"><i class="fa fa-check"></i><b>6</b> Two means (independent samples)</a><ul>
-<li class="chapter" data-level="6.1" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#independent-t-test"><i class="fa fa-check"></i><b>6.1</b> Independent t-test</a></li>
+<li class="chapter" data-level="6.1" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#independent-sample-t-test"><i class="fa fa-check"></i><b>6.1</b> Independent-sample t-test</a></li>
 <li class="chapter" data-level="6.2" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#welchs-t-test"><i class="fa fa-check"></i><b>6.2</b> Welch’s t-test</a></li>
 <li class="chapter" data-level="6.3" data-path="two-means-independent-samples.html"><a href="two-means-independent-samples.html#mann-whitney-u-test"><i class="fa fa-check"></i><b>6.3</b> Mann-Whitney U test</a></li>
 </ul></li>
@@ -103,13 +140,12 @@
 <li class="chapter" data-level="7.2" data-path="three-or-more-means.html"><a href="three-or-more-means.html#two-way-anova"><i class="fa fa-check"></i><b>7.2</b> Two-way ANOVA</a></li>
 <li class="chapter" data-level="7.3" data-path="three-or-more-means.html"><a href="three-or-more-means.html#ancova"><i class="fa fa-check"></i><b>7.3</b> ANCOVA</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="proportions-and-chi-squared.html"><a href="proportions-and-chi-squared.html"><i class="fa fa-check"></i><b>8</b> Proportions and chi squared</a><ul>
-<li class="chapter" data-level="8.1" data-path="proportions-and-chi-squared.html"><a href="proportions-and-chi-squared.html#goodness-of-fit"><i class="fa fa-check"></i><b>8.1</b> Goodness of fit</a></li>
-<li class="chapter" data-level="8.2" data-path="proportions-and-chi-squared.html"><a href="proportions-and-chi-squared.html#contingency-tables"><i class="fa fa-check"></i><b>8.2</b> Contingency tables</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="appendixtypes.html"><a href="appendixtypes.html"><i class="fa fa-check"></i><b>9</b> Appendix - Types of variables</a><ul>
-<li class="chapter" data-level="9.1" data-path="appendixtypes.html"><a href="appendixtypes.html#discrete-variables"><i class="fa fa-check"></i><b>9.1</b> Discrete variables</a></li>
-<li class="chapter" data-level="9.2" data-path="appendixtypes.html"><a href="appendixtypes.html#continuous-variables"><i class="fa fa-check"></i><b>9.2</b> Continuous variables</a></li>
+<li class="chapter" data-level="8" data-path="as-dummy-coded-linear-model-.html"><a href="as-dummy-coded-linear-model-.html"><i class="fa fa-check"></i><b>8</b> As dummy-coded linear model.</a></li>
+<li class="chapter" data-level="9" data-path="testing-main-effect-of-age-using-likelihood-ratio-test.html"><a href="testing-main-effect-of-age-using-likelihood-ratio-test.html"><i class="fa fa-check"></i><b>9</b> Testing main effect of age using Likelihood-ratio test</a></li>
+<li class="chapter" data-level="10" data-path="testing-main-effect-of-groupusing-likelihood-ratio-test.html"><a href="testing-main-effect-of-groupusing-likelihood-ratio-test.html"><i class="fa fa-check"></i><b>10</b> Testing main effect of groupusing Likelihood-ratio test</a></li>
+<li class="chapter" data-level="11" data-path="appendixtypes.html"><a href="appendixtypes.html"><i class="fa fa-check"></i><b>11</b> Appendix - Types of variables</a><ul>
+<li class="chapter" data-level="11.1" data-path="appendixtypes.html"><a href="appendixtypes.html#discrete-variables"><i class="fa fa-check"></i><b>11.1</b> Discrete variables</a></li>
+<li class="chapter" data-level="11.2" data-path="appendixtypes.html"><a href="appendixtypes.html#continuous-variables"><i class="fa fa-check"></i><b>11.2</b> Continuous variables</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -123,7 +159,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Common statistical tests are linear models: a work through</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistical tests as linear models</a>
           </h1>
         </div>
 
@@ -131,28 +167,17 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Common statistical tests are linear models: a work through</h1>
-<p class="author"><em>Steve Doogue</em></p>
-<p class="date"><em>2019-07-09</em></p>
-</div>
-<div id="introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
-<p>This is a reworking of the book <a href="https://lindeloev.github.io/tests-as-linear/">Common statistical tests are linear models (or: how to teach stats)</a>, written by Jonas Lindeløv. The book beautifully demonstrates how many common statistical tests (such as the t-test, ANOVA and chi-squared) are special cases of the linear model. The book also demonstrates that many non-parametric tests, which are needed when certain test assumptions do not hold, can be approximated by linear models using the <em>rank</em> of values.</p>
-<p>This approach offers a way to greatly simplify the teaching of introductory statistics, using the simple model of the form <span class="math inline">\(y = a + b \cdot x\)</span> which is familiar to most students. This approach brings coherence to a wide-range of statistical tests, which are usually taught to students as independent tools with a potentially-overwhelming array of names. The approach also helps to explain the intuition underlying statistical tests, drawing on the familiar concept of linear regressions, which emphasizes understanding over the rote learning.</p>
-<p>The purpose of creating this book is to solidify my understanding of this approach. I do this by reproducing the examples provided by Lindeløv; by expanding on areas where there were gaps in my knowledge; and by paraphrasing some of the explanations, using concepts and terms with which I am more familiar. The book may also be helpful to others who want to follow along with Lindeløv’s book, but who require more background on some of the concepts being discussed.</p>
-<p>Credit for this book should be attributed to Jonas Lindeløv, though I am of course responsible for any errors in my own interpretation.</p>
-<p>Note that some of the data used in this book varies from that used by Lindeløv, and so some of the test results differ. However, the concepts being discussed are exactly the same.</p>
-<p><em>Steve Doogue</em></p>
-
+<div id="testing-main-effect-of-age-using-likelihood-ratio-test" class="section level1">
+<h1><span class="header-section-number">Chapter 9</span> Testing main effect of age using Likelihood-ratio test</h1>
+<p>null_age = lm(value ~ 1 + group_b + group_c, lind_D3) # Full without age. One-way ANOVA! result_age = anova(null_age, full)</p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="data.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="as-dummy-coded-linear-model-.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="testing-main-effect-of-groupusing-likelihood-ratio-test.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

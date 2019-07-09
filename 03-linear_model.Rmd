@@ -2,13 +2,13 @@
 
 ## Overview of the linear model
 
-Many common statistical tests are really just special cases of the linear model, or at least a close approximation. 
+The premise of this book is that many common statistical tests are really just special cases of the __linear model__. 
 
-What is meant by linear model? This section provides an overview of the linear model. The description may be somewhat fast and loose, as it aims to provide an intuitive explanation rather than a rigorous technical description. 
+This section provides an overview of the linear model. The description will be somewhat informal as it aims to provide an intuitive explanation rather than a rigorous technical description. 
 
-The linear model, or linear regression model, estimates the relationship between one variable and one or more other variables. It is assumed that the relationship can be described as a straight line.  
+The linear model, or linear regression model, estimates the relationship between one continuous variable and one or more other variables. It is assumed that the relationship can be described as a straight line (hence the term 'linear').  
 
-For example, assume we are looking at a variable $y$ and we want to know its relationship with a variable $x$. We assume that the relationship can be expressed as a mathematical relationship between $y$ (the dependent variable) and $x$ (the explanatory variable):
+For example, say we are looking at a variable $y$ and we want to know its relationship with a variable $x$. We assume that the relationship can be expressed as a mathematical relationship between $y$ (the dependent, or response variable) and $x$ (the explanatory variable):
 
 $y = \beta_0 + \beta_1 x$
 
@@ -28,7 +28,7 @@ So how do we estimate the intercept and slope? In other words, how do we estimat
 
 Linear regression estimates the line (i.e., slope and intercept) that minimizes the difference between our _predicted_ values of $y$ and the _actual_ values of $y$ that were observed in the original sample. These difference are referred to as "residuals". 
 
-More specifically, linear regression minimizes the sum of the _squared_ value of these residuals. So in the figure below, linear regression is used to estimate the line that would minimise the combined area of the purple squares. For this reason, the method is sometimes referred to as an "ordinary least squares" (OLS) regression.
+More specifically, linear regression minimizes the sum of the _squared_ value of these residuals. So in the figure below, linear regression is used to estimate the line that would minimize the combined area of the purple squares. For this reason, the method is sometimes referred to as an "ordinary least squares" (OLS) regression.
 
 ```{r, echo = FALSE, fig.cap = 'Line of best fit minimizes the sum of squared residuals', out.width = '60%',fig.align = 'center'}
 knitr::include_graphics("images/image03.png")
@@ -38,9 +38,9 @@ In the example above, we considered a dependent variable ($y$) that was being "e
 
 $y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 ... + \beta_i x_i$
 
-This is referred to as _multiple regression_. In this case we still have only one intercept ($\beta_0$) but many slopes that need to be estimated ($\beta_1$, $\beta_2$ and so on). The same method can be used to estimate these parameters, i.e. an OLS regression which minimizes the sum of squared residuals. This cannot be illustrated in a two-dimensional diagram, as was the case when a single predictor was used, but the exact same concept applies. 
+This is referred to as _multiple regression_. In this case we still have only one intercept ($\beta_0$) but many slopes that need to be estimated ($\beta_1$, $\beta_2$ and so on). The same method can be used to estimate these parameters as was illustrated above, i.e. an OLS regression which minimizes the sum of squared residuals. This cannot be illustrated in a two-dimensional diagram, as was the case when a single predictor was used, but the exact same concept applies. 
 
-So that's the linear model. The key premise of Lindelov's book many statistical tests are just special cases of this:  
+So that's the linear model. The key premise of Lindeløv's book many statistical tests are just special cases of this:  
 
 > Everything below, from one-sample t-test to two-way ANOVA are just special cases of this system. Nothing more, nothing less.
 
@@ -59,10 +59,10 @@ In the original book, the specified model is accompanied by the null hypothesis,
 
 A key output of interest, or test statistic, is the p-value. 
 
-* A small p-value (conventionally ≤ 0.05) indicates strong evidence against the null hypothesis, so you reject the null hypothesis of no relationship.
+* A small p-value (conventionally ≤ 0.05) indicates strong evidence against the null hypothesis, so you reject the null hypothesis of no relationship.^[The p-value is the probability of getting a value as extreme or more extreme than the one observed in your sample, under the assumption that the null hypothesis is true.]
 * A larger p-value (> 0.05) indicates weak evidence against the null hypothesis, so you fail to reject the null hypothesis of no relationship.
 
-Lets see the output of the lineary model for our sample data:
+Let's see the output of the linear model for our sample data:
 ```{r}
 lm(y ~ 1 + x) %>% summary() %>% print(digits = 5) 
 ```
@@ -71,6 +71,20 @@ As seen in the output above, $\beta_1$ (the coefficient on `x`) has a p-value of
 
 ## Assumptions
 
-The linear model described above is only valid if a number of assumption hold. 
+The inferences drawn from the linear model, as described above, are only valid if a number of assumptions hold. The following diagram, found in the book [Broadening Your Statistical Horizons](https://bookdown.org/roback/bookdown-bysh/), can be used to explain these assumptions:
 
+```{r, echo = FALSE, fig.cap = 'Ordinary least squares assumptions', out.width = '80%',fig.align = 'center'}
+knitr::include_graphics("images/ols_assumptions.png")
+```
 
+The four main assumptions can be remembered using the acronym 'LINE':
+
+__L:__ there is a __linear__ or straightline relationship between the mean response (Y) and the explanatory variable (X). In the figure above, the mean value for Y at each level of X falls on the blue regression line.
+
+__I:__ the errors are __independent__ — there’s no connection between how far any two points lie from the regression line. This is usually more of an issue in time series data (i.e. where data is collected from the same entity over time, e.g. a stock price) than cross-sectional data (where data is collected from many entities a single point in time, e.g. exam marks for a group of students).
+
+__N:__ the dependent variable is __normally__ distributed at each level of X. At each level of X, the values for Y follow a normal or 'bell-shaped' distribution as shown in red in the figure above. 
+
+__E:__ there is __equal variance__ (or 'homoscedasticity') - the variance or 'spread' of the responses is equal for all levels of X. The spread in the Y’s for each level of X is the same, as shown above.
+
+A more detailed explanation of these assumptions is provided here by [Laerd](https://statistics.laerd.com/spss-tutorials/linear-regression-using-spss-statistics.php).

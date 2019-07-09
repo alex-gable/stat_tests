@@ -1,55 +1,53 @@
 # Two means (independent samples)
 
-These tests compare the means of two independent groups in order to determine whether there is statistical evidence that the associated population means are significantly different. Examples include:
+These tests compare the means of two independent or unrelated groups, in order to determine whether there is statistical evidence that the population means are significantly different. Examples include:
 
 * Do first year graduate salaries differ based on gender? and  
 * Is there is a difference in test anxiety based on educational level (undergraduate vs postgraduate)?
 
-A key assumption is whether the __variances__ of the two samples are equal (this can be tested with the Levene's Test for Equality of Variances). In general terms:
+A key question is whether or not the __variances__ of the two samples being tested are equal.^[This can be tested with the Levene’s Test for Equality of Variances.] In general terms:
 
 * If the samples have _equal_ variance then an __independent-sample t-test__ (Student's t-test) could be used.
 * If the samples have _unequal_ variance then the __Welch's t-test__ can be used, as this does not assume identical variances.
 * If the samples are _not normally distibuted_, or if the other requirements of the above tests are not met, then the non-parametric __Mann-Whitney U__ test could be used.  
 
-This is somewhat simplistic, and the choice of tests is not always clear (see the discussion [here](https://stats.stackexchange.com/questions/121852/how-to-choose-between-t-test-or-non-parametric-test-e-g-wilcoxon-in-small-sampl) on StackExchange for example). The following sections goes through each of these tests in turn, and describes how they can be approximated by the linear model.  
+This is somewhat simplistic, and the choice of tests is not always clear (see the discussion [here](https://stats.stackexchange.com/questions/121852/how-to-choose-between-t-test-or-non-parametric-test-e-g-wilcoxon-in-small-sampl) on StackExchange for example). The following sections goes through each of these tests in turn, and describes how they can be approximated by an equivalent linear model.  
 
-## Independent-sample t-test
+## Independent t-test
 
-The indepent sample t-test can be used to compare the means of two independent groups. Assumptions include:
+The independent t-test can be used to compare the means of two unrelated groups. Assumptions include:
 
 * Independence of observations (independent samples / groups);
 * Normal distribution (approximately) of the dependent variable for each group, though this might not be an issue for large samples;
 * No outliers; and
-* Homogeniety of variances; i.e. variances are approximately equal across the two groups.
+* Homogeneity of variances; i.e. variances are approximately equal across the two groups.
 
 __Student's t-test:__ 
 
-In R, we can assesses the difference between two groups using the [t.test](https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/t.test). As shown in the accompanying documentation, this has the default assumptions that the two samples are _not_ paired, and that their variances are _not_ equal. 
+In R, we can assesses the difference between two groups using the [t.test](https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/t.test). This has the default assumptions that the two samples are _not_ paired, and that their variances are _not_ equal. 
 
 __Equivalent linear model:__ 
 
-The linear model uses dummy variables (see the explanation of dummy variables explained by Lindelov in section 5.1.3 of the [original book](https://lindeloev.github.io/tests-as-linear/#51_independent_t-test_and_mann-whitney_u)). 
+The equivalent linear model uses a dummy variable to represent the two groups (see the explanation of dummy variables explained by Lindeløv in section 5.1.3 of the [original book](https://lindeloev.github.io/tests-as-linear/#51_independent_t-test_and_mann-whitney_u)). 
 
 The linear model takes the form: 
 
 $y = \beta_0 + \beta_1 \cdot x_i \qquad  H_0: \beta_0 = 0$  
 
-where $x_i$ is a dummy variable taking the value of 0 or 1, indicating whether data point $i$ was taken from the reference group (0) or the other group (1). For example, $y$ could be a measure of income and $x_i$ could take the value of 0 for women and 1 for men. 
+where $x_i$ is a dummy variable taking the value of 0 or 1, indicating whether observation $i$ is from the reference group (0) or the other group (1). For example, $y$ could be a measure of income and $x_i$ could be a dummy variable taking the value of 0 for women and 1 for men. 
 
 The use of dummy variables is illustrated below. The intercept ($\beta_0$) is the sample average for observations in our reference group (in this example, women) when $x = 0$. The slope ($\beta_1$) is the difference in the averages of the two groups. In this example, when $x = 1$ (indicating men), the average salary is equal to $\beta_0 + \beta_1$. Therefore, $\beta_1$ is the difference between the two groups, and we want to assess whether this difference is significantly different from zero.
 
-```{r dummy1, echo = FALSE, fig.cap = 'Linear model equivalent to independent-sample t-test', out.width = '65%', fig.align = 'center'}
+```{r dummy2, echo = FALSE, fig.cap = 'Linear model equivalent to independent-sample t-test', out.width = '65%', fig.align = 'center'}
 knitr::include_graphics("images/image_dummy1.png")
 ```
 <br>
 
 __Comparison:__ 
 
-Let's say we want to compare the means of two groups in our sample data, `y` and `y2`.
+Let's say we want to compare the means of two groups in our example dataset, `y` and `y2`.
 
-To enable a linear model approach, we're going to take our data set which has the `group` in the first column and the `value` in the second column. We then create a dummy variable called $group\_y_2$ that takes the value 0 for group `y` and 1 for group `y2`.
-
-We create this using the following code (see section \@ref(samplevalues) in which this data was originally created):
+We start by creating a dummy variable to represent the two groups. The new variable is called `group_y2` and takes a value of 0 for observations in group `y` and a value of 1 for observations in group `y2`. This is done using the following code:
 
 
 ```{r, echo = FALSE}
@@ -61,23 +59,22 @@ mydata_dummy <- mydata_long %>%
 
 ```
 
-Here's a random sample of rows from our new data set, which now inclues the dummy variable:
+Here's a sample of six rows from our new data set, which now includes the dummy variable:
 
 ```{r, echo = FALSE}
-set.seed(40)
 knitr::kable(
-  sample_n(mydata_dummy, 6),
+  mydata_dummy[c(1:3,51:53),],
   caption = 'Some randomly selected rows from our data set',
   booktabs = TRUE)
 
 ```
 
-Now we've organized our data, we can compare the results of the t-test with the linear model:
+Now we've organized our data, we can compare the results of the built-in independent t-test with the linear model:
 
 ```{r, eval = FALSE}
-# t-test (built-in test)
-t.test(y2, y, mu = 0, var.equal = TRUE, alternative = 'two.sided')
-  # mu = 0 for the null hypothesis that the difference between population means is zero
+# independent t-test (built-in test)
+t.test(y2, y, var.equal = TRUE)
+  # default is mu = 0, i.e. the null hypothesis that the difference in means is zero
 
 # Linear model
 lm <- lm(value ~ 1 + group_y2, data = mydata_dummy)
@@ -85,15 +82,15 @@ lm <- lm(value ~ 1 + group_y2, data = mydata_dummy)
   confint(lm) # show confidence intervals
 ```
 
-The output of the t-test and linear model is shown below. The t statistic, p-value and confidence intervals are identical. While the t-test reports the averages of the two samples, the linear model reports the average of the reference group (0.3 for `y`) and the _difference_ between the average of this reference group and the other group indicated by the dummy variable (+0.2 for group `y2`). 
+The outputs from the independent t-test and the equivalent linear model are shown below. The t statistic, p-value and confidence intervals are identical. While the t-test reports the averages of the two samples, the linear model reports the average of the reference group (0.3 for `y`) and the _difference_ between the average of this reference group and the other group indicated by the dummy variable (a difference of +0.2). 
 <br>   
 
 ```{r, echo = FALSE}
 knitr::kable(
   tribble(
     ~Test,~'mean.y',~'mean.y2',~'difference',~t,~p.value,~conf.low,~conf.high,
-    't-test',0.3,0.5,'', 0.5657, 0.5729,-0.5016,0.9016,
-    'lm (with dummy)',0.3,'', 0.2, 0.5657,0.5729,-0.5016,0.9016
+    't-test',0.3,0.5,'', 0.5657, 0.5729, -0.5016, 0.9016,
+    'lm (with dummy)',0.3,'',  0.2, 0.5657,0.5729, -0.5016, 0.9016
     ),
   caption = 'Independent-sample t-test (equal variance) and linear model',
   booktabs = TRUE
@@ -104,25 +101,26 @@ knitr::kable(
 
 If the two samples have unequal variance then Welch's t-test could be used. 
 
-In fact, [there is an argument](http://daniellakens.blogspot.com/2015/01/always-use-welchs-t-test-instead-of.html) that we should use Welch’s t-test by default, rather then the Student’s t-test, because Welch's t-test performs better than the t-test whenever sample sizes and variances are unequal between groups, and gives the same result when sample sizes and variances are equal.
+In fact, [there is an argument](http://daniellakens.blogspot.com/2015/01/always-use-welchs-t-test-instead-of.html) that we should use Welch’s t-test by default, rather than the independent Student’s t-test, because Welch's t-test performs better than the t-test whenever sample sizes and variances are unequal between groups, and gives the same result when sample sizes and variances are equal.
 
-Note that in our toy data set, we intentionally specified different variances for $y$ and $y_2$. 
+__Welch's t-test:__ 
 
-__Student's t-test:__ 
-
-The Welch t-test is identical to the independent-sample Student's t-test described above, except that it does not assume equal variance of the two samples. In R, we can again assesses the difference between two groups using the Student's [t.test](https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/t.test). When entering the code, we just need to specify that the sample variances are __not equal__ (though this is the default assumption anyway). 
+The Welch t-test is identical to the independent-sample Student's t-test described above, except that it does not assume equal variance of the two samples. In R, we can use the built-in [t.test](https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/t.test). When entering the code, we just need to specify that the sample variances are __not equal__ (though this is the default assumption anyway). 
 
 __Equivalent linear model:__ 
 
-The equivalent linear model is based on generalized least squares (GLS). The GLS approach makes the assumption that there is a relationship between the variance of observations and an independent variables (e.g. the gender dummy variable). In a GLS regression, less weight is given to the observations with a higher variance.
+The equivalent linear model is based on generalized least squares (GLS). The GLS approach makes the assumption that there is a relationship between the variance of observations and one of the independent variables used in our regression (in this example, the gender dummy variable). In a GLS regression, less weight is given to the observations with a higher variance.
 
-We don't know the true relationship between variance and independent variables in the underlying population, so this is estimated from our sample. The estimate is based on the relationship between residuals (i.e. observed values minus predicted values, based on an OLS regression) and an independent variable. Once we have estimated this relationship, we then re-weight each observation in our sample by dividing each observation by the predicted variance. The final GLS regression is then run on these re-weighted observations. A more detailed explanation of the GLS approach (without using matrix algebra!) [can be found here](http://www.homepages.ucl.ac.uk/~uctpsc0/Teaching/GR03/Heter&Autocorr.pdf).
+We don't know the true relationship between variance and our independent variable(s) in the underlying population, so this relationship is estimated from our sample. The estimate is based on the relationship between residuals (i.e. observed values minus predicted values, based on an OLS regression) and an independent variable. Once we have estimated this relationship, we then re-weight each observation in our sample by dividing each observation by the predicted variance. The final GLS regression is then run on these re-weighted observations. A more detailed explanation of the GLS approach (without using matrix algebra!) [can be found here](http://www.homepages.ucl.ac.uk/~uctpsc0/Teaching/GR03/Heter&Autocorr.pdf).
 
-In this example, when applying the GLS model in R, we specify that there is a different variance for each each level of the factor $x_i$ (which takes the values 0 or 1), which you will recall was in the column called `group`. 
+In this example, when applying the GLS model in R, we specify that there is a different variance for group `y` and group `y2`.
 
-Here is the code:
+__Comparison:__
+
+The Welch's t-test and the equivalent linear model are carried out as follows:
 
 ```{r, eval = FALSE}
+options(digits=10)
 # t-test (built-in test)
 t.test(y2, y, mu = 0, var.equal = FALSE, alternative = 'two.sided')
   # Note the assumption that variances are false
@@ -138,8 +136,8 @@ Here are the results, which are almost identical:
 knitr::kable(
   tribble(
     ~Test,~'mean.y',~'mean.y2',~'difference',~t,~p.value,~conf.low,~conf.high,
-    't-test',0.3,0.5,'', 0.5657, 0.5730,-0.5023,0.9023,
-    'lm (GLS)',0.3,'', 0.2, 0.5657,0.5729,-0.4930,0.8930
+    't-test', 0.3, 0.5,'', 0.5657, 0.5730, -0.5023, 0.9023,
+    'lm (GLS)', 0.3,'', 0.2,0.5657,	0.5729,-0.4930, 0.8930
     ),
   caption = 'Independent-sample t-test (unequal variance) and GLS model',
   booktabs = TRUE
@@ -147,7 +145,7 @@ knitr::kable(
 ```
 
 
-Note that we get the same estimates for the means of $y$ and $y_2$ (0.3 and 0.5 respectively) from the t-test both with and without the assumption of equal variance. The unequal variance (heteroscedasticity) does not affect our estimates of the population means, but rather our assessment of whether or differences are stastitically significant, in the form of t statistics, p-values and confidence intervals.
+Note that we get the same estimates for the means of $y$ and $y_2$ (of 0.3 and 0.5, respectively) from the t-test both with and without the assumption of equal variance. The unequal variance (heteroscedasticity) does not affect our estimates of the population means, but rather our assessment of whether or differences are statistically significant, in the form of t statistics, p-values and confidence intervals.
 
 ## Mann-Whitney U test
 
@@ -157,7 +155,7 @@ __Mann-Whitney U test:__
 
 This tests the null hypothesis that it is equally likely that a randomly selected value from one sample will be less than or greater than a randomly selected value from a second sample. In other words, if the null hypothesis was rejected, you would infer that values from one population are more likely to be higher or lower than values from another population. 
 
-The Man-Whitney U test is a Wilcoxon test but with two samples. It can be run using R's built-in [wilcox.test](https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/wilcox.test).
+The Man-Whitney U test is a Wilcoxon test but with two samples. It can be run using R's built-in [wilcox.test](https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/wilcox.test), this time with the (default) assumption that the observations are not paired. 
 
 __Equivalent linear model:__ 
 
@@ -167,7 +165,7 @@ The equivalent linear model, with a close approximation, is a regression using t
 
 $rank(y_i) = \beta_0 + \beta_1 \cdot x_i \qquad  H_0: \beta_0 = 0$
 
-where again $x_i$ is a dummy variable indicating the sample to which an observation belongs (e.g. 0 for women and 1 for men). Note that this uses the rank of the dependent variable, and not the signed rank as was the case with matched pairs.
+where again $x_i$ is a dummy variable indicating the group to which an observation belongs (in this example, 0 for women and 1 for men). Note that this uses the rank of the dependent variable, and not the signed rank as was the case with matched pairs.
 
 __Comparison:__
 
@@ -176,7 +174,7 @@ Here is how you would run the Man-Whitney U test and equivalent linear model in 
 
 ```{r, eval=FALSE}
 # Wilcoxon / Mann-Whitney U test (built-in)
-wilcox.test(y, y2)
+wilcox.test(y, y2, paired = FALSE)
 
 # Equivalent linear model
 lm <- lm(rank(value) ~ 1 + group_y2, data = mydata_dummy)  
@@ -191,7 +189,7 @@ knitr::kable(
   tribble(
     ~Test,~'p-value',~'rank diff',
     'wilcox.test',0.7907,'',
-    'lm (ranks)',0.7896,1.56
+    'lm (ranks)', 0.7896, 1.56
     ),
   caption = 'Mann-Whitney U and equivalent linear model',
   booktabs = TRUE
