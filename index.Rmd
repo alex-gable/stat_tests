@@ -1,13 +1,14 @@
---- 
-title: "Common statistical tests are linear models: a work through"
-author: "Steve Doogue"
+---
+title: "Common Statistical Tests are Linear Models: A Modern Workthrough"
+author: "Alex Gable"
 date: "`r Sys.Date()`"
 output:
   html_document:
     df_print: paged
-description: This is a minimal example of using the bookdown package to write a book.
-  The output format for this example is bookdown::gitbook.
-documentclass: book
+description: "This is an updated work through of Jonas Kristoffer Lindeløv's Common statistical tests are linear models (or: how to teach stats), dervived from Steve Doogue's workthrough" 
+documentclass: krantz
+fontsize: 12pt
+monofontoptions: "Scale=0.7"
 link-citations: yes
 bibliography:
 - book.bib
@@ -19,20 +20,26 @@ biblio-style: apalike
 ```{r, echo = FALSE}
 library(knitr)
 library(tidyverse)
+library(kableExtra)
+library(pixiedust)
+# library(modelsummary)
+options(knitr.kable.NA = '')
+options(kableExtra.html.bsTable = T)
 set.seed(40)
 ```
 
 # Introduction
 
-This is a reworking of the book [Common statistical tests are linear models (or: how to teach stats)](https://lindeloev.github.io/tests-as-linear/), written by Jonas Lindeløv. The book beautifully demonstrates how many common statistical tests (such as the t-test, ANOVA and chi-squared) are special cases of the linear model. The book also demonstrates that many non-parametric tests, which are needed when certain test assumptions do not hold, can be approximated by linear models using the _rank_ of values. 
+This is a reworking of the book [Common statistical tests are linear models (or: how to teach stats)](https://lindeloev.github.io/tests-as-linear/), written by Jonas Lindeløv. It has been further adapted from [Common statistical tests are linear models: a work through](https://steverxd.github.io/Stat_tests/) by Steve Doogue. I hope to address a number of gaps found and additionally provide an .epub copy of the book, which renders neatly in the .mobi format, for kindles. Finally, I hope to eventually roll this up into a package that bundles up the inputs and outputs of common statistical tests into a tidy format, specfically for Rmd notebooks. Its unclear to me how similar this will be to `broom`, but I hope to unify broom with `pixiedust` in order to produce easily extendable dataframes and graphics for common statistical tests in order to further the goal of emphasizing understanding and clarity of communications in place of regurgiated base test output.
+
+The book beautifully demonstrates how many common statistical tests (such as the t-test, ANOVA and chi-squared) are special cases of the linear model. The book also demonstrates that many non-parametric tests, which are needed when certain test assumptions do not hold, can be approximated by linear models using the _rank_ of values.
 
 This approach offers a way to greatly simplify the teaching of introductory statistics, using the simple model of the form $y = a + b \cdot x$ which is familiar to most students. This approach brings coherence to a wide-range of statistical tests, which are usually taught to students as independent tools with a potentially-overwhelming array of names. The approach also helps to explain the intuition underlying statistical tests, drawing on the familiar concept of linear regressions, which emphasizes understanding over rote learning.
 
-The purpose of creating this book is to solidify my understanding of this approach. I do this by reproducing the examples provided by Lindeløv; by expanding on areas where there were gaps in my knowledge; and by paraphrasing some of the explanations, using concepts and terms with which I am more familiar. The book may also be helpful to others who want to follow along with Lindeløv's book, but who require more background on some of the concepts being discussed. 
+The purpose of creating this book is to solidify my understanding of this approach. I do this by reproducing the examples provided by Lindeløv; by expanding on areas where there were gaps in my knowledge; and by paraphrasing some of the explanations, using concepts and terms with which I am more familiar. The book may also be helpful to others who want to follow along with Lindeløv's book, but who require more background on some of the concepts being discussed.
 
-Credit for this book should be attributed to Jonas Lindeløv, though I am of course responsible for any errors in my own interpretation.   
+Credit for this book should be attributed to Jonas Lindeløv, and Steve Doogue, and I am responsible for any errors that appear in this rendition.
 
-Note that some of the data used in this book varies from that used by Lindeløv, and so some of the test results differ. However, the concepts being discussed are exactly the same.
+Note that some of the data used in this book varies from that used by Lindeløv and Doogue, and so some of the test results differ. However, the concepts being discussed are exactly the same.
 
-
-_Steve Doogue_
+_Alex Gable_

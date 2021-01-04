@@ -1,19 +1,24 @@
 # Correlations
 
-Correlation is a measure of the strength and direction of association that exists between two variables. Correlation coefficients ($r$) assume values in the range from −1 to +1, where ±1 indicates the strongest possible positive or negative correlation and 0 indicates no linear association between the variables. 
+Correlation is a measure of the strength and direction of association that exists between two variables. Correlation coefficients ($r$) assume values in the range from −1 to +1, where ±1 indicates the strongest possible positive or negative correlation and 0 indicates no linear association between the variables.
 
 ## Pearson correlation
 
-We start by looking at the Pearson correlation coefficient. Here we compare the built-in test (in R) for the Pearson correlation with the equivalent linear model. 
+We start by looking at the Pearson correlation coefficient. Here we compare the built-in test (in R) for the Pearson correlation with the equivalent linear model.
 
 The equivalent linear model is the basic regression of $y$ on $x$, specified as follows:
+
+::: {.center data-latex=""}
+
 $y = \beta_0 + \beta_1x  \qquad  H_0: \beta_1 = 0$
 
-The two tests are written using the following R code: 
+:::
+
+The two tests are written using the following R code:
 
 ```{r, eval = FALSE}
-# Pearson (built-in test)
-cor.test(y, x, method = "pearson") 
+# Pearson (built in test)
+cor.test(y, x, method = "pearson")
 # Linear model
 lm(y ~ 1 + x) %>% summary() %>% print(digits = 8)
 ```
@@ -23,26 +28,29 @@ If you were to run the code above, you would see the following the key statistic
 ```{r, echo = FALSE}
 knitr::kable(
   tribble(
-    ~Test,~r,~slope,~t,~'p-value',
-    'cor.test (Pearson)',-0.2318,'',-1.6507,0.1053,
-    'lm','',-0.4636,-1.6507,0.1053
+    ~Test, ~r, ~slope, ~t, ~"p-value",
+    "cor.test (Pearson)", -0.2318, NA, -1.6507, 0.1053,
+    "lm", NA, -0.4636, -1.6507, 0.1053
     ),
-  caption = 'Pearson vs linear model',
+  caption = "Pearson vs linear model",
   booktabs = TRUE
 )
 ```
-  
-   
-   
+
+
 The output shows that the correlation coefficient ($r$) has a p-value of 0.1053, which is exactly the same as the p-value for the slope of the linear model. In this case, we would not reject the null hypothesis that there was no correlation between the two variables (at the 0.05 level of significance).
 
-The main difference is that the linear model returns the _slope_ of the relationship, $\beta_1$ (which in this case is -0.4636), rather than the correlation coefficient, $r$. The slope is usually much more interpretable and informative than the correlation coefficient. 
+The main difference is that the linear model returns the _slope_ of the relationship, $\beta_1$ (which in this case is -0.4636), rather than the correlation coefficient, $r$. The slope is usually much more interpretable and informative than the correlation coefficient.
 
 __Additional note (optional):__
 
 It may be useful to understand how the Pearson correlation coefficient ($r$) and the regression coefficient or slope ($\beta_1$) are related, which is by the following formula:
 
+::: {.center data-latex=""}
+
 $\beta_1 = r \cdot sd_y / sd_x$
+
+:::
 
 This shows that:
 
@@ -61,17 +69,21 @@ There will be times when it is more appropriate to use the __Spearman rank corre
 3.  The data has large outliers; or
 4.  When you are working with ordinal rather than continuous data.^[see Chapter \@ref(appendixtypes) for a description of the different types of data.]
 
-The Spearman correlation is a _non-parameteric_ test as it does not require that the parameters of the linear model hold true. For example, there does not need to be a linear relationship between the two variables, and the data does not need to be normally distributed. 
+The Spearman correlation is a _non-parameteric_ test as it does not require that the parameters of the linear model hold true. For example, there does not need to be a linear relationship between the two variables, and the data does not need to be normally distributed.
 
 The Spearman rank correlation is the same as a Pearson correlation but using the _rank_ of the values in our samples. This is an approximation only, which Lindeløv shows is approximate when the sample size is greater than 10 and almost perfect when the sample is greater than 20.
 
 This is also the same as the linear model using rank-transformed values of $x$ and $y$:
 
+::: {.center data-latex=""}
+
 $rank(y) = \beta_0 + \beta_1 \cdot rank(x)  \qquad  H_0: \beta_1 = 0$
+
+:::
 
 For a comparison of the Spearman test, the Pearson test (using ranks) and the linear model (also using ranks) we run the following code:
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 # Spearman
 cor.test(y, x, method = "spearman")
 
@@ -79,33 +91,45 @@ cor.test(y, x, method = "spearman")
 cor.test(rank(y), rank(x), method = "pearson")
 
 # Linear model using rank
-lm <- lm(rank(y) ~ 1 + rank(x)) 
+lm <- lm(rank(y) ~ 1 + rank(x))
   lm %>% summary() %>% print(digits = 5) # show summary ouput
 ```
 
 The output of this code is as follows:
 
 ```{r, echo = FALSE}
-knitr::kable(
-  tribble(
-    ~Test,~'correlation',~slope,~p.value,
-    'cor.test (Spearman)',-0.2266,'',0.1135,
-    'cor.test (Pearson with ranks)',-0.2266,'',0.1135,
-    'lm (with ranks)','',-0.2266,0.1135 
-    ),
-  caption = 'Spearman, Pearson (ranks) and linear model (ranks)',
-  booktabs = TRUE
-)
+# knitr::kable(
+#   tribble(
+#     ~Test, ~"correlation", ~slope, ~p.value,
+#     "cor.test (Spearman)", -0.2266, NA, 0.1135,
+#     "cor.test (Pearson with ranks)", -0.2266, NA, 0.1135,
+#     "lm (with ranks)", NA, -0.2266, 0.1135
+#     ),
+#   caption = "Spearman, Pearson (ranks) and linear model (ranks)",
+#   booktabs = TRUE,
+# )
+
+tribble(
+    ~Test, ~"Correlation", ~Slope, ~p.value,
+    # "cor.test (Spearman)", -0.2266, NA, 0.1135,
+    "Spearman", -0.2266, NA, 0.1135,
+    # "cor.test (Pearson with ranks)", -0.2266, NA, 0.1135,
+    "Pearson with Ranks", -0.2266, NA, 0.1135,
+    "lm (with ranks)", NA, -0.2266, 0.1135
+    ) %>%
+  kbl(caption = "Spearman, Pearson (ranks) and linear model (ranks)") %>%
+  kable_styling(bootstrap_options = c("striped", "condensed"), full_width = FALSE) %>%
+  pack_rows("cor.test", 1, 2  , label_row_css = "background-color: #D3D3D3; color: #fff;")
 ```
 
-This shows that the results are all the same (or at least very close approximations). When ranks are used, the slope of the linear model ($\beta_1$) has the same value as the correlation coefficient ($r$). Note that the slope from the linear model has an intuitive interpretation, which is the number of ranks $y$ changes for each change in rank of $x$. 
+This shows that the results are all the same (or at least very close approximations). When ranks are used, the slope of the linear model ($\beta_1$) has the same value as the correlation coefficient ($r$). Note that the slope from the linear model has an intuitive interpretation, which is the number of ranks $y$ changes for each change in rank of $x$.
 
-Given the similarity of these tests, Lindeløv notes that:  
+Given the similarity of these tests, Lindeløv notes that:
 
 > One interesting implication is that many “non-parametric tests” are about as parametric as their parametric counterparts with means, standard deviations, homogeneity of variance, etc. - just on rank-transformed data.
 
-Finally, the figure below (reproduced from the original book) illustrates how the Pearson and Spearman correlations are equivalent to linear models, with the latter being based on rank-transformed values. 
+Finally, the figure below (reproduced from the original book) illustrates how the Pearson and Spearman correlations are equivalent to linear models, with the latter being based on rank-transformed values.
 
-```{r, echo = FALSE, fig.cap = 'Pearson and Spearman correlations as linear models', out.width = '80%',fig.align = 'center'}
+```{r, echo = FALSE, fig.cap = "Pearson and Spearman correlations as linear models", out.width = "80%",fig.align = "center"}
 knitr::include_graphics("images/correlations.png")
 ```

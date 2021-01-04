@@ -3,7 +3,7 @@
 This set of tests deals with a single mean. They tell us whether, based on our sample, we have reason to believe that the mean of the underlying population differs from an some specific level (the 'null hypothesis').
 
 In some cases we might have two samples with _paired_ observations (e.g. an athlete's average running speed before and after a new training technique is used). In this case we take the _difference_ between the paired observations (the change in each athlete's running speed) and treat this as a single measurement. We then assess whether, based on the mean of these differences in our sample, we have reason to believe that the 'true' mean differs from a specified level (e.g. zero, representing
-no change in running speed). 
+no change in running speed).
 
 The _one sample_ and _paired sample_ cases are addressed in turn, below.
 
@@ -11,37 +11,41 @@ The _one sample_ and _paired sample_ cases are addressed in turn, below.
 
 ### One-sample t-test
 
-A one-sample t-test (or one-sample Student's t-test) is used to determine whether a sample could have come from a population with a specified mean. This population mean is not always known and may only be theoretical / hypothesized. 
+A one-sample t-test (or one-sample Student's t-test) is used to determine whether a sample could have come from a population with a specified mean. This population mean is not always known and may only be theoretical / hypothesized.
 
 For example, say we take a sample of pupils who have been taught using a new teaching method. These pupils receive an average score of 70% in an end-of-year test, while the average score for all pupils nationally is 60%. We want to know how often we are likely to see a sample average of 70% (or more extreme) if the 'true' average for pupils receiving the new teaching method was 60%, i.e. if there was no difference from the national average.
 
-__Student's t-test:__ 
+__Student's t-test:__
 
-In R, we can run a one-sample Student's t-test using the built-in `t.test()`. The documentation for this test can be found [here](https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/t.test). 
+In R, we can run a one-sample Student's t-test using the built-in `t.test()`. The documentation for this test can be found [here](https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/t.test).
 
 
 __Equivalent linear model:__
 
-The one-sample t-test is the same as a linear model containing a dependent variable, $y$, and a constant only. That is, a model with the form:  
+The one-sample t-test is the same as a linear model containing a dependent variable, $y$, and a constant only. That is, a model with the form:
+
+::: {.center data-latex=""}
 
 $y = \beta_0  \qquad  H_0: \beta_0 = 0$
 
+:::
+
 This is the same as the equation $y = \beta_0 + \beta_1 \cdot x$ that was shown earlier (Chapter \@ref(linearmodel)), but having dropped the last term. This is shown graphically below. Note that this is the same as a linear regression in which all values of $x$ are treated as zero:
 
-```{r, echo = FALSE, fig.cap = 'Linear model equivalent to one-sample t-test', out.width = '40%', fig.align = 'center'}
+```{r, echo = FALSE, fig.cap = "Linear model equivalent to one-sample t-test", out.width = "40%", fig.align = "center"}
 knitr::include_graphics("images/image04.png")
 ```
 
 
 The estimated intercept ($\beta_0$) is simply the average of all the values in our sample. The linear regression returns the t-statistic and p-value based on the null hypothesis that the true average is equal to zero (i.e. $\beta_0 = 0$).
 
-__Comparison:__ 
+__Comparison:__
 
 Here is how you would run the t-test and equivalent linear model in R:
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 # t-test (built-in test)
-t.test(y, mu = 0, alternative = 'two.sided') 
+t.test(y, mu = 0, alternative = "two.sided")
 
 # Linear model
 lm <- lm(y ~ 1)
@@ -54,11 +58,11 @@ The output of this code, including the 95 percent confidence intervals, is shown
 ```{r, echo = FALSE}
 knitr::kable(
   tribble(
-    ~Test,~'mean / intercept',~t,~p.value,~conf.low,~conf.high,
-    't.test',0.3,1.0607,0.2940, -0.2684, 0.8684,
-    'lm',0.3,1.0607, 0.2940,-0.2684, 0.8684
+    ~Test, ~"mean / intercept", ~t, ~p.value, ~conf.low, ~conf.high,
+    "t.test", 0.3, 1.0607, 0.2940, -0.2684, 0.8684,
+    "lm", 0.3, 1.0607, 0.2940, -0.2684, 0.8684
     ),
-  caption = 'One-sample t-test and linear model',
+  caption = "One-sample t-test and linear model",
   booktabs = TRUE
 )
 ```
@@ -72,19 +76,21 @@ This can be done by specifying the null hypothesis in the built-in t-test (in th
 
 The code is as follows:
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 # t-test (built-in test)
-t.test(y, mu = 0.1, alternative = 'two.sided') 
+t.test(y, mu = 0.1, alternative = "two.sided")
 
 # Linear model
-lm((y - 0.1) ~ 1) %>% 
-  summary() %>% print(digits = 5) # show summary output
+lm((y - 0.1) ~ 1) %>%
+  summary() %>%
+  print(digits = 5) # show summary output
 ```
+
 The two tests above give identical t statistics and p-values.
 
 ### Wilcoxen signed-rank
 
-What if we cannot assume that our population is normally distributed? Here we need to use a non-parametric version of the t-test. 
+What if we cannot assume that our population is normally distributed? Here we need to use a non-parametric version of the t-test.
 
 __Wilcoxen signed-rank test:__
 
@@ -96,9 +102,13 @@ It is implemented in R using the [wilcox.test](https://www.rdocumentation.org/pa
 
 __Equivalent linear model:__
 
-In this case the equivalent linear model is:  
+In this case the equivalent linear model is:
+
+::: {.center data-latex=""}
 
 $signed\_rank(y) = \beta_0  \qquad  H_0: \beta_0 = 0$
+
+:::
 
 [Lindeløv shows](https://lindeloev.github.io/tests-as-linear/simulations/simulate_wilcoxon.html) that the linear model will be a good approximation of the Wilcoxon signed-rank test when the sample size is larger than 14 and almost perfect when the sample size is larger than 50.
 
@@ -106,39 +116,39 @@ __Comparison:__
 
 The code below is for the [wilcox.test](https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/wilcox.test) in R and the equivalent linear model using signed ranks:
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 # Wilcox test (built-in)
 wilcox.test(y)
 
 # Equivalent linear model
-lm <- lm(signed_rank(y) ~ 1)  
+lm <- lm(signed_rank(y) ~ 1)
   lm %>% summary() %>% print(digits = 8) # show summary output
 ```
+
 ```{r, echo = FALSE}
 knitr::kable(
   tribble(
-    ~Test,~'mean / intercept',~p.value,
-    'wilcox.test','',0.3693,
-    'lm (signed ranks)',3.74,0.3721
+    ~Test, ~"mean / intercept", ~p.value,
+    "wilcox.test", NA, 0.3693,
+    "lm (signed ranks)", 3.74, 0.3721
     ),
-  caption = 'Wilcox signed rank test and linear model',
+  caption = "Wilcox signed rank test and linear model",
   booktabs = TRUE
 )
 ```
 
-The two tests give similar (though not quite identical) p-values. 
-
+The two tests give similar (though not quite identical) p-values.
 
 ## Paired samples
 
 ### Paired-sample t-test
 
-A __paired-sample t-test__ (sometime called a dependent-sample t-test) is used to compare two population means where you have two samples, in which observations in one sample can be paired with observations in the other sample. 
+A __paired-sample t-test__ (sometime called a dependent-sample t-test) is used to compare two population means where you have two samples, in which observations in one sample can be paired with observations in the other sample.
 
 Common applications of the paired-sample t-test include controlled studies or repeated-measures designs. Examples of when you might use this test include:
 
 * Before and after observations on the same subjects (e.g. students’ test
-results before and after taking a course).  
+results before and after taking a course).
 * A comparison of two different treatments, where where the treatments are applied to the same subjects (e.g. athletes' ability to lift weights following two different warm-up routines).
 * A comparison of two different measurements, where where the measurements are applied to the same subjects (e.g. blood pressure measured using two types of machines).
 
@@ -148,9 +158,13 @@ The paired-sample t-test determines whether the average difference between two s
 
 __Equivalent linear model:__
 
-The equivalent linear model is the _difference_ between the two observations regressed against a constant: 
+The equivalent linear model is the _difference_ between the two observations regressed against a constant:
+
+::: {.center data-latex=""}
 
 $y_2 - y_1 = \beta_0 \qquad  H_0: \beta_0 = 0$
+
+:::
 
 __Comparison:__
 
@@ -158,9 +172,9 @@ We can compare the t-test and linear model using our sample data (section \@ref(
 
 The code and the outputs are shown below. Again, the linear model gives exactly the same results as the t-test!
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 # t-test (built-in test)
-t.test(y2,y, paired = TRUE, mu = 0, alternative = 'two.sided')
+t.test(y2, y, paired = TRUE, mu = 0, alternative = "two.sided")
 
 # Equivalent linear model
 lm <- lm(y2 - y ~ 1)
@@ -171,11 +185,11 @@ lm <- lm(y2 - y ~ 1)
 ```{r, echo = FALSE}
 knitr::kable(
   tribble(
-    ~Test,~'mean of diff / intercept',~t,~p.value,~conf.low,~conf.high,
-    't.test',  0.2, 0.5264, 0.601, -0.5635, 0.9635,
-    'lm', 0.2, 0.5264, 0.601, -0.5635, 0.9635
+    ~Test, ~"mean of diff / intercept", ~t, ~p.value, ~conf.low, ~conf.high,
+    "t.test",  0.2, 0.5264, 0.601, -0.5635, 0.9635,
+    "lm", 0.2, 0.5264, 0.601, -0.5635, 0.9635
     ),
-  caption = 'Paired-sample t-test and linear model',
+  caption = "Paired-sample t-test and linear model",
   booktabs = TRUE
 )
 ```
@@ -192,33 +206,37 @@ For this we use the built-in [wilcox.test](https://www.rdocumentation.org/packag
 
 The equivalent linear model is exactly the same above but using _signed rank_ of the difference between observations, i.e.:
 
+::: {.center data-latex=""}
+
 $signed\_rank(y_2 - y_1) = \beta_0 \qquad  H_0: \beta_0 = 0$
 
-A comparison of the outputs is shown below. The p-values are almost identical. The t-test has also been included, this time using signed ranks, to show that this is the same as the linear model. 
+:::
 
-```{r, eval=FALSE}
+A comparison of the outputs is shown below. The p-values are almost identical. The t-test has also been included, this time using signed ranks, to show that this is the same as the linear model.
+
+```{r, eval = FALSE}
 #  Wilcox test (built-in test)
-wilcox.test(y2,y, paired = TRUE, mu = 0, alternative = 'two.sided')
+wilcox.test(y2, y, paired = TRUE, mu = 0, alternative = "two.sided")
 
 # Equivalent linear model
 lm <- lm(signed_rank(y2 - y) ~ 1)
   lm %>% summary() %>% print(digits = 8)
-  
+
 # t-test using signed ranks (built-in test)
-t.test(signed_rank(y2-y), mu = 0, alternative = 'two.sided')
+t.test(signed_rank(y2 - y), mu = 0, alternative = "two.sided")
 ```
 
 ```{r, echo = FALSE}
 knitr::kable(
   tribble(
-    ~Test,~'mean / intercept',~p.value,
-    'wilcox.test','',0.8243,
-    'lm (signed ranks)',0.94, 0.8232,
-    't.test (signed ranks)',  0.94, 0.8232 
+    ~Test, ~"mean / intercept", ~p.value,
+    "wilcox.test", NA, 0.8243,
+    "lm (signed ranks)", 0.94, 0.8232,
+    "t.test (signed ranks)",  0.94, 0.8232
     ),
-  caption = 'Wilcox test and linear model, with paired samples',
+  caption = "Wilcox test and linear model, with paired samples",
   booktabs = TRUE
 )
 ```
 
-Based on the results above, we would not reject the null hypothesis that the _median_ change between `y` and `y2` was zero (p = 0.8232), at the 0.05 level of significance. 
+Based on the results above, we would not reject the null hypothesis that the _median_ change between `y` and `y2` was zero (p = 0.8232), at the 0.05 level of significance.

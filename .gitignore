@@ -2,3 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+.DS_Store
+stat_tests.Rproj
+stat_tests.Rmd
+_bookdown_files

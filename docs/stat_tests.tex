@@ -1,0 +1,1873 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  12pt,
+]{krantz}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Common statistical tests are linear models: a work through},
+  pdfauthor={Steve Doogue},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage{booktabs}
+
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\topfraction}{0.8}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\floatpagefraction}{0.75}
+\usepackage[]{natbib}
+\bibliographystyle{apalike}
+
+\title{Common statistical tests are linear models: a work through}
+\author{Steve Doogue}
+\date{2020-12-29}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\hypertarget{introduction}{%
+\chapter{Introduction}\label{introduction}}
+
+This is a reworking of the book \href{https://lindeloev.github.io/tests-as-linear/}{Common statistical tests are linear models (or: how to teach stats)}, written by Jonas Lindeløv. The book beautifully demonstrates how many common statistical tests (such as the t-test, ANOVA and chi-squared) are special cases of the linear model. The book also demonstrates that many non-parametric tests, which are needed when certain test assumptions do not hold, can be approximated by linear models using the \emph{rank} of values.
+
+This approach offers a way to greatly simplify the teaching of introductory statistics, using the simple model of the form \(y = a + b \cdot x\) which is familiar to most students. This approach brings coherence to a wide-range of statistical tests, which are usually taught to students as independent tools with a potentially-overwhelming array of names. The approach also helps to explain the intuition underlying statistical tests, drawing on the familiar concept of linear regressions, which emphasizes understanding over rote learning.
+
+The purpose of creating this book is to solidify my understanding of this approach. I do this by reproducing the examples provided by Lindeløv; by expanding on areas where there were gaps in my knowledge; and by paraphrasing some of the explanations, using concepts and terms with which I am more familiar. The book may also be helpful to others who want to follow along with Lindeløv's book, but who require more background on some of the concepts being discussed.
+
+Credit for this book should be attributed to Jonas Lindeløv, though I am of course responsible for any errors in my own interpretation.
+
+Note that some of the data used in this book varies from that used by Lindeløv, and so some of the test results differ. However, the concepts being discussed are exactly the same.
+
+\emph{Steve Doogue}
+
+\hypertarget{data}{%
+\chapter{The data}\label{data}}
+
+\emph{Note that some of the data used in this book varies from those used by Lindeløv. Some of the test results will therefore differ.}
+
+\hypertarget{samplevalues}{%
+\section{Sample values}\label{samplevalues}}
+
+Most of the examples in the book are based on three imaginary samples (\texttt{x}, \texttt{y} and \texttt{y2}). Each is normally distributed and made up of 50 observations.
+
+We start by creating a function that will allow us to produce samples of a given size (\texttt{N}) with a specified mean (\texttt{mu}) and standard deviation (\texttt{sd}):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rnorm\_fixed \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(n, }\DataTypeTok{mu =} \DecValTok{0}\NormalTok{, }\DataTypeTok{sd =} \DecValTok{1}\NormalTok{) \{}
+  \KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{scale}\NormalTok{(}\KeywordTok{rnorm}\NormalTok{(n)) }\OperatorTok{*}\StringTok{ }\NormalTok{sd }\OperatorTok{+}\StringTok{ }\NormalTok{mu)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Now we can create our three samples:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Set the seed so our \textquotesingle{}random\textquotesingle{} results are reproducible}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{40}\NormalTok{)}
+
+\CommentTok{\# Create the samples (use the same order as original book {-} y, x, then y2)}
+\NormalTok{y \textless{}{-}}\StringTok{ }\KeywordTok{rnorm\_fixed}\NormalTok{(}\DecValTok{50}\NormalTok{, }\DataTypeTok{mu =} \FloatTok{0.3}\NormalTok{, }\DataTypeTok{sd =} \DecValTok{2}\NormalTok{)}
+\NormalTok{x \textless{}{-}}\StringTok{ }\KeywordTok{rnorm\_fixed}\NormalTok{(}\DecValTok{50}\NormalTok{, }\DataTypeTok{mu =} \DecValTok{0}\NormalTok{, }\DataTypeTok{sd =} \DecValTok{1}\NormalTok{)}
+\NormalTok{y2 \textless{}{-}}\StringTok{ }\KeywordTok{rnorm\_fixed}\NormalTok{(}\DecValTok{50}\NormalTok{, }\DataTypeTok{mu =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{sd =} \FloatTok{1.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Let's also combine these samples into `wide' and `long' data frames. This doesn't change any of the values, it just rearranges the data into different layouts which can sometimes be easier to work with (e.g.~when producing plots):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# The wide layout is a dataframe with three columns, one for each of x, y and y2}
+\NormalTok{mydata\_wide \textless{}{-}}\StringTok{ }\KeywordTok{tibble}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ x, }\DataTypeTok{y =}\NormalTok{ y, }\DataTypeTok{y2 =}\NormalTok{ y2)}
+
+\CommentTok{\# the long layout has two columns: one listing the group to which each}
+\CommentTok{\# observation elongs (x, y or y2), and another column with the corresponding value}
+\NormalTok{mydata\_long \textless{}{-}}\StringTok{ }\NormalTok{mydata\_wide }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{gather}\NormalTok{(group, value, x}\OperatorTok{:}\NormalTok{y2)}
+\end{Highlighting}
+\end{Shaded}
+
+Here's what our three samples look like when plotted. Note the different mean (0.0, 0.3, and 0.5) and the different `spread' of values for each group (reflecting their different standard deviations).
+
+\begin{figure}
+
+{\centering \includegraphics{stat_tests_files/figure-latex/unnamed-chunk-5-1} 
+
+}
+
+\caption{Our sample data}\label{fig:unnamed-chunk-5}
+\end{figure}
+
+\hypertarget{ranktrans}{%
+\section{`Signed rank' values}\label{ranktrans}}
+
+Most common tests demonstrated in the book use the \emph{actual} values from the samples above. However, some tests (i.e.~non-parametric tests) also use their \emph{rank-transformed} values. In some cases, the \emph{signed rank} of the values is used.
+
+What is meant by signed ranks? The signed rank is found by:
+1. taking the \emph{absolute} value of each observation in the original sample; that is, expressing all the values as a positive number;
+2. finding the rank of each of these absolute values, where the smallest absolute value has a rank of 1; and
+3. giving each of these ranks the same sign (+ or -) as the original value.
+
+For example, the numbers -2, 3, 7, -25, -30, 31 would have the signed ranks of -1, 2, 3, -4, -5, 6.
+
+We create a function, \texttt{signed\_rank()}, that we can use later to convert our actual values into signed ranks:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Takes any list of values, x, and calculates their signed rank}
+\NormalTok{signed\_rank \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{sign}\NormalTok{(x) }\OperatorTok{*}\StringTok{ }\KeywordTok{rank}\NormalTok{(}\KeywordTok{abs}\NormalTok{(x))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{linearmodel}{%
+\chapter{The linear model}\label{linearmodel}}
+
+\hypertarget{overview-of-the-linear-model}{%
+\section{Overview of the linear model}\label{overview-of-the-linear-model}}
+
+The premise of this book is that many common statistical tests are really just special cases of the \textbf{linear model}.
+
+This section provides an overview of the linear model. The description will be somewhat informal as it aims to provide an intuitive explanation rather than a rigorous technical description.
+
+The linear model, or linear regression model, estimates the relationship between one continuous variable and one or more other variables. It is assumed that the relationship can be described as a straight line (hence the term `linear').
+
+For example, say we are looking at a variable \(y\) and we want to know its relationship with a variable \(x\). We assume that the relationship can be expressed as a mathematical relationship between \(y\) (the dependent, or response variable) and \(x\) (the explanatory variable):
+
+\begin{center}
+
+\(y = \beta_0 + \beta_1 x\)
+
+\end{center}
+
+To illustrate what this equation is showing, imagine we have six observations of variables \(x\) and \(y\), which can be plotted as follows:
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{images/image01} 
+
+}
+
+\caption{Six observations of x and y}\label{fig:unnamed-chunk-7}
+\end{figure}
+
+We assume that this relationship can be represented by a straight line. The line is composed of an intercept (\(\beta_0\)) and a slope (\(\beta_1\)). Each point on this line represents our \emph{predicted} value of \(y\) for a given value of \(x\).
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{images/image02} 
+
+}
+
+\caption{Intercept and slope of model}\label{fig:unnamed-chunk-8}
+\end{figure}
+
+So how do we estimate the intercept and slope? In other words, how do we estimate what the values of \(\beta_0\) and \(\beta_1\) should be?
+
+Linear regression estimates the line (i.e., slope and intercept) that minimizes the difference between our \emph{predicted} values of \(y\) and the \emph{actual} values of \(y\) that were observed in the original sample. These difference are referred to as ``residuals''.
+
+More specifically, linear regression minimizes the sum of the \emph{squared} value of these residuals. So in the figure below, linear regression is used to estimate the line that would minimize the combined area of the purple squares. For this reason, the method is sometimes referred to as an ``ordinary least squares'' (OLS) regression.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth]{images/image03} 
+
+}
+
+\caption{Line of best fit minimizes the sum of squared residuals}\label{fig:unnamed-chunk-9}
+\end{figure}
+
+In the example above, we considered a dependent variable (\(y\)) that was being ``explained'' by one other variable, or predictor (\(x\)). But this can be expanded to include multiple predictors, for example with the model:
+
+\begin{center}
+
+\(y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 ... + \beta_i x_i\)
+
+\end{center}
+
+This is referred to as \emph{multiple regression}. In this case we still have only one intercept (\(\beta_0\)) but many slopes that need to be estimated (\(\beta_1\), \(\beta_2\) and so on). The same method can be used to estimate these parameters as was illustrated above, i.e.~an OLS regression which minimizes the sum of squared residuals. This cannot be illustrated in a two-dimensional diagram, as was the case when a single predictor was used, but the exact same concept applies.
+
+So that's the linear model. The key premise of Lindeløv's book many statistical tests are just special cases of this:
+
+\begin{quote}
+Everything below, from one-sample t-test to two-way ANOVA are just special cases of this system. Nothing more, nothing less.
+\end{quote}
+
+\hypertarget{estimating-linear-models-in-r}{%
+\section{Estimating linear models in R}\label{estimating-linear-models-in-r}}
+
+To estimate linear models in R we use the \texttt{lm()} function.
+
+For example, say we want to estimate the relationship between our sampled data for \texttt{x} and \texttt{y}. We will apply the following model: \(y = \beta_0 + \beta_1 x\)
+
+In R, this can be written as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Represents y = beta0 + beta1 * x}
+\KeywordTok{lm}\NormalTok{(y }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{x)}
+\end{Highlighting}
+\end{Shaded}
+
+In the original book, the specified model is accompanied by the null hypothesis, \(H_0: \beta_1 = 0\). This is equivalent to saying that there is no relationship between \texttt{x} and \texttt{y}. The output from our linear model tells us whether there could be grounds for rejecting this null hypothesis of ``no relationship'', in favor of the alternative hypothesis that there \emph{is} a relationship.
+
+A key output of interest, or test statistic, is the p-value.
+
+\begin{itemize}
+\tightlist
+\item
+  A small p-value (conventionally ≤ 0.05) indicates strong evidence against the null hypothesis, so you reject the null hypothesis of no relationship.\footnote{The p-value is the probability of getting a value as extreme or more extreme than the one observed in your sample, under the assumption that the null hypothesis is true.}
+\item
+  A larger p-value (\textgreater{} 0.05) indicates weak evidence against the null hypothesis, so you fail to reject the null hypothesis of no relationship.
+\end{itemize}
+
+Let's see the output of the linear model for our sample data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{lm}\NormalTok{(y }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{x) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{summary}\NormalTok{() }\CommentTok{\#\%\textgreater{}\% print(digits = 5)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = y ~ 1 + x)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.3393 -1.6593  0.3349  1.3629  3.5214 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)
+## (Intercept)   0.3000     0.2780   1.079    0.286
+## x            -0.4636     0.2808  -1.651    0.105
+## 
+## Residual standard error: 1.966 on 48 degrees of freedom
+## Multiple R-squared:  0.05372,    Adjusted R-squared:  0.03401 
+## F-statistic: 2.725 on 1 and 48 DF,  p-value: 0.1053
+\end{verbatim}
+
+As seen in the output above, \(\beta_1\) (the coefficient on \texttt{x}) has a p-value of 0.1053. This means we would fail to reject the null hypothesis that there was no relationship between \texttt{x} and \texttt{y}.
+
+\hypertarget{assumptions}{%
+\section{Assumptions}\label{assumptions}}
+
+The inferences drawn from the linear model, as described above, are only valid if a number of assumptions hold. The following diagram, found in the book \href{https://bookdown.org/roback/bookdown-bysh/}{Broadening Your Statistical Horizons}, can be used to explain these assumptions:
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{images/ols_assumptions} 
+
+}
+
+\caption{Ordinary least squares assumptions}\label{fig:unnamed-chunk-12}
+\end{figure}
+
+The four main assumptions can be remembered using the acronym `LINE':
+
+\textbf{L:} there is a \textbf{linear} or straightline relationship between the mean response (Y) and the explanatory variable (X). In the figure above, the mean value for Y at each level of X falls on the blue regression line.
+
+\textbf{I:} the errors are \textbf{independent} --- there's no connection between how far any two points lie from the regression line. This is usually more of an issue in time series data (i.e.~where data is collected from the same entity over time, e.g.~a stock price) than cross-sectional data (where data is collected from many entities a single point in time, e.g.~exam marks for a group of students).
+
+\textbf{N:} the dependent variable is \textbf{normally} distributed at each level of X. At each level of X, the values for Y follow a normal or `bell-shaped' distribution as shown in red in the figure above.
+
+\textbf{E:} there is \textbf{equal variance} (or `homoscedasticity') - the variance or `spread' of the responses is equal for all levels of X. The spread in the Y's for each level of X is the same, as shown above.
+
+A more detailed explanation of these assumptions is provided here by \href{https://statistics.laerd.com/spss-tutorials/linear-regression-using-spss-statistics.php}{Laerd}.
+
+\hypertarget{correlations}{%
+\chapter{Correlations}\label{correlations}}
+
+Correlation is a measure of the strength and direction of association that exists between two variables. Correlation coefficients (\(r\)) assume values in the range from −1 to +1, where ±1 indicates the strongest possible positive or negative correlation and 0 indicates no linear association between the variables.
+
+\hypertarget{pearson-correlation}{%
+\section{Pearson correlation}\label{pearson-correlation}}
+
+We start by looking at the Pearson correlation coefficient. Here we compare the built-in test (in R) for the Pearson correlation with the equivalent linear model.
+
+The equivalent linear model is the basic regression of \(y\) on \(x\), specified as follows:
+
+\begin{center}
+
+\(y = \beta_0 + \beta_1x \qquad H_0: \beta_1 = 0\)
+
+\end{center}
+
+The two tests are written using the following R code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Pearson (built in test)}
+\KeywordTok{cor.test}\NormalTok{(y, x, }\DataTypeTok{method =} \StringTok{"pearson"}\NormalTok{)}
+\CommentTok{\# Linear model}
+\KeywordTok{lm}\NormalTok{(y }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{x) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{summary}\NormalTok{() }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{print}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{8}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+If you were to run the code above, you would see the following the key statistics found in the output of each test:
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-14}Pearson vs linear model}
+\centering
+\begin{tabular}[t]{lrrrr}
+\toprule
+Test & r & slope & t & p-value\\
+\midrule
+cor.test (Pearson) & -0.2318 & NA & -1.6507 & 0.1053\\
+lm & NA & -0.4636 & -1.6507 & 0.1053\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The output shows that the correlation coefficient (\(r\)) has a p-value of 0.1053, which is exactly the same as the p-value for the slope of the linear model. In this case, we would not reject the null hypothesis that there was no correlation between the two variables (at the 0.05 level of significance).
+
+The main difference is that the linear model returns the \emph{slope} of the relationship, \(\beta_1\) (which in this case is -0.4636), rather than the correlation coefficient, \(r\). The slope is usually much more interpretable and informative than the correlation coefficient.
+
+\textbf{Additional note (optional):}
+
+It may be useful to understand how the Pearson correlation coefficient (\(r\)) and the regression coefficient or slope (\(\beta_1\)) are related, which is by the following formula:
+
+\begin{center}
+
+\(\beta_1 = r \cdot sd_y / sd_x\)
+
+\end{center}
+
+This shows that:
+
+\begin{itemize}
+\tightlist
+\item
+  When both \texttt{x} and \texttt{y} have the same standard deviations (\(sd_x\) and \(sd_y\)) then the slope (\(\beta_1\)) will be equal to the correlation coefficient (\(r\))
+\item
+  The ratio of the slope to the correlation coefficient (\(\beta_1 / r\)) is equal to the ratio of the standard deviations (\(sd_y / sd_x\)). In this example, the standard deviation of \texttt{y} is exactly twice as large as \texttt{x}, which is why the slope has twice the magnitude of the correlation coefficient.
+\item
+  The slope from the linear model will always have the same sign (+ or -) as the correlation coefficient (as standard deviations are always positive).
+\end{itemize}
+
+\hypertarget{spearman-correlation}{%
+\section{Spearman correlation}\label{spearman-correlation}}
+
+There will be times when it is more appropriate to use the \textbf{Spearman rank correlation} than the Pearson correlation. This could be the case when:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The relationship between the variables is not linear, i.e.~not a straight line;
+\item
+  The data is not normally distributed;\footnote{Technically the variables should have \emph{bivariate} normality, which means they are normally distributed when added together, but this is complex and so it is common just to assess whether the variables are individually normal (explained here on the \href{https://statistics.laerd.com/spss-tutorials/pearsons-product-moment-correlation-using-spss-statistics.php}{Laerd} website). If bi-variate normality does not hold then you will still get a fair estimate of \(r\), but the inferential tests (t-statistics and p-values) could be misleading (explained \href{https://www.researchgate.net/post/Why_should_data_be_normally_distributed_and_continuous_in_order_to_apply_Pearson_correlation}{here}).}
+\item
+  The data has large outliers; or
+\item
+  When you are working with ordinal rather than continuous data.\footnote{see Chapter \ref{appendixtypes} for a description of the different types of data.}
+\end{enumerate}
+
+The Spearman correlation is a \emph{non-parameteric} test as it does not require that the parameters of the linear model hold true. For example, there does not need to be a linear relationship between the two variables, and the data does not need to be normally distributed.
+
+The Spearman rank correlation is the same as a Pearson correlation but using the \emph{rank} of the values in our samples. This is an approximation only, which Lindeløv shows is approximate when the sample size is greater than 10 and almost perfect when the sample is greater than 20.
+
+This is also the same as the linear model using rank-transformed values of \(x\) and \(y\):
+
+\begin{center}
+
+\(rank(y) = \beta_0 + \beta_1 \cdot rank(x) \qquad H_0: \beta_1 = 0\)
+
+\end{center}
+
+For a comparison of the Spearman test, the Pearson test (using ranks) and the linear model (also using ranks) we run the following code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Spearman}
+\KeywordTok{cor.test}\NormalTok{(y, x, }\DataTypeTok{method =} \StringTok{"spearman"}\NormalTok{)}
+
+\CommentTok{\# Pearson using ranks}
+\KeywordTok{cor.test}\NormalTok{(}\KeywordTok{rank}\NormalTok{(y), }\KeywordTok{rank}\NormalTok{(x), }\DataTypeTok{method =} \StringTok{"pearson"}\NormalTok{)}
+
+\CommentTok{\# Linear model using rank}
+\NormalTok{lm \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(}\KeywordTok{rank}\NormalTok{(y) }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\KeywordTok{rank}\NormalTok{(x))}
+\NormalTok{  lm }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{summary}\NormalTok{() }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{print}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{5}\NormalTok{) }\CommentTok{\# show summary ouput}
+\end{Highlighting}
+\end{Shaded}
+
+The output of this code is as follows:
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-16}Spearman, Pearson (ranks) and linear model (ranks)}
+\centering
+\begin{tabular}[t]{lrrr}
+\toprule
+Test & correlation & slope & p.value\\
+\midrule
+cor.test (Spearman) & -0.2266 & NA & 0.1135\\
+cor.test (Pearson with ranks) & -0.2266 & NA & 0.1135\\
+lm (with ranks) & NA & -0.2266 & 0.1135\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+This shows that the results are all the same (or at least very close approximations). When ranks are used, the slope of the linear model (\(\beta_1\)) has the same value as the correlation coefficient (\(r\)). Note that the slope from the linear model has an intuitive interpretation, which is the number of ranks \(y\) changes for each change in rank of \(x\).
+
+Given the similarity of these tests, Lindeløv notes that:
+
+\begin{quote}
+One interesting implication is that many ``non-parametric tests'' are about as parametric as their parametric counterparts with means, standard deviations, homogeneity of variance, etc. - just on rank-transformed data.
+\end{quote}
+
+Finally, the figure below (reproduced from the original book) illustrates how the Pearson and Spearman correlations are equivalent to linear models, with the latter being based on rank-transformed values.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{images/correlations} 
+
+}
+
+\caption{Pearson and Spearman correlations as linear models}\label{fig:unnamed-chunk-17}
+\end{figure}
+
+\hypertarget{one-mean}{%
+\chapter{One mean}\label{one-mean}}
+
+This set of tests deals with a single mean. They tell us whether, based on our sample, we have reason to believe that the mean of the underlying population differs from an some specific level (the `null hypothesis').
+
+In some cases we might have two samples with \emph{paired} observations (e.g.~an athlete's average running speed before and after a new training technique is used). In this case we take the \emph{difference} between the paired observations (the change in each athlete's running speed) and treat this as a single measurement. We then assess whether, based on the mean of these differences in our sample, we have reason to believe that the `true' mean differs from a specified level (e.g.~zero, representing
+no change in running speed).
+
+The \emph{one sample} and \emph{paired sample} cases are addressed in turn, below.
+
+\hypertarget{one-sample}{%
+\section{One sample}\label{one-sample}}
+
+\hypertarget{one-sample-t-test}{%
+\subsection{One-sample t-test}\label{one-sample-t-test}}
+
+A one-sample t-test (or one-sample Student's t-test) is used to determine whether a sample could have come from a population with a specified mean. This population mean is not always known and may only be theoretical / hypothesized.
+
+For example, say we take a sample of pupils who have been taught using a new teaching method. These pupils receive an average score of 70\% in an end-of-year test, while the average score for all pupils nationally is 60\%. We want to know how often we are likely to see a sample average of 70\% (or more extreme) if the `true' average for pupils receiving the new teaching method was 60\%, i.e.~if there was no difference from the national average.
+
+\textbf{Student's t-test:}
+
+In R, we can run a one-sample Student's t-test using the built-in \texttt{t.test()}. The documentation for this test can be found \href{https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/t.test}{here}.
+
+\textbf{Equivalent linear model:}
+
+The one-sample t-test is the same as a linear model containing a dependent variable, \(y\), and a constant only. That is, a model with the form:
+
+\begin{center}
+
+\(y = \beta_0 \qquad H_0: \beta_0 = 0\)
+
+\end{center}
+
+This is the same as the equation \(y = \beta_0 + \beta_1 \cdot x\) that was shown earlier (Chapter \ref{linearmodel}), but having dropped the last term. This is shown graphically below. Note that this is the same as a linear regression in which all values of \(x\) are treated as zero:
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.4\linewidth]{images/image04} 
+
+}
+
+\caption{Linear model equivalent to one-sample t-test}\label{fig:unnamed-chunk-18}
+\end{figure}
+
+The estimated intercept (\(\beta_0\)) is simply the average of all the values in our sample. The linear regression returns the t-statistic and p-value based on the null hypothesis that the true average is equal to zero (i.e.~\(\beta_0 = 0\)).
+
+\textbf{Comparison:}
+
+Here is how you would run the t-test and equivalent linear model in R:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# t{-}test (built{-}in test)}
+\KeywordTok{t.test}\NormalTok{(y, }\DataTypeTok{mu =} \DecValTok{0}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{)}
+
+\CommentTok{\# Linear model}
+\NormalTok{lm \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(y }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1}\NormalTok{)}
+\NormalTok{  lm }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{summary}\NormalTok{() }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{print}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{5}\NormalTok{) }\CommentTok{\# show summary output}
+  \KeywordTok{confint}\NormalTok{(lm) }\CommentTok{\# show confidence intervals}
+\end{Highlighting}
+\end{Shaded}
+
+The output of this code, including the 95 percent confidence intervals, is shown in the table below. The outputs are exactly the same!
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-20}One-sample t-test and linear model}
+\centering
+\begin{tabular}[t]{lrrrrr}
+\toprule
+Test & mean / intercept & t & p.value & conf.low & conf.high\\
+\midrule
+t.test & 0.3 & 1.0607 & 0.294 & -0.2684 & 0.8684\\
+lm & 0.3 & 1.0607 & 0.294 & -0.2684 & 0.8684\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Based on the p-value above, despite having a sample average of 0.3 we would not reject the null hypothesis that the true or population average was zero (at the 0.05 level of significance).
+
+\hypertarget{testing-a-null-hypothesis-other-than-zero}{%
+\paragraph*{Testing a null hypothesis other than zero:}\label{testing-a-null-hypothesis-other-than-zero}}
+\addcontentsline{toc}{paragraph}{Testing a null hypothesis other than zero:}
+
+By default, the t-test has a null hypothesis is that the sample comes from a population with a mean of \emph{zero}. This was written as \(H_0: \beta_0 = 0\) above. What if we want to use a different null hypothesis? For example, to how likely it is that our sample \texttt{y} came from a population with a mean of 0.1?
+
+This can be done by specifying the null hypothesis in the built-in t-test (in this case using the argument \texttt{mu\ =\ 0.1}) or, in the linear model, by first subtracting this amount from the dependent variable (using \texttt{y\ -\ 0.1} as the dependent variable).
+
+The code is as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# t{-}test (built{-}in test)}
+\KeywordTok{t.test}\NormalTok{(y, }\DataTypeTok{mu =} \FloatTok{0.1}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{)}
+
+\CommentTok{\# Linear model}
+\KeywordTok{lm}\NormalTok{((y }\OperatorTok{{-}}\StringTok{ }\FloatTok{0.1}\NormalTok{) }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{summary}\NormalTok{() }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{print}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{5}\NormalTok{) }\CommentTok{\# show summary output}
+\end{Highlighting}
+\end{Shaded}
+
+The two tests above give identical t statistics and p-values.
+
+\hypertarget{wilcoxen-signed-rank}{%
+\subsection{Wilcoxen signed-rank}\label{wilcoxen-signed-rank}}
+
+What if we cannot assume that our population is normally distributed? Here we need to use a non-parametric version of the t-test.
+
+\textbf{Wilcoxen signed-rank test:}
+
+In this case we could use the Wilcoxon signed-rank test, which is the non-parametric version of the t-test. Specifically, we use the one-sample Wilcoxon signed-rank test. This is used to determine whether the \emph{median} of the sample is equal to a theoretical value, such as zero, under the \href{http://www.sthda.com/english/wiki/one-sample-wilcoxon-signed-rank-test-in-r}{assumption} that the data is symmetrically distributed.
+
+The Wilcoxon signed-rank test is very similar to the linear model described above, but using the \emph{signed ranks} of \(y\) instead of \(y\) itself. The concept of signed ranks was explained in section \ref{ranktrans}.
+
+It is implemented in R using the \href{https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/wilcox.test}{wilcox.test}, as shown below.
+
+\textbf{Equivalent linear model:}
+
+In this case the equivalent linear model is:
+
+\begin{center}
+
+\(signed\_rank(y) = \beta_0 \qquad H_0: \beta_0 = 0\)
+
+\end{center}
+
+\href{https://lindeloev.github.io/tests-as-linear/simulations/simulate_wilcoxon.html}{Lindeløv shows} that the linear model will be a good approximation of the Wilcoxon signed-rank test when the sample size is larger than 14 and almost perfect when the sample size is larger than 50.
+
+\textbf{Comparison:}
+
+The code below is for the \href{https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/wilcox.test}{wilcox.test} in R and the equivalent linear model using signed ranks:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Wilcox test (built{-}in)}
+\KeywordTok{wilcox.test}\NormalTok{(y)}
+
+\CommentTok{\# Equivalent linear model}
+\NormalTok{lm \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(}\KeywordTok{signed\_rank}\NormalTok{(y) }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1}\NormalTok{)}
+\NormalTok{  lm }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{summary}\NormalTok{() }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{print}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{8}\NormalTok{) }\CommentTok{\# show summary output}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-23}Wilcox signed rank test and linear model}
+\centering
+\begin{tabular}[t]{lrr}
+\toprule
+Test & mean / intercept & p.value\\
+\midrule
+wilcox.test & NA & 0.3693\\
+lm (signed ranks) & 3.74 & 0.3721\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The two tests give similar (though not quite identical) p-values.
+
+\hypertarget{paired-samples}{%
+\section{Paired samples}\label{paired-samples}}
+
+\hypertarget{paired-sample-t-test}{%
+\subsection{Paired-sample t-test}\label{paired-sample-t-test}}
+
+A \textbf{paired-sample t-test} (sometime called a dependent-sample t-test) is used to compare two population means where you have two samples, in which observations in one sample can be paired with observations in the other sample.
+
+Common applications of the paired-sample t-test include controlled studies or repeated-measures designs. Examples of when you might use this test include:
+
+\begin{itemize}
+\tightlist
+\item
+  Before and after observations on the same subjects (e.g.~students' test
+  results before and after taking a course).
+\item
+  A comparison of two different treatments, where where the treatments are applied to the same subjects (e.g.~athletes' ability to lift weights following two different warm-up routines).
+\item
+  A comparison of two different measurements, where where the measurements are applied to the same subjects (e.g.~blood pressure measured using two types of machines).
+\end{itemize}
+
+\textbf{Paired-sample t-test / dependent-sample t-test:}
+
+The paired-sample t-test determines whether the average difference between two sets of observations is zero. To run this in R, we use the same Student's t-test as above, but now include both variables as arguments and specify that we have paired observations (using the argument \texttt{paired\ =\ TRUE}).
+
+\textbf{Equivalent linear model:}
+
+The equivalent linear model is the \emph{difference} between the two observations regressed against a constant:
+
+\begin{center}
+
+\(y_2 - y_1 = \beta_0 \qquad H_0: \beta_0 = 0\)
+
+\end{center}
+
+\textbf{Comparison:}
+
+We can compare the t-test and linear model using our sample data (section \ref{samplevalues}) as an example. Recall that \texttt{y} had a mean of 0.3, and \texttt{y2} had a mean of 0.5.
+
+The code and the outputs are shown below. Again, the linear model gives exactly the same results as the t-test!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# t{-}test (built{-}in test)}
+\KeywordTok{t.test}\NormalTok{(y2, y, }\DataTypeTok{paired =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{mu =} \DecValTok{0}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{)}
+
+\CommentTok{\# Equivalent linear model}
+\NormalTok{lm \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(y2 }\OperatorTok{{-}}\StringTok{ }\NormalTok{y }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1}\NormalTok{)}
+\NormalTok{  lm }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{summary}\NormalTok{() }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{print}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{8}\NormalTok{)}
+  \KeywordTok{confint}\NormalTok{(lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-25}Paired-sample t-test and linear model}
+\centering
+\begin{tabular}[t]{lrrrrr}
+\toprule
+Test & mean of diff / intercept & t & p.value & conf.low & conf.high\\
+\midrule
+t.test & 0.2 & 0.5264 & 0.601 & -0.5635 & 0.9635\\
+lm & 0.2 & 0.5264 & 0.601 & -0.5635 & 0.9635\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+This shows us that the difference in averages between \texttt{y} and \texttt{y2} is 0.2, as would be expected, but that this difference is not statistically significantly difference from zero (p = 0.601) at the 0.05 level of significance.
+
+\hypertarget{wilcoxen-matched-pairs}{%
+\subsection{Wilcoxen matched pairs}\label{wilcoxen-matched-pairs}}
+
+If the necessary assumptions do not hold for a paired-sample t-test - such as normally distributed data - we can use the non-parametric counterpart. This is the \textbf{Wilcoxen matched pairs} test. The only difference from the Wilcoxon signed-rank test is that it's testing the signed ranks of the pairwise \(y−x\) differences.
+
+This is used to test the null hypothesis that the \emph{median} of the differences in our paired observations are zero. An assumption is that the values of the pairwise differences are symmetrically distributed, as explained by \href{https://statistics.laerd.com/spss-tutorials/wilcoxon-signed-rank-test-using-spss-statistics.php}{Laerd}.
+
+For this we use the built-in \href{https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/wilcox.test}{wilcox.test} in R, including both variables and specifying that we have paired observations (the argument \texttt{paired\ =\ TRUE}).
+
+The equivalent linear model is exactly the same above but using \emph{signed rank} of the difference between observations, i.e.:
+
+\begin{center}
+
+\(signed\_rank(y_2 - y_1) = \beta_0 \qquad H_0: \beta_0 = 0\)
+
+\end{center}
+
+A comparison of the outputs is shown below. The p-values are almost identical. The t-test has also been included, this time using signed ranks, to show that this is the same as the linear model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#  Wilcox test (built{-}in test)}
+\KeywordTok{wilcox.test}\NormalTok{(y2, y, }\DataTypeTok{paired =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{mu =} \DecValTok{0}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{)}
+
+\CommentTok{\# Equivalent linear model}
+\NormalTok{lm \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(}\KeywordTok{signed\_rank}\NormalTok{(y2 }\OperatorTok{{-}}\StringTok{ }\NormalTok{y) }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1}\NormalTok{)}
+\NormalTok{  lm }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{summary}\NormalTok{() }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{print}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{8}\NormalTok{)}
+
+\CommentTok{\# t{-}test using signed ranks (built{-}in test)}
+\KeywordTok{t.test}\NormalTok{(}\KeywordTok{signed\_rank}\NormalTok{(y2 }\OperatorTok{{-}}\StringTok{ }\NormalTok{y), }\DataTypeTok{mu =} \DecValTok{0}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-27}Wilcox test and linear model, with paired samples}
+\centering
+\begin{tabular}[t]{lrr}
+\toprule
+Test & mean / intercept & p.value\\
+\midrule
+wilcox.test & NA & 0.8243\\
+lm (signed ranks) & 0.94 & 0.8232\\
+t.test (signed ranks) & 0.94 & 0.8232\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Based on the results above, we would not reject the null hypothesis that the \emph{median} change between \texttt{y} and \texttt{y2} was zero (p = 0.8232), at the 0.05 level of significance.
+
+\hypertarget{two-means-independent-samples}{%
+\chapter{Two means (independent samples)}\label{two-means-independent-samples}}
+
+These tests compare the means of two independent or unrelated groups, in order to determine whether there is statistical evidence that the population means are significantly different. Examples include:
+
+\begin{itemize}
+\tightlist
+\item
+  Do first year graduate salaries differ based on gender? and
+\item
+  Is there is a difference in test anxiety based on educational level (undergraduate vs postgraduate)?
+\end{itemize}
+
+A key question is whether or not the \textbf{variances} of the two samples being tested are equal.\footnote{This can be tested with the Levene's Test for Equality of Variances.} In general terms:
+
+\begin{itemize}
+\tightlist
+\item
+  If the samples have \emph{equal} variance then an \textbf{independent-sample t-test} (Student's t-test) could be used.
+\item
+  If the samples have \emph{unequal} variance then the \textbf{Welch's t-test} can be used, as this does not assume identical variances.
+\item
+  If the samples are \emph{not normally distibuted}, or if the other requirements of the above tests are not met, then the non-parametric \textbf{Mann-Whitney U} test could be used.
+\end{itemize}
+
+This is somewhat simplistic, and the choice of tests is not always clear (see the discussion \href{https://stats.stackexchange.com/questions/121852/how-to-choose-between-t-test-or-non-parametric-test-e-g-wilcoxon-in-small-sampl}{here} on StackExchange for example). The following sections goes through each of these tests in turn, and describes how they can be approximated by an equivalent linear model.
+
+\hypertarget{independent-t-test}{%
+\section{Independent t-test}\label{independent-t-test}}
+
+The independent t-test can be used to compare the means of two unrelated groups. Assumptions include:
+
+\begin{itemize}
+\tightlist
+\item
+  Independence of observations (independent samples / groups);
+\item
+  Normal distribution (approximately) of the dependent variable for each group, though this might not be an issue for large samples;
+\item
+  No outliers; and
+\item
+  Homogeneity of variances; i.e.~variances are approximately equal across the two groups.
+\end{itemize}
+
+\textbf{Student's t-test:}
+
+In R, we can assesses the difference between two groups using the \href{https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/t.test}{t.test}. This has the default assumptions that the two samples are \emph{not} paired, and that their variances are \emph{not} equal.
+
+\textbf{Equivalent linear model:}
+
+The equivalent linear model uses a dummy variable to represent the two groups (see the explanation of dummy variables explained by Lindeløv in section 5.1.3 of the \href{https://lindeloev.github.io/tests-as-linear/\#51_independent_t-test_and_mann-whitney_u}{original book}).
+
+The linear model takes the form:
+
+\begin{center}
+
+\(y = \beta_0 + \beta_1 \cdot x_i \qquad H_0: \beta_0 = 0\)
+
+\end{center}
+
+where \(x_i\) is a dummy variable taking the value of 0 or 1, indicating whether observation \(i\) is from the reference group (0) or the other group (1). For example, \(y\) could be a measure of income and \(x_i\) could be a dummy variable taking the value of 0 for women and 1 for men.
+
+The use of dummy variables is illustrated below. The intercept (\(\beta_0\)) is the sample average for observations in our reference group (in this example, women) when \(x = 0\). The slope (\(\beta_1\)) is the difference in the averages of the two groups. In this example, when \(x = 1\) (indicating men), the average salary is equal to \(\beta_0 + \beta_1\). Therefore, \(\beta_1\) is the difference between the two groups, and we want to assess whether this difference is significantly different from zero.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.65\linewidth]{images/image_dummy1} 
+
+}
+
+\caption{Linear model equivalent to independent-sample t-test}\label{fig:dummy2}
+\end{figure}
+
+\textbf{Comparison:}
+
+Let's say we want to compare the means of two groups in our example dataset, \texttt{y} and \texttt{y2}.
+
+We start by creating a dummy variable to represent the two groups. The new variable is called \texttt{group\_y2} and takes a value of 0 for observations in group \texttt{y} and a value of 1 for observations in group \texttt{y2}. This is done using the following code:
+
+Here's a sample of six rows from our new data set, which now includes the dummy variable:
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-29}Some randomly selected rows from our data set}
+\centering
+\begin{tabular}[t]{lrr}
+\toprule
+group & value & group\_y2\\
+\midrule
+y & 1.1535602 & 0\\
+y & 1.1881680 & 0\\
+y & -1.3557817 & 0\\
+y2 & 0.1030347 & 1\\
+y2 & -0.2808907 & 1\\
+\addlinespace
+y2 & 0.6238886 & 1\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Now we've organized our data, we can compare the results of the built-in independent t-test with the linear model:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# independent t{-}test (built{-}in test)}
+\KeywordTok{t.test}\NormalTok{(y2, y, }\DataTypeTok{var.equal =} \OtherTok{TRUE}\NormalTok{)}
+\CommentTok{\# default is mu = 0, i.e. the null hypothesis that the difference in means is 0}
+
+\CommentTok{\# Linear model}
+\NormalTok{lm \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(value }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{group\_y2, }\DataTypeTok{data =}\NormalTok{ mydata\_dummy)}
+\NormalTok{  lm }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{summary}\NormalTok{() }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{print}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{8}\NormalTok{) }\CommentTok{\# show summary output}
+  \KeywordTok{confint}\NormalTok{(lm) }\CommentTok{\# show confidence intervals}
+\end{Highlighting}
+\end{Shaded}
+
+The outputs from the independent t-test and the equivalent linear model are shown below. The t statistic, p-value and confidence intervals are identical. While the t-test reports the averages of the two samples, the linear model reports the average of the reference group (0.3 for \texttt{y}) and the \emph{difference} between the average of this reference group and the other group indicated by the dummy variable (a difference of +0.2).
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-31}Independent-sample t-test (equal variance) and linear model}
+\centering
+\begin{tabular}[t]{lrrrrrrr}
+\toprule
+Test & mean.y & mean.y2 & difference & t & p.value & conf.low & conf.high\\
+\midrule
+t-test & 0.3 & 0.5 & NA & 0.5657 & 0.5729 & -0.5016 & 0.9016\\
+lm (with dummy) & 0.3 & NA & 0.2 & 0.5657 & 0.5729 & -0.5016 & 0.9016\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hypertarget{welchs-t-test}{%
+\section{Welch's t-test}\label{welchs-t-test}}
+
+If the two samples have unequal variance then Welch's t-test could be used.
+
+In fact, \href{http://daniellakens.blogspot.com/2015/01/always-use-welchs-t-test-instead-of.html}{there is an argument} that we should use Welch's t-test by default, rather than the independent Student's t-test, because Welch's t-test performs better than the t-test whenever sample sizes and variances are unequal between groups, and gives the same result when sample sizes and variances are equal.
+
+\textbf{Welch's t-test:}
+
+The Welch t-test is identical to the independent-sample Student's t-test described above, except that it does not assume equal variance of the two samples. In R, we can use the built-in \href{https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/t.test}{t.test}. When entering the code, we just need to specify that the sample variances are \textbf{not equal} (though this is the default assumption anyway).
+
+\textbf{Equivalent linear model:}
+
+The equivalent linear model is based on generalized least squares (GLS). The GLS approach makes the assumption that there is a relationship between the variance of observations and one of the independent variables used in our regression (in this example, the gender dummy variable). In a GLS regression, less weight is given to the observations with a higher variance.
+
+We don't know the true relationship between variance and our independent variable(s) in the underlying population, so this relationship is estimated from our sample. The estimate is based on the relationship between residuals (i.e.~observed values minus predicted values, based on an OLS regression) and an independent variable. Once we have estimated this relationship, we then re-weight each observation in our sample by dividing each observation by the predicted variance. The final GLS regression is then run on these re-weighted observations. A more detailed explanation of the GLS approach (without using matrix algebra!) \href{http://www.homepages.ucl.ac.uk/~uctpsc0/Teaching/GR03/Heter\&Autocorr.pdf}{can be found here}.
+
+In this example, when applying the GLS model in R, we specify that there is a different variance for group \texttt{y} and group \texttt{y2}.
+
+\textbf{Comparison:}
+
+The Welch's t-test and the equivalent linear model are carried out as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{options}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{10}\NormalTok{)}
+\CommentTok{\# t{-}test (built{-}in test)}
+\KeywordTok{t.test}\NormalTok{(y2, y, }\DataTypeTok{mu =} \DecValTok{0}\NormalTok{, }\DataTypeTok{var.equal =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{)}
+\CommentTok{\# Note the assumption that variances are false}
+
+\CommentTok{\# Linear model (GLS)}
+\NormalTok{lm \textless{}{-}}\StringTok{ }\NormalTok{nlme}\OperatorTok{::}\KeywordTok{gls}\NormalTok{(value }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{group\_y2,}
+                \DataTypeTok{weights =}\NormalTok{ nlme}\OperatorTok{::}\KeywordTok{varIdent}\NormalTok{(}\DataTypeTok{form =} \OperatorTok{\textasciitilde{}}\DecValTok{1}\OperatorTok{|}\NormalTok{group),}
+                \DataTypeTok{method =} \StringTok{"ML"}\NormalTok{,}
+                \DataTypeTok{data =}\NormalTok{ mydata\_dummy)}
+\NormalTok{  lm }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{summary}\NormalTok{() }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{print}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{8}\NormalTok{) }\CommentTok{\# show summary output}
+  \KeywordTok{confint}\NormalTok{(lm) }\CommentTok{\# show confidence intervals}
+\end{Highlighting}
+\end{Shaded}
+
+Here are the results, which are almost identical:
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-33}Independent-sample t-test (unequal variance) and GLS model}
+\centering
+\begin{tabular}[t]{lrrrrrrr}
+\toprule
+Test & mean.y & mean.y2 & difference & t & p.value & conf.low & conf.high\\
+\midrule
+t-test & 0.3 & 0.5 & NA & 0.5657 & 0.5730 & -0.5023 & 0.9023\\
+lm (GLS) & 0.3 & NA & 0.2 & 0.5657 & 0.5729 & -0.4930 & 0.8930\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Note that we get the same estimates for the means of \(y\) and \(y_2\) (of 0.3 and 0.5, respectively) from the t-test both with and without the assumption of equal variance. The unequal variance (heteroscedasticity) does not affect our estimates of the population means, but rather our assessment of whether or differences are statistically significant, in the form of t statistics, p-values and confidence intervals.
+
+\hypertarget{mann-whitney-u-test}{%
+\section{Mann-Whitney U test}\label{mann-whitney-u-test}}
+
+If our usual assumptions don't hold (e.g.~normal distributions, or if we're working with ordinal data) we can use a non-parametric version of these tests instead. When comparing two independent samples, this would be the Mann-Whitney U test.
+
+\textbf{Mann-Whitney U test:}
+
+This tests the null hypothesis that it is equally likely that a randomly selected value from one sample will be less than or greater than a randomly selected value from a second sample. In other words, if the null hypothesis was rejected, you would infer that values from one population are more likely to be higher or lower than values from another population.
+
+The Man-Whitney U test is a Wilcoxon test but with two samples. It can be run using R's built-in \href{https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/wilcox.test}{wilcox.test}, this time with the (default) assumption that the observations are not paired.
+
+\textbf{Equivalent linear model:}
+
+Another way to describe the Mann-Whitney U test is as a test of mean ranks. It first ranks all your values for the dependent variable (e.g.~income) from high to low, with the smallest rank assigned the smallest value. It then computes the mean rank in each group (e.g.~male or female), and then computes the probability than random shuffling of those values between two groups would end up with the mean ranks as far apart as, or further apart, than you observed (see for example \href{https://stats.stackexchange.com/questions/113334/mann-whitney-test-with-unequal-variances}{StackExchange} and \href{https://statistics.laerd.com/premium-sample/mwut/mann-whitney-test-in-spss-2.php}{Laerd}). If the resulting p-value was sufficiently small, you would infer that the difference in mean ranks between the samples was probably not due to chance, and that the values from one population were higher than those from another.
+
+The equivalent linear model, with a close approximation, is a regression using the rank of the dependent variable:
+
+\begin{center}
+
+\(rank(y_i) = \beta_0 + \beta_1 \cdot x_i \qquad H_0: \beta_0 = 0\)
+
+\end{center}
+
+where again \(x_i\) is a dummy variable indicating the group to which an observation belongs (in this example, 0 for women and 1 for men). Note that this uses the rank of the dependent variable, and not the signed rank as was the case with matched pairs.
+
+\textbf{Comparison:}
+
+Here is how you would run the Man-Whitney U test and equivalent linear model in R:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Wilcoxon / Mann{-}Whitney U test (built{-}in)}
+\KeywordTok{wilcox.test}\NormalTok{(y, y2, }\DataTypeTok{paired =} \OtherTok{FALSE}\NormalTok{)}
+
+\CommentTok{\# Equivalent linear model}
+\NormalTok{lm \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(}\KeywordTok{rank}\NormalTok{(value) }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{group\_y2, }\DataTypeTok{data =}\NormalTok{ mydata\_dummy)}
+\NormalTok{  lm }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{summary}\NormalTok{() }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{print}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{8}\NormalTok{) }\CommentTok{\# show summary output}
+\end{Highlighting}
+\end{Shaded}
+
+The results are shown below. Both tests have very similar p-values. On this basis, we would not reject the null hypothesis that a value randomly selected from group \texttt{y} was not more likely to be higher or lower than one sampled from \texttt{y2}.
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-35}Mann-Whitney U and equivalent linear model}
+\centering
+\begin{tabular}[t]{lrr}
+\toprule
+Test & p-value & rank diff\\
+\midrule
+wilcox.test & 0.7907 & NA\\
+lm (ranks) & 0.7896 & 1.56\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Digression - Mann-Whitney U test and medians:}
+
+It's worth noting that, with additional assumptions, the Man-Whitney U test is also a test for different \emph{medians}.
+
+This requires the assumption that the two samples have an equal shape, and therefore an equal variance. \href{https://statistics.laerd.com/premium-sample/mwut/mann-whitney-test-in-spss-2.php}{Laerd} illustrates this concept using the diagram below: on the left, the two samples (men and women) have the same shape, so the Mann-Whitney U test tests for differences in the median score for men and women. On the right, the samples have different shapes, so it is a more general test for whether a randomly-selected woman's score is higher than a randomly-selected man's score (without telling us anything about medians).
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.95\linewidth]{images/mann_whitney_laerd} 
+
+}
+
+\caption{Man-Whitney U test and sample shapes}\label{fig:unnamed-chunk-36}
+\end{figure}
+
+\hypertarget{three-or-more-means}{%
+\chapter{Three or more means}\label{three-or-more-means}}
+
+\hypertarget{one-way-anova}{%
+\section{One-way ANOVA}\label{one-way-anova}}
+
+The one-way analysis of variance (ANOVA) is used to determine whether there are any statistically significant differences between the means of three or more independent groups.
+
+Examples include:
+
+\begin{itemize}
+\tightlist
+\item
+  Is there a difference in academic outcomes for pupils from ten different schools?
+\item
+  Is there a difference daily coffee consumption between people in three different countries?
+\end{itemize}
+
+Intuitively, ANOVA is based on comparing the variance (or variation) between the groups, to variation
+within each particular group. If the `between' variation is much larger than the `within' variation,
+we are more likely to conclude that the means of the different groups are not equal. If the `between' and `within' variations are more similar in size, then we are less likely to conclude that there is a significant difference between sample means.
+
+Why can't we just compare the means of every possible pair of groups, and see if any differences are statistically significant? The reason is that as the number of groups increases, the more likely we are to see differences that are due to chance alone. This means we are more likely to commit a Type I error, rejecting the null hypothesis (that there is no difference between the means) when the null hypothesis is in fact true.\footnote{For example, if there were only two groups, we would be carrying out one comparison: the mean of Group A vs the mean of Group B. At a 0.05 level of significance, there would be a 5\% chance of a Type I error. If we had three groups, there would be three comparisons (Group A vs Group B, Group A vs Group C, and Group B vs Group C), and we would have a 14.3\% (1-0.95\^{}3) chance of a Type I error.} An ANOVA controls for this additional risk of Type I errors, maintaining the overall or experimentwise error rate, which is typically \(\alpha\) = 0.05.
+
+It is important to note that the one-way ANOVA is an omnibus test statistic and cannot tell you \emph{which} specific groups were statistically significantly different from each other, only that at least two groups were different. To determine which specific groups differed from each other, you would need to use a post hoc test.\footnote{Post hoc tests attempt to control the experimentwise error rate (usually \(\alpha\) = 0.05) in the same manner that the one-way ANOVA is used instead of multiple t-tests. \href{https://statistics.laerd.com/statistical-guides/one-way-anova-statistical-guide-4.php}{Laerd} suggests using the Tukey test (where there is homogeneity of variances in your samples) or the Games Howell test (where there is not).}
+
+\textbf{Dataset:}
+
+To illustrate, we will create a new dataset (\texttt{mydata\_anova1}). We assume three groups (A, B and C) of normally-distributed variables, with means of 0, 1 and 0.5 respectively. We also create dummy variables for groups B and C (group A is our reference group, and so does not require an indicator):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create dataset \textquotesingle{}mydata\_anova1\textquotesingle{} which is three groups:}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{40}\NormalTok{)                      }\CommentTok{\# Makes the randomised figures reproducible}
+\NormalTok{n \textless{}{-}}\StringTok{ }\DecValTok{20}                           \CommentTok{\# Sample size of 20 for each group}
+\NormalTok{mydata\_anova1 \textless{}{-}}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
+                    \DataTypeTok{value =} \KeywordTok{c}\NormalTok{(}\KeywordTok{rnorm\_fixed}\NormalTok{(n, }\DataTypeTok{mu =} \DecValTok{0}\NormalTok{, }\DataTypeTok{sd =} \DecValTok{1}\NormalTok{),     }\CommentTok{\# Group A}
+                              \KeywordTok{rnorm\_fixed}\NormalTok{(n, }\DataTypeTok{mu =} \DecValTok{1}\NormalTok{, }\DataTypeTok{sd =} \DecValTok{1}\NormalTok{),    }\CommentTok{\# Group B}
+                              \KeywordTok{rnorm\_fixed}\NormalTok{(n, }\DataTypeTok{mu =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{sd =} \DecValTok{1}\NormalTok{)), }\CommentTok{\# Group C}
+                    \DataTypeTok{group =} \KeywordTok{rep}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"a"}\NormalTok{, }\StringTok{"b"}\NormalTok{, }\StringTok{"c"}\NormalTok{), }\DataTypeTok{each =}\NormalTok{ N)}
+\NormalTok{                    ) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\CommentTok{\# Explicitly add indicator/dummy variables}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{group\_b =} \KeywordTok{if\_else}\NormalTok{(group }\OperatorTok{==}\StringTok{ "b"}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{)) }\OperatorTok{\%\textgreater{}\%}\StringTok{             }\CommentTok{\# Group B dummy}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{group\_c =} \KeywordTok{if\_else}\NormalTok{(group }\OperatorTok{==}\StringTok{ "c"}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{))                 }\CommentTok{\# Group C dummy}
+\end{Highlighting}
+\end{Shaded}
+
+Here's a sample of six rows from our new dataset, which includes the dummy variables:
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-38}Some randomly selected rows from our dataset}
+\centering
+\begin{tabular}[t]{rlrr}
+\toprule
+value & group & group\_b & group\_c\\
+\midrule
+0.5685977 & a & 0 & 0\\
+0.5873537 & a & 0 & 0\\
+2.2828164 & b & 1 & 0\\
+0.5557109 & b & 1 & 0\\
+1.2658245 & c & 0 & 1\\
+\addlinespace
+0.1858697 & c & 0 & 1\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Note that the data used in the remainder of this book varies from that used by Lindeløv in the original version, but the principles being discussed are exactly the same.
+
+\textbf{ANOVA function:}
+
+R has a package for ANOVA, in this case \texttt{car::Anova(aov())}. However, this is simply a `wrapper' around the equivalent linear model, described below, and yields identical results.
+
+\textbf{Equivalent linear model:}
+
+The linear model assumes that the dependent variable can be predicted with a single mean for each group:
+
+\(y = \beta_0 + \beta_1 \cdot x_1 + \beta_2 \cdot x_2 + ... \qquad H_0: y = \beta_0\)
+
+This assumption is illustrated below, in which there are assumed to be three groups (A, B and C). This extends the case with two groups, as was illustrated in the previous chapter, to cases with three or more groups. In this case, members of group B are identified by the dummy variable \(x_1\), with the coefficient (or slope) of \(\beta_1\), and members of group C are identified by the variable \(x_2\), with the slope of \(\beta_2\).
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.75\linewidth]{images/image_dummy2} 
+
+}
+
+\caption{Linear model equivalent to ANOVA with three groups}\label{fig:dummy3}
+\end{figure}
+
+The null hypothesis of the linear model is that \(\beta_1\) and \(\beta_2\) are both zero; or equivalently, that all groups have the same mean of \(\beta_0\). To test this hypothesis, an \href{https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/f-statistic-value-test/}{F-test} is used. The F statistic in a regression is the result of a test where the null hypothesis is that all of the regression coefficients are equal to zero. The F-test compares your full model to one with no predictor variables (the intercept only model), and decides whether your added variables improved the model. If you get a significant result, then whatever coefficients you included in your full model improved the model's fit (beyond what could be expected by chance alone).
+
+In R, an F-test is carried out every time you run a linear regression, i.e.~you do not have to specify it as an additional test.
+
+\textbf{Comparison:}
+
+The following code compares the ANOVA test in R with the identical linear model using dummy variables:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Anova}
+\NormalTok{car}\OperatorTok{::}\KeywordTok{Anova}\NormalTok{(}\KeywordTok{aov}\NormalTok{(value }\OperatorTok{\textasciitilde{}}\StringTok{ }\NormalTok{group, }\DataTypeTok{data =}\NormalTok{ mydata\_anova1))}
+
+\CommentTok{\# Linear model}
+\NormalTok{lm \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(value }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{group\_b }\OperatorTok{+}\StringTok{ }\NormalTok{group\_c, }\DataTypeTok{data =}\NormalTok{ mydata\_anova1)}
+\NormalTok{  lm }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{summary}\NormalTok{() }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{print}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{8}\NormalTok{) }\CommentTok{\# show summary output}
+\end{Highlighting}
+\end{Shaded}
+
+Here are the results, which are identical:
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-40}One-way ANOVA and equivalent linear model}
+\centering
+\begin{tabular}[t]{lrrrr}
+\toprule
+Test & df & df.residual & F.statistic & p.value\\
+\midrule
+Anova & 2 & 57 & 5 & 0.00998\\
+lm & 2 & 57 & 5 & 0.00998\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Here we would reject the null hypothesis that there was no differences between the means of any of our groups at the 0.05 level of significance (because p = 0.00998).
+
+It should be emphasised that the results of the ANOVA and the linear model are identical \emph{by construction}, as they are both an F-test that compares the full model (with group dummies) to a model with an intercept only.
+
+\hypertarget{kruskal-wallis}{%
+\subsection{Kruskal-Wallis}\label{kruskal-wallis}}
+
+The non-parametric version of the ANOVA is the Kruskal-Wallis test. We would need to use this test if our dependent variable was ordinal rather than continuous. We would also use the non-parametric version if other assumptions of the one-way ANOVA did not hold, including (1) that the dependent variable was approximately normally distributed for each category of the independent variable, and (2) homogeneity of variances.
+
+\textbf{Equivalent linear model:}
+
+The Kruskal-Wallis is essentially a one-way ANOVA test on \textbf{ranks}. It can be expressed as the following linear model:
+
+\(rank(y) = \beta_0 + \beta_1 \cdot x_1 + \beta_2 \cdot x_2 + ... \qquad H_0: y = \beta_0\)
+
+\textbf{Comparison:}
+
+Here is a comparison of the Kruskal-Wallis test and the equivalent linear model (the equivalent ANOVA test is also included for completeness, which we've seen is just a `wrap' around the linear model).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Kruskal{-}Wallis}
+\KeywordTok{kruskal.test}\NormalTok{(value }\OperatorTok{\textasciitilde{}}\StringTok{ }\NormalTok{group, }\DataTypeTok{data =}\NormalTok{ mydata\_anova1)}
+
+\CommentTok{\# Linear model on ranks}
+\NormalTok{lm \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(}\KeywordTok{rank}\NormalTok{(value) }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{group\_b }\OperatorTok{+}\StringTok{ }\NormalTok{group\_c, }\DataTypeTok{data =}\NormalTok{ mydata\_anova1)}
+\NormalTok{  lm }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{summary}\NormalTok{() }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{print}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{8}\NormalTok{) }\CommentTok{\# show summary output}
+
+\CommentTok{\# Anova on ranks (which is a wrapper around the linear model above)}
+\NormalTok{car}\OperatorTok{::}\KeywordTok{Anova}\NormalTok{(}\KeywordTok{aov}\NormalTok{(}\KeywordTok{rank}\NormalTok{(value) }\OperatorTok{\textasciitilde{}}\StringTok{ }\NormalTok{group, }\DataTypeTok{data =}\NormalTok{ mydata\_anova1))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-42}Kruskal-Wallis test and equivalent linear model}
+\centering
+\begin{tabular}[t]{lrr}
+\toprule
+Test & df & p.value\\
+\midrule
+Kruskal & 2 & 0.0203\\
+lm & 2 & 0.0177\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The p-value of the two tests are similar, though not identical. In this example, we would reject the null hypothesis that all groups had equal means (at the 0.05 level of significance).
+
+\hypertarget{two-way-anova}{%
+\section{Two-way ANOVA}\label{two-way-anova}}
+
+The two-way ANOVA compares the means of groups that have been split on two independent variables, or `factors'.
+
+For example: is there an interaction between gender and educational level on test anxiety among university students? Here gender (males / females) and education level (high school / undergraduate / postgraduate) are your independent variables or factors.
+
+A two-way ANOVA tests three hypotheses:
+
+\begin{itemize}
+\tightlist
+\item
+  That the population means of the first factor (e.g.~each gender) are equal;
+\item
+  That the population means of the second factor (e.g.~each education level) are equal; and
+\item
+  That there is no interaction between the two factors - i.e.~that the relationship between anxiety and gender does not depend on education level, or that the relationship between anxiety and education does not depend on gender.
+\end{itemize}
+
+The first two hypotheses relate to the relationship between each factor and the dependent variable, referred to as `main effects'. Each of these is like a one-way ANOVA, but in the context of a larger model. The third hypothesis relates to the `interaction effect'. Here we will focus on the interaction effect.
+
+\textbf{Updated dataset:}
+
+To show the modelling in R, we'll add another factor to our example dataset, \texttt{mood}, which reports whether a person is happy or sad. We also use this to create a dummy variable, \texttt{mood\_happy}, which takes the value of 1 if the person is happy or 0 if they are sad.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mydata\_anova2 \textless{}{-}}\StringTok{ }\NormalTok{mydata\_anova1 }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\CommentTok{\# 60 observations in total}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{mood =} \KeywordTok{rep}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"happy"}\NormalTok{, }\StringTok{"sad"}\NormalTok{), }\DecValTok{30}\NormalTok{)) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
+\StringTok{  }\CommentTok{\# The dummy variable}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{mood\_happy =} \KeywordTok{if\_else}\NormalTok{(mood }\OperatorTok{==}\StringTok{ "happy"}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Here's a selection of six rows from the updated dataset:
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-44}Some randomly selected rows from our dataset}
+\centering
+\begin{tabular}[t]{rlrrlr}
+\toprule
+value & group & group\_b & group\_c & mood & mood\_happy\\
+\midrule
+0.5685977 & a & 0 & 0 & happy & 1\\
+0.5873537 & a & 0 & 0 & sad & 0\\
+2.2828164 & b & 1 & 0 & happy & 1\\
+0.5557109 & b & 1 & 0 & sad & 0\\
+1.2658245 & c & 0 & 1 & happy & 1\\
+\addlinespace
+0.1858697 & c & 0 & 1 & sad & 0\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Equivalent linear model:}
+
+The two-way ANOVA can test for the interaction between two factors (let's ignore the main effects for now). It is equivalent to the following linear model, which is now expressed using matrix notation:
+
+\begin{center}
+
+\(y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_2 X_3 \qquad H_0: \beta_3 = 0\)
+
+\end{center}
+
+Here \(X_1\) and \(X_2\) represent the two factors in our model (in this example, the `group' and `mood' of each observation, respectively). Each \(\beta_i\) is a vector of values that relates to the levels within each factor. In our example, \(\beta_1\) will have two values that correspond to the group dummy variables (\texttt{group\_b} and \texttt{group\_c}) and \(\beta_2\) will be single value corresponding to the dummy variable for mood (\texttt{mood\_happy}). The intercept \(\beta_0\), to which all other \(\beta\)s are relative, is now the mean for the first level of all factors (people in group A who are sad).
+
+\(\beta_3\) is a vector that relates to the interactions of the factors. Here, it will be a vector comprising two values, corresponding to the combinations of the group and mood dummy variables (\texttt{group\_b} and \texttt{mood\_happy}, and \texttt{group\_c} and \texttt{mood\_happy}). The null hypothesis (of \(\beta_3 = 0\)) is that all values in this vector are zero, and that there is no interaction between group and mood when explaining the dependent variable, \texttt{value}.
+
+To test this null hypothesis, we are going to carry out an F-test of two nested models:
+
+\begin{itemize}
+\tightlist
+\item
+  a full model, which includes both factors and the interaction terms; and
+\item
+  a restricted or null model, which includes both factors but no interaction term.
+\end{itemize}
+
+This is similar to the F-test used in the one-way ANOVA above, but in this case our null model includes the two factors and not just an intercept term.
+
+\textbf{Comparison:}
+
+The code for running the ANOVA, using the package in R, is as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Two{-}way ANOVA, built{-}in function}
+\NormalTok{car}\OperatorTok{::}\KeywordTok{Anova}\NormalTok{(}\KeywordTok{aov}\NormalTok{(value }\OperatorTok{\textasciitilde{}}\StringTok{ }\NormalTok{mood }\OperatorTok{+}\StringTok{ }\NormalTok{group }\OperatorTok{+}\StringTok{ }\NormalTok{mood}\OperatorTok{:}\NormalTok{group, }\DataTypeTok{data =}\NormalTok{ mydata\_anova2))}
+\end{Highlighting}
+\end{Shaded}
+
+The equivalent linear model, which includes an interaction between the two group dummy variables and the mood dummy variable, is specified as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{lm}\NormalTok{(value }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{group\_b }\OperatorTok{+}\StringTok{ }\NormalTok{group\_c }\OperatorTok{+}\StringTok{ }\NormalTok{mood\_happy }\OperatorTok{+}
+\StringTok{           }\NormalTok{group\_b}\OperatorTok{:}\NormalTok{mood\_happy }\OperatorTok{+}\StringTok{ }\NormalTok{group\_c}\OperatorTok{:}\NormalTok{mood\_happy,}
+        \DataTypeTok{data =}\NormalTok{ mydata\_anova2)}
+\end{Highlighting}
+\end{Shaded}
+
+The results of the above model will give us the p-values of \emph{all} the interaction terms (in this case, two) and tell us if any of these are statistically significant. But recall that our null hypothesis is that \emph{none} of the interaction terms are significant, and we can't rely on individual tests for this because of the increased risk of errors (as explained in the previous section on one-way ANOVAs). This is why we use the two-way ANOVA, which is an F-test that compares the full and null models:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# null model, without interactions}
+\NormalTok{null \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(value }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{group\_b }\OperatorTok{+}\StringTok{ }\NormalTok{group\_c }\OperatorTok{+}\StringTok{ }\NormalTok{mood\_happy, }\DataTypeTok{data =}\NormalTok{ mydata\_anova2)}
+
+\CommentTok{\# full model, with interactions}
+\NormalTok{full \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(value }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{group\_b }\OperatorTok{+}\StringTok{ }\NormalTok{group\_c }\OperatorTok{+}\StringTok{ }\NormalTok{mood\_happy }\OperatorTok{+}\StringTok{ }\NormalTok{group\_b}\OperatorTok{:}\NormalTok{mood\_happy }\OperatorTok{+}
+\StringTok{             }\NormalTok{group\_c}\OperatorTok{:}\NormalTok{mood\_happy, }\DataTypeTok{data =}\NormalTok{ mydata\_anova2)}
+
+\CommentTok{\# ANOVA using the two models above.}
+\KeywordTok{anova}\NormalTok{(null, full, }\DataTypeTok{test =} \StringTok{"F"}\NormalTok{)    }\CommentTok{\# anova() uses an F test by default,}
+                                \CommentTok{\# but here it\textquotesingle{}s made explicit}
+\end{Highlighting}
+\end{Shaded}
+
+The results of the two approaches are presented in the table below. This shows that the two approaches are identical F-tests with the same resulting p-value.
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-48}Two-way ANOVA and equivalent linear model}
+\centering
+\begin{tabular}[t]{lrrrr}
+\toprule
+Test & df & df.res & F.value & p.value\\
+\midrule
+ANOVA & 2 & 54 & 0.2977 & 0.7437\\
+lm & 2 & 54 & 0.2977 & 0.7437\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+On this basis of the test above, we would fail to reject the null hypothesis that there was no interaction between the two factors in our model (group and mood), at the 0.05 level of significance.
+
+\hypertarget{ancova}{%
+\section{ANCOVA}\label{ancova}}
+
+This adds a \emph{continuous} independent variable, or covariate, to the model (e.g.~age), in addition to one or more categorical independent variables (e.g.~gender or education level).
+
+An analysis of covariance (ANCOVA) evaluates whether the mean of the dependent variable is equal across levels of a categorical independent variable, while statistically controlling for the effects of other continuous variables (e.g.~age) that are not of primary interest, known as covariates.
+
+\textbf{Updated dataset:}
+
+Here will will add a covariate to our one-way ANOVA above. In addition to the \texttt{group} dummy variables, we update our data set to include each subject's \texttt{age}, which we assume is correlated with the dependent variable, \texttt{value}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# create a new column with the continuous variable \textquotesingle{}age\textquotesingle{}}
+\NormalTok{mydata\_anova3 \textless{}{-}}\StringTok{ }\NormalTok{mydata\_anova1 }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{age =}\NormalTok{ value }\OperatorTok{+}\StringTok{ }\KeywordTok{rnorm\_fixed}\NormalTok{(}\KeywordTok{nrow}\NormalTok{(.), }\DataTypeTok{sd =} \DecValTok{3}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Here's a selection of six rows from the updated dataset:
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-50}Some randomly selected rows from our dataset}
+\centering
+\begin{tabular}[t]{rlrrr}
+\toprule
+value & group & group\_b & group\_c & age\\
+\midrule
+0.5685977 & a & 0 & 0 & -3.6341563\\
+0.5873537 & a & 0 & 0 & 3.1155833\\
+2.2828164 & b & 1 & 0 & 2.4620050\\
+0.5557109 & b & 1 & 0 & -3.5019533\\
+1.2658245 & c & 0 & 1 & 0.8547244\\
+\addlinespace
+0.1858697 & c & 0 & 1 & -1.0090546\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{ANOVA function:}
+
+An ANCOVA can be carried out using the \texttt{Anova()} function and including the covariate (in this case \texttt{age}) as an independent variable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{car}\OperatorTok{::}\KeywordTok{Anova}\NormalTok{(}\KeywordTok{aov}\NormalTok{(value }\OperatorTok{\textasciitilde{}}\StringTok{ }\NormalTok{group }\OperatorTok{+}\StringTok{ }\NormalTok{age, mydata\_anova3))}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Equivalent linear model:}
+
+The same results can be achieved by using F-tests to compare two sets of linear models: (i) the full model and the nested model which excludes \texttt{age}, and (ii) the full model and the nested model that excludes the \texttt{group} dummy variables. Again, the F-tests are carried out using the \texttt{anova()} function, which uses an F-test by default.
+
+The full model can be formulated as follows:
+
+\begin{center}
+
+\(y = \beta_0 + \beta_1 \cdot x_1 + \beta_2 \cdot x_2 + ... + \beta_3 \cdot age\)
+
+\end{center}
+
+where the value of \(y\) varies by group, as represented here by the dummy variables \(x_1\) and \(x_2\), and also by \(age\).
+
+This can be illustrated below. The ANCOVA tests whether there is difference in the mean \texttt{y} for the three groups, after controlling for age (the vertical shift shown by \(\beta_1\) and \(\beta_2\)). It also tests whether the slope \((\beta_3)\) is statistically significant.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.75\linewidth]{images/image_ancova} 
+
+}
+
+\caption{Linear model equivalent to ANCOVA with three groups}\label{fig:unnamed-chunk-52}
+\end{figure}
+
+Here we run the linear model in R. The resulting p-values relate to the null hypotheses that \texttt{age} and \texttt{group} (respectively) have no effect on the dependent variable, in this case \texttt{value}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# full model, with group and age variables}
+\NormalTok{full \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(value }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{group\_b }\OperatorTok{+}\StringTok{ }\NormalTok{group\_c }\OperatorTok{+}\StringTok{ }\NormalTok{age, mydata\_anova3)}
+\CommentTok{\# model without age}
+\NormalTok{null\_age \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(value }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{group\_b }\OperatorTok{+}\StringTok{ }\NormalTok{group\_c, mydata\_anova3)}
+\CommentTok{\# model without groups}
+\NormalTok{null\_group \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(value }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{age, mydata\_anova3)}
+\CommentTok{\# result for age}
+\KeywordTok{anova}\NormalTok{(null\_age, full)}
+\CommentTok{\# results of group}
+\KeywordTok{anova}\NormalTok{(null\_group, full)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Comparison:}
+
+The results of the two approaches are presented in the table below:
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-54}ANCOVA and linear model}
+\centering
+\begin{tabular}[t]{llrrrr}
+\toprule
+Term & Model & df & res.df & F.value & p.value\\
+\midrule
+age & Anova & 1 & NA & 5.2002 & 0.02641\\
+age & lm & 1 & 56 & 5.2002 & 0.02641\\
+group & Anova & 2 & NA & 4.6929 & 0.01305\\
+group & lm & 2 & 56 & 4.6929 & 0.01305\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Based on these results, we would reject the null hypothesis that there was no relationship between \texttt{value} and \texttt{group}, even after controlling for differences in \texttt{age}. We would also reject the null hypothesis that \texttt{value} was not related to \texttt{age}.
+
+\hypertarget{proportions-and-chi-squared}{%
+\chapter{Proportions and chi squared}\label{proportions-and-chi-squared}}
+
+This chapter looks at methods used for analyzing relationships in \emph{categorical} data. The variable of interest is not a single continuous variable (e.g.~how income or weight varies between groups) but the relative \emph{count} or \emph{proportion} of observations that fall into each category.
+
+A key point is that the chi-squared test used in these cases is equivanet to a test of nested Poisson regression models.
+
+\hypertarget{goodness-of-fit}{%
+\section{Goodness of fit}\label{goodness-of-fit}}
+
+A test of \textbf{goodness-of-fit} establishes whether an observed frequency distribution differs from a theoretical distribution. For example, we could test the hypothesis that a random sample with 44 men and 56 women has been drawn from a population in which men and women are equal in frequency, i.e.~with the theoretical distribution of 50 men and 50 women.
+
+\textbf{Sample dataset:}
+
+Assume we have one category (mood) with three possible levels (`happy', `sad' or `meh'). We have a sample of 120 observations in total, as generated by the code below. We also add dummy variables to represent `happy' and `sad' for use in the linear model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mydata\_chi1 \textless{}{-}}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{mood =} \KeywordTok{c}\NormalTok{(}\StringTok{"happy"}\NormalTok{, }\StringTok{"sad"}\NormalTok{, }\StringTok{"meh"}\NormalTok{),}
+               \DataTypeTok{counts =} \KeywordTok{c}\NormalTok{(}\DecValTok{60}\NormalTok{, }\DecValTok{90}\NormalTok{, }\DecValTok{70}\NormalTok{)) }\OperatorTok{\%\textgreater{}\%}
+
+\StringTok{  }\CommentTok{\# Dummy variables to be used in linear model}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{mood\_happy =} \KeywordTok{if\_else}\NormalTok{(mood }\OperatorTok{==}\StringTok{ "happy"}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{)) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{mood\_sad =} \KeywordTok{if\_else}\NormalTok{(mood }\OperatorTok{==}\StringTok{ "sad"}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-56}Categorical data with one variable}
+\centering
+\begin{tabular}[t]{lrrr}
+\toprule
+mood & counts & mood\_happy & mood\_sad\\
+\midrule
+happy & 60 & 1 & 0\\
+sad & 90 & 0 & 1\\
+meh & 70 & 0 & 0\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+In this example, we may want to test whether the proportions of people with each mood in the underlying population are equal, based on our observation of 120 people.
+
+\textbf{Chi-squared test:}
+
+The goodness-of-fit test is based on the following test statistic:
+
+\begin{center}
+
+\(\chi^2 = \sum \frac{(O_i - Ei)^2}{E_i}\)
+
+\end{center}
+
+where \(O_i\) is the observed count in each category and \(E_i\) is the expected count in each category.
+The test statistic follows a chi-squared (\(\chi^2\)) distribution where the degrees of freedom are equal to the number of categories minus one, i.e.~\(d.f. = rows - 1\) (in this example, df = 2).
+
+A worked example of a goodness-of-fit test is provided \href{https://www.khanacademy.org/math/statistics-probability/inference-categorical-data-chi-square-tests/chi-square-goodness-of-fit-tests/v/chi-square-statistic}{in this video} by Khan Academy.
+
+R's built-in chi-squared test, \texttt{chisq.test}, compares the proportion of counts in each category with the expected proportions. By default, the expected proportions in each category are assumed to be equal.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Built{-}in test}
+\KeywordTok{chisq.test}\NormalTok{(mydata\_chi1}\OperatorTok{$}\NormalTok{counts)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Chi-squared test for given probabilities
+## 
+## data:  mydata_chi1$counts
+## X-squared = 6.3636, df = 2, p-value = 0.04151
+\end{verbatim}
+
+In this example, we would reject the null hypothesis that the proportion of people with each mood are all equal (p = 0.04151).
+
+\textbf{Equivalent linear model:}
+
+The equivalent linear model is a \href{https://en.wikipedia.org/wiki/Poisson_regression}{Poisson regression}. This is a type of Generalized Linear Model (GLM). Poisson regressions use the natural log of the dependent variable, and so are sometimes referred to as a \emph{log-linear models}. The follow model specification can be used:
+
+\begin{center}
+
+\(log(y) = \beta_0 + \beta_1 \cdot x_1 + \beta_2 \cdot x_2 + ...\)
+
+\end{center}
+
+where in this example \(x_1\) and \(x_2\) would be dummy variables representing `happy' and `sad' moods.
+
+There are two reasons why we need to use a log-linear model rather than the OLS linear regression model, as explained in the book \href{https://bookdown.org/roback/bookdown-bysh/}{`Broadening Your Statistical Horizons'} by Julie Legler and Paul Roback:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Since a Poisson random variable is a count, its minimum value is zero and, in theory, the maximum is unbounded. A line from an OLS is model certain to yield negative values for certain values of the dependent variable, \(x\); however, \(y\) can only take values from 0 to \(\infty\).
+\item
+  The equal variance assumption in linear regression inference is violated, because as the expected value of a Poisson variable increases so too does the variance. With a Poisson distribution, the variance is equal to the expected value of the dependent variable, that is \(E(Y) = VAR(Y)\).
+\end{enumerate}
+
+These issues are addressed by taking the natural log of the dependent variable. It is assumed that the resulting logarithm of the dependent variable can be modeled by a linear combination of the independent variable(s) used in the model.
+
+Because we are using the natural log of the dependent variable, the coefficients from our regression, \(\beta_1\) and \(\beta_1\), are interpreted as the \emph{percentage} differences in the number of people whose moods are happy or sad, relative to the reference level of `meh'.\footnote{Technically, the percentage difference is equal to \(e^{\beta_1}\) and \(e^{\beta_2}\), where \(\beta_1\) and \(\beta_2\) are continuously compounded rates of growth between 0 and 1. So for example, in the example below, the coefficient on `sad' is \(\beta_2 = 0.2513\). This mean the proportion of people in the `sad' category are higher by \(e^{0.2513} - 1 = 0.286 = 28.6\%\) than the proportion of people in the `meh' category. This is equal to difference of the count of people in these two categories i.e.~90 `sad' people and 70 `meh' people.} Because of this, it can be used as a test for differences of proportions; that is, whether there is a significant difference in the percentage of people in each category.
+
+To assess whether the differences between categories (moods) are statistically significant we compare two nested models, just as we did with the ANOVA and ANCOVA tests in the previous chapter. In this case we compare a `full' Poisson regression model, which includes our dummy variables, and a `null' model which does not. Instead of using the F-test to compare nested models (as was the case with ANOVA/ANCOVA), here we use a \href{https://en.wikipedia.org/wiki/Score_test}{`score test'}, specifically the Rao test. This gives us a test statistic that follows a \(\chi^2\) distribution, with the degrees of freedom being equal to the additional parameters in the full model compared to the null model.
+
+The code is as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{full \textless{}{-}}\StringTok{ }\KeywordTok{glm}\NormalTok{(counts }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{mood\_happy }\OperatorTok{+}\StringTok{ }\NormalTok{mood\_sad,}
+            \DataTypeTok{data =}\NormalTok{ mydata\_chi1,}
+            \DataTypeTok{family =} \KeywordTok{poisson}\NormalTok{())}
+\NormalTok{null \textless{}{-}}\StringTok{ }\KeywordTok{glm}\NormalTok{(counts }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1}\NormalTok{,  }\DataTypeTok{data =}\NormalTok{ mydata\_chi1, }\DataTypeTok{family =} \KeywordTok{poisson}\NormalTok{())}
+\KeywordTok{anova}\NormalTok{(null, full, }\DataTypeTok{test =} \StringTok{"Rao"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Deviance Table
+## 
+## Model 1: counts ~ 1
+## Model 2: counts ~ 1 + mood_happy + mood_sad
+##   Resid. Df Resid. Dev Df Deviance    Rao Pr(>Chi)  
+## 1         2     6.2697                              
+## 2         0     0.0000  2   6.2697 6.3636  0.04151 *
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\textbf{Comparison:}
+
+As seen above, the p-value is identical under both the built-in chi-squared test and the equivalent linear model:
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-59}Goodness-of-fit: chi-squared test and equivalent linear model}
+\centering
+\begin{tabular}[t]{lrrr}
+\toprule
+model & Chi-squared & df & p.value\\
+\midrule
+chisq.test & 6.3636 & 2 & 0.04151\\
+glm & 6.3636 & 2 & 0.04151\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hypertarget{contingency-tables}{%
+\section{Contingency tables}\label{contingency-tables}}
+
+Contingency tables are used in statistics to summarize the relationship between two categorical variables. They are used to test whether the frequency distribution differs between two or more groups. This can be tested using R"s built-in chi-squared test (\texttt{chisq.test}), similar to the goodness-of-fit test above, or again as two nested linear models (Poisson regressions), one of which includes dummy variables representing the interaction between the two categories in our table.
+
+\textbf{Sample dataset:}
+
+As an example, we might like to test whether a subjects mood (happy, sad or meh) is related to sex (male or female). We can create the following data set:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mydata\_chi2 \textless{}{-}}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
+  \DataTypeTok{sex =} \KeywordTok{c}\NormalTok{(}\StringTok{"male"}\NormalTok{, }\StringTok{"female"}\NormalTok{),}
+  \DataTypeTok{happy =} \KeywordTok{c}\NormalTok{(}\DecValTok{70}\NormalTok{, }\DecValTok{100}\NormalTok{),}
+  \DataTypeTok{meh =} \KeywordTok{c}\NormalTok{(}\DecValTok{32}\NormalTok{, }\DecValTok{30}\NormalTok{),}
+  \DataTypeTok{sad =} \KeywordTok{c}\NormalTok{(}\DecValTok{120}\NormalTok{, }\DecValTok{110}\NormalTok{)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-61}A contingency table}
+\centering
+\begin{tabular}[t]{lrrr}
+\toprule
+sex & happy & meh & sad\\
+\midrule
+male & 70 & 32 & 120\\
+female & 100 & 30 & 110\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Chi-squared test:}
+
+As shown above, a contingency table is a table that lists the frequencies of occurrence for categories of \textbf{two} variables. The first variable is shown in rows, and the second variable is shown in columns.
+
+Contingency tables can be used to assess whether the proportion of observations in one category depends on, or is \emph{contingent} upon, the other category in the table. There are actually two types of tests:
+
+\begin{itemize}
+\tightlist
+\item
+  A test of \textbf{homogeneity}. This tests the null hypothesis that \emph{different populations} have the same proportions of some characteristics. The key difference from the test of independence is that there are multiple populations that the data is drawn from. The null hypothesis is that the proportion of X is the same in all populations studied.
+\item
+  A test of \textbf{independence}. A test of independence tests the null hypothesis that there is no association between the two variables in a contingency table where the data is all drawn from \emph{one population}. The null hypothesis is that X and Y are independent.
+\end{itemize}
+
+Both these tests involve the exactly the same mathematical procedures and only differ only in terms of the hypothesis being tested. Some further reading can be found \href{http://www.u.arizona.edu/~kuchi/Courses/MAT167/Files/LH_LEC.0640.HypTest.IndepHomog.pdf}{here}.
+
+These tests are based on a similar test statistic to the goodness-of-fit test:
+
+\begin{center}
+
+\(\chi^2 = \sum \frac{(O_i - Ei)^2}{E_i}\)
+
+\end{center}
+
+where \(O_i\) is the observed count in each category and \(E_i\) is the expected count in each category.
+The test statistic follows a chi-squared (\(\chi^2\)) distribution where the degrees of freedom are found by \(d.f. = (rows - 1)(columns - 1 )\).
+
+A worked example of a chi-squared test is provided \href{https://www.khanacademy.org/math/statistics-probability/inference-categorical-data-chi-square-tests/chi-square-tests-for-homogeneity-and-association-independence/v/chi-square-test-homogeneity}{in this video} by Khan Academy.
+
+R's built-in chi squared test, \texttt{chisq.test}, can be used to assess whether the distribution of observations in one category is contingent on the distribution of observations under the other category. Note that first we must convert our data to a matrix and drop the first column (in this case \texttt{sex}):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Convert data to matrix format, need for the built{-}in chi{-}squared}
+\NormalTok{mydata\_chi2\_matrix \textless{}{-}}\StringTok{ }\NormalTok{mydata\_chi2 }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\OperatorTok{{-}}\NormalTok{sex) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{as.matrix}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+Now carry out the chi-squared test:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Built{-}in chi{-}squared}
+\KeywordTok{chisq.test}\NormalTok{(mydata\_chi2\_matrix)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  mydata_chi2_matrix
+## X-squared = 5.0999, df = 2, p-value = 0.07809
+\end{verbatim}
+
+Based on this p-value we would not reject the null hypothesis that sex and mood were independent at the 0.05 level of significance.
+
+\textbf{Equivalent linear model:}
+
+The equivalent linear model is a Poisson regression with interaction terms between the two sets of dummy variables (in this case one set of dummy variables is for mood, the other is for sex).
+
+Here we are testing for the interaction between two the two categories, just as we did with the two-way ANOVA (though here our dependent variable is the natural log of the count of observations, rather than the value of a single continuous variable). The test is equivalent to the following linear model, which is expressed using matrix notation:
+
+\begin{center}
+
+\(log(y) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_2 X_3 \qquad H_0: \beta_3 = 0\)
+
+\end{center}
+
+Here \(X_1\) and \(X_2\) represent the two categories in our model (in this example, mood and sex). \(\beta_3\) is a vector that relates to the interactions of the categories. Here, it will be a vector comprising two values, corresponding to the combinations of the sex and mood dummy variables (\texttt{male} and \texttt{mood\_happy}, and \texttt{male} and \texttt{mood\_\_meh}). The null hypothesis (of \(\beta_3 = 0\)) is that all values in this vector are zero, and that there is no interaction between sex and mood when explaining the distribution of observations in each category.
+
+We begin by expressing our data in `long' format, including dummy variables to identify the groups of people who are happy and `meh'. This following data will be used in our linear model:
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-65}Contingency table data in long format with dummy variables}
+\centering
+\begin{tabular}[t]{llrrrr}
+\toprule
+sex & mood & Freq & mood\_happy & mood\_meh & sex\_male\\
+\midrule
+male & happy & 70 & 1 & 0 & 1\\
+female & happy & 100 & 1 & 0 & 0\\
+male & meh & 32 & 0 & 1 & 1\\
+female & meh & 30 & 0 & 1 & 0\\
+male & sad & 120 & 0 & 0 & 1\\
+\addlinespace
+female & sad & 110 & 0 & 0 & 0\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The test involves a comparison of two nested linear models: a full model which includes the interaction terms between the two sets of dummy variables, and the null model which excludes the interaction terms. Again we use the (Rao) score test.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{full \textless{}{-}}\StringTok{ }\KeywordTok{glm}\NormalTok{(Freq }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{mood\_happy }\OperatorTok{+}\StringTok{ }\NormalTok{mood\_meh }\OperatorTok{+}\StringTok{ }\NormalTok{sex\_male }\OperatorTok{+}
+\StringTok{                   }\NormalTok{mood\_happy}\OperatorTok{*}\NormalTok{sex\_male }\OperatorTok{+}\StringTok{ }\NormalTok{mood\_meh}\OperatorTok{*}\NormalTok{sex\_male,}
+            \DataTypeTok{data =}\NormalTok{ mydata\_chi2\_long, }\DataTypeTok{family =} \KeywordTok{poisson}\NormalTok{())}
+\NormalTok{null \textless{}{-}}\StringTok{ }\KeywordTok{glm}\NormalTok{(Freq }\OperatorTok{\textasciitilde{}}\StringTok{ }\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{mood\_happy }\OperatorTok{+}\StringTok{ }\NormalTok{mood\_meh }\OperatorTok{+}\StringTok{ }\NormalTok{sex\_male,}
+            \DataTypeTok{data =}\NormalTok{ mydata\_chi2\_long, }\DataTypeTok{family =} \KeywordTok{poisson}\NormalTok{())}
+\KeywordTok{anova}\NormalTok{(null, full, }\DataTypeTok{test =} \StringTok{"Rao"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Deviance Table
+## 
+## Model 1: Freq ~ 1 + mood_happy + mood_meh + sex_male
+## Model 2: Freq ~ 1 + mood_happy + mood_meh + sex_male + mood_happy * sex_male + 
+##     mood_meh * sex_male
+##   Resid. Df Resid. Dev Df Deviance    Rao Pr(>Chi)  
+## 1         2     5.1199                              
+## 2         0     0.0000  2   5.1199 5.0999  0.07809 .
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+Note that the only difference between the nested models is the two interaction terms. Intuitively, we are testing whether the \emph{interaction} of the two categories is statistically significant, i.e.~whether the interaction between mood and sex can explain the distribution of observations over and above the individual effects of mood and sex alone.
+
+\textbf{Comparison:}
+
+As summarized in the table below, the linear model gives the same test statistic as the built-in chi-squared test, has the same degrees of freedom (which is equal to the number of interaction terms), and the same p-value.
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-67}Contingency table: chi-squared test and linear model}
+\centering
+\begin{tabular}[t]{lrrr}
+\toprule
+model & Chi-squared & df & p.value\\
+\midrule
+chisq.test & 5.0999 & 2 & 0.07809\\
+glm & 5.0999 & 2 & 0.07809\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hypertarget{appendixtypes}{%
+\chapter{Appendix - Types of variables}\label{appendixtypes}}
+
+Variables (or measurements) fall into two categories: \textbf{discrete} or \textbf{continuous}.
+
+\hypertarget{discrete-variables}{%
+\section{Discrete variables}\label{discrete-variables}}
+
+Discrete variables are also known as categorical variables. They are descriptions of categories into which observations can fall. Discrete variables can be further categorized as either \emph{nominal} or \emph{ordinal}.
+
+\textbf{Nominals} variables have two or more categories which do not have an intrinsic order. In other words, there is no basis for ranking the categories. Examples of nominal variables include:
+
+\begin{itemize}
+\tightlist
+\item
+  Whether a person has a landline telephone could be categorized as ``yes'' or ``no'' (two categories)
+\item
+  The US state in which a person lives (50 categories)
+\end{itemize}
+
+\textbf{Ordinal} variables have two or more catogories which do have an intrinsic order - that is, they \emph{can} be ordered or ranked. Examples include:
+
+\begin{itemize}
+\tightlist
+\item
+  Levels of agreement, e.g.~asking a survey respondent if they (i) strongly agree, (ii) agree, (iii) neither agree nor disagree, (iv) disagree or (v) strongly disagree with a question.
+\item
+  Educational attainment could be recorded in a survey using four categories: (i) no high school degree, (ii) high school degree, (iii) college degree, or (iv) postgraduate degree. Here the categories can be ranked based on the level of educational attainment.
+\end{itemize}
+
+For ordinal variables, the interval or distance between the categories does not have a meaningful interpretation. For example, we cannot say that the distance between (i) no highschool degree and (ii) high school degree is the same as the distance bewteen (iii) college degree and (iv) postgraduate degree.
+
+\hypertarget{continuous-variables}{%
+\section{Continuous variables}\label{continuous-variables}}
+
+Continuous variables are numbers rather than categories. Continuous variables can be further categorized as either \emph{interval} or \emph{ratio} variables.
+
+\textbf{Interval} variables have a numeric value and can be measured along a continuum. The difference between values is interpretable. An example is temperature measure in Fahrenheit: the difference between 20F and 30F is the same as the difference bewtween 30F to 40F. However Fahrenheit is not a ratio variables. For example, 40 degrees is not ``twice as hot'' as 20 degrees.
+
+\textbf{Ratio} variables are interval variables for which you can construct a meaningful fraction. Examples include height, weight, distance and income. For example, you could say that an income of \$40,000 was twice as much as an income of \$20,000. ``Count'' variables are also ratio variables; for example, the number of survey respondents who would vote for a presidential candidate. A condition of ratio variables is that 0 (zero) of the measurement indicates that there is none of that variable (e.g.~\$0 indicates zero income). This was not the case of temperature measured in Farenheit, as 0F does not mean there is ``no temperature''.
+
+The four types of variables above form a hierarchy, where ratio variables are the highest:
+
+Nominal \textless{} Ordinal \textless{} Interval \textless{} Ratio
+
+At each level up the hierarchy, the current level includes all of the qualities of the one below it and adds something new.
+
+  \bibliography{book.bib,packages.bib}
+
+\end{document}
